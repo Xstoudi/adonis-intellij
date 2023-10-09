@@ -1,27 +1,25 @@
 package io.stouder.adonis.ui;
 
+import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.table.JBTable;
-import io.stouder.adonis.AdonisAppService;
-import io.stouder.adonis.actions.RefreshRoutesAction;
-import io.stouder.adonis.edge.textmate.TextmateService;
+import io.stouder.adonis.cli.json.routes.RouteDomain;
+import io.stouder.adonis.notifier.AdonisRouteUpdateNotifier;
+import io.stouder.adonis.service.AdonisAppService;
 import io.stouder.adonis.ui.models.RoutesTableModel;
-import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.util.List;
 
 public class AdonisToolWindow implements ToolWindowFactory {
 
@@ -47,51 +45,58 @@ public class AdonisToolWindow implements ToolWindowFactory {
         return ToolWindowFactory.super.shouldBeAvailable(project);
     }
 
-    @Override
-    public boolean isDoNotActivateOnStart() {
-        return ToolWindowFactory.super.isDoNotActivateOnStart();
-    }
+    private static class AdonisRoutesToolWindowContent implements AdonisRouteUpdateNotifier {
 
-    @Override
-    public @Nullable ToolWindowAnchor getAnchor() {
-        return ToolWindowFactory.super.getAnchor();
-    }
+        private final JPanel rootPanel;
+        private final JBScrollPane scrollPane;
+        private final JTable routesTable;
 
-    @Override
-    public @Nullable Icon getIcon() {
-        return ToolWindowFactory.super.getIcon();
-    }
-
-    private static class AdonisRoutesToolWindowContent {
-
-        private final JPanel rootPanel = new JPanel();
-        private final JTable routesTable = new JBTable();
-        private ActionToolbar toolbar;
-
-        private final Project project;
+        private final GridLayout gridLayout = new GridLayout(1, 1);
 
         private AdonisRoutesToolWindowContent(ToolWindow toolWindow, Project project) {
-            this.project = project;
+            this.rootPanel = new JPanel();
+            this.routesTable = new JBTable();
+            this.scrollPane = new JBScrollPane();
 
-            this.build();
+            this.buildUi();
+
+            project.getMessageBus().connect().subscribe(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC, this);
         }
 
-        private void build() {
+
+        private void buildUi() {
+            this.rootPanel.setLayout(new BorderLayout());
+
+            this.buildToolbar();
             this.buildTable();
         }
 
         private void buildToolbar() {
-            this.toolbar.setTargetComponent(rootPanel);
+            ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("io.stouder.adonis.RoutesToolbar");
+            ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(
+                    "AdonisRoutesToolbar",
+                    actionGroup,
+                    true
+            );
+
+            toolbar.setTargetComponent(this.rootPanel);
+            this.rootPanel.add(toolbar.getComponent(), BorderLayout.NORTH);
         }
 
         private void buildTable() {
-            TableModel model = new RoutesTableModel(
-                    AdonisAppService.getInstance(this.project).getRoutes()
-            );
+            TableModel model = new RoutesTableModel(List.of());
+
             this.routesTable.setModel(model);
             this.routesTable.setRowHeight(30);
-            this.rootPanel.add(new JLabel("Routes"));
-            this.rootPanel.add(this.routesTable);
+            this.scrollPane.setViewportView(this.routesTable);
+
+            this.rootPanel.add(this.scrollPane, BorderLayout.CENTER);
+        }
+
+        @Override
+        public void routes(RouteDomain[] routes) {
+            TableModel model = new RoutesTableModel(List.of(routes));
+            this.routesTable.setModel(model);
         }
     }
 }

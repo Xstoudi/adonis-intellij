@@ -1,6 +1,9 @@
 package io.stouder.adonis.ui.models;
 
-import io.stouder.adonis.cli.json.RouteDomain;
+import io.stouder.adonis.cli.json.routes.ClosureRouteHandler;
+import io.stouder.adonis.cli.json.routes.ControllerRouteHandler;
+import io.stouder.adonis.cli.json.routes.RouteDomain;
+import io.stouder.adonis.cli.json.routes.RouteHandler;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -17,24 +20,6 @@ public class RoutesTableModel extends AbstractTableModel {
         this.rows = this.generateRows(domains);
     }
 
-    private List<Row> generateRows(List<RouteDomain> domains) {
-        return domains
-            .stream()
-            .flatMap(domain ->
-                domain.getRoutes().stream().flatMap(route ->
-                    route.getMethods().stream().map(method ->
-                        new Row(
-                            domain.getDomain(),
-                            method,
-                            route.getPattern() + (route.getName().isEmpty() ? "" : " (" + route.getName() + ")"),
-                            route.getHandler().getType(),
-                            ""
-                        )
-                    )
-                )
-            )
-            .collect(Collectors.toList());
-    }
 
     @Override
     public int getRowCount() {
@@ -49,7 +34,7 @@ public class RoutesTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(rowIndex < 0 || rowIndex >= this.rows.size()) {
-            return null;
+            return "MISSING";
         }
         return this.rows.get(rowIndex).getColValue(columnIndex);
     }
@@ -57,6 +42,38 @@ public class RoutesTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         return this.columnNames[column];
+    }
+
+    public Class<?> getColumnClass(int columnIndex) {
+        return String.class;
+    }
+
+    private List<Row> generateRows(List<RouteDomain> domains) {
+        return domains
+                .stream()
+                .flatMap(domain ->
+                        domain.getRoutes().stream().flatMap(route ->
+                                route.getMethods().stream().map(method ->
+                                        new Row(
+                                                domain.getDomain(),
+                                                method,
+                                                route.getPattern() + (route.getName().isEmpty() ? "" : " (" + route.getName() + ")"),
+                                                route.getHandler() instanceof ClosureRouteHandler ? "closure" : ((ControllerRouteHandler) route.getHandler()).getModuleNameOrPath() + "." + ((ControllerRouteHandler) route.getHandler()).getMethod(),
+                                                String.join(", ", route.getMiddleware())
+                                        )
+                                )
+                        )
+                )
+                .collect(Collectors.toList());
+    }
+
+    private String handleHandler(RouteHandler handler) {
+        if(handler instanceof ClosureRouteHandler) {
+            return "closure";
+        } else if (handler instanceof ControllerRouteHandler) {
+            return ((ControllerRouteHandler) handler).getModuleNameOrPath() + "." + ((ControllerRouteHandler) handler).getMethod();
+        }
+        return "MEH";
     }
 
     private record Row(
@@ -68,10 +85,11 @@ public class RoutesTableModel extends AbstractTableModel {
     ) {
         public String getColValue(int columnIndex) {
             return switch (columnIndex) {
-                case 0 -> this.method;
-                case 1 -> this.route;
-                case 2 -> this.handler;
-                case 3 -> this.middleware;
+                case 0 -> this.domain;
+                case 1 -> this.method;
+                case 2 -> this.route;
+                case 3 -> this.handler;
+                case 4 -> this.middleware;
                 default -> null;
             };
         }

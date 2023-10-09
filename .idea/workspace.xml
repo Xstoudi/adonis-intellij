@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05e5609f-4b7b-4ecf-af06-5cabe25c072f" name="Changes" comment="" />
+    <list default="true" id="05e5609f-4b7b-4ecf-af06-5cabe25c072f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/AdonisAppService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/AdonisAppServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/actions/RefreshRoutesAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/cli/json/ClosureRouteHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/cli/json/ControllerRouteHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/cli/json/Route.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/cli/json/RouteDomain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/cli/json/RouteHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/edge/language/EdgeFileType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/edge/language/EdgeLanguage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/edge/textmate/TextmateCheckListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/edge/textmate/TextmateService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/edge/textmate/TextmateServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/ui/AdonisToolWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/ui/AdonisToolWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/ui/models/RoutesTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/stouder/adonis/ui/models/RoutesTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,9 +46,25 @@
             </after_sync>
           </activation>
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -36,28 +73,41 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2WOfiZwOkH70cXVUX9zUCsWnf5O" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Dev/Java/adonis&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.37011495&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="io.stouder.adonis.activity" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -67,10 +117,42 @@
       <option name="presentableId" value="Default" />
       <updated>1696608676868</updated>
       <workItem from="1696608679093" duration="870000" />
+      <workItem from="1696696815196" duration="132000" />
+      <workItem from="1696707428106" duration="602000" />
+      <workItem from="1696708044854" duration="306000" />
+      <workItem from="1696708365970" duration="70000" />
+      <workItem from="1696708445251" duration="152000" />
+      <workItem from="1696708639388" duration="30000" />
+      <workItem from="1696709910762" duration="3000" />
+      <workItem from="1696709937839" duration="2000" />
+      <workItem from="1696765853948" duration="2223000" />
+      <workItem from="1696770819559" duration="851000" />
+      <workItem from="1696771712933" duration="1456000" />
+      <workItem from="1696794393011" duration="3499000" />
+      <workItem from="1696882456012" duration="7321000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
