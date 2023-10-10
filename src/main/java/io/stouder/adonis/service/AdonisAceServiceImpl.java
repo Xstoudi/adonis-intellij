@@ -4,9 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ScriptRunnerUtil;
+import com.intellij.execution.process.mediator.daemon.ProcessManager;
+import com.intellij.execution.runners.ExecutionEnvironment;
+import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.routes.RouteHandler;
@@ -33,7 +38,32 @@ public class AdonisAceServiceImpl implements AdonisAceService {
     }
 
     @Override
-    public <T> void runAceCommand(Class<T> responseType, Consumer<T> callback, String... parameters) {
+    public <T> T runAceCommand(Class<T> responseType, String progressTitle, String... parameters) {
+        List<String> params = new ArrayList<>(Arrays.asList(parameters));
+        params.add(0, "ace");
+        GeneralCommandLine commandLine = new GeneralCommandLine()
+                .withExePath("node")
+                .withWorkDirectory(this.project.getBasePath())
+                .withParameters(params);
+
+        // run async with progress bar
+        return ProgressManager.getInstance().runProcessWithProgressSynchronously(
+                () -> {
+                    try {
+                        String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
+                        return gson.fromJson(jsonOutput, responseType);
+                    } catch (ExecutionException e) {
+                        return null;
+                    }
+                },
+                progressTitle,
+                true,
+                this.project
+        );
+    }
+
+    @Override
+    public <T> void runAceCommandAsync(Class<T> responseType, Consumer<T> callback, String... parameters) {
         List<String> params = new ArrayList<>(Arrays.asList(parameters));
         params.add(0, "ace");
         GeneralCommandLine commandLine = new GeneralCommandLine()
@@ -54,6 +84,6 @@ public class AdonisAceServiceImpl implements AdonisAceService {
     @Override
     public void fetchCommands(Consumer<Command[]> callback) {
         AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
-        adonisAceService.runAceCommand(Command[].class, callback, "list","--json");
+        adonisAceService.runAceCommandAsync(Command[].class, callback, "list","--json");
     }
 }
