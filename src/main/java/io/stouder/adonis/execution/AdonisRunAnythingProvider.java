@@ -8,7 +8,7 @@ import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.ace.CommandFlag;
 import io.stouder.adonis.notifier.AdonisRcUpdateNotifier;
 import io.stouder.adonis.service.AdonisAceService;
-import io.stouder.adonis.ui.AdonisIcons;
+import io.stouder.adonis.AdonisIcons;
 import kotlin.sequences.Sequence;
 import kotlin.sequences.SequencesKt;
 import org.jetbrains.annotations.Nls;

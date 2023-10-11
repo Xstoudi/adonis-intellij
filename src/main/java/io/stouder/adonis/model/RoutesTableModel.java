@@ -1,4 +1,4 @@
-package io.stouder.adonis.ui.models;
+package io.stouder.adonis.model;
 
 import io.stouder.adonis.cli.json.routes.ClosureRouteHandler;
 import io.stouder.adonis.cli.json.routes.ControllerRouteHandler;

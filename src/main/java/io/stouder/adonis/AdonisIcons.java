@@ -1,4 +1,4 @@
-package io.stouder.adonis.ui;
+package io.stouder.adonis;
 
 import com.intellij.openapi.util.IconLoader;
 

@@ -44,14 +44,23 @@
     />
     
     <toolWindow
-      factoryClass="io.stouder.adonis.ui.AdonisToolWindow"
+      factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"
       id="adonis"
       secondary="true"
       anchor="right"
-      icon="io.stouder.adonis.ui.AdonisIcons.ADONIS"
+      icon="io.stouder.adonis.AdonisIcons.ADONIS"
     />
 
     <runAnything.executionProvider implementation="io.stouder.adonis.execution.AdonisRunAnythingProvider" order="first" />
+
+    <moduleBuilder
+      builderClass="io.stouder.adonis.module.AdonisModuleBuilder"
+      id="ADONIS_MODULE_BUILDER"
+    />
+    <moduleType
+      id="ADONIS_MODULE_TYPE"
+      implementationClass="io.stouder.adonis.module.AdonisModuleType"
+    />
   </extensions>
 
   <actions>
@@ -60,7 +69,7 @@
       text="Adonis"
       description="Adonis"
       popup="false"
-      icon="io.stouder.adonis.ui.AdonisIcons.ADONIS"
+      icon="io.stouder.adonis.AdonisIcons.ADONIS"
     />
     <action
       id="io.stouder.adonis.action.RefreshRoutesAction"

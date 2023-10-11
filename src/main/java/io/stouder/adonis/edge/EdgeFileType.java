@@ -3,7 +3,7 @@ package io.stouder.adonis.edge;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.NlsSafe;
-import io.stouder.adonis.ui.AdonisIcons;
+import io.stouder.adonis.AdonisIcons;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

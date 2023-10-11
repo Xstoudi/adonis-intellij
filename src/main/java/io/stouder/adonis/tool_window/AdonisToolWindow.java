@@ -1,4 +1,4 @@
-package io.stouder.adonis.ui;
+package io.stouder.adonis.tool_window;
 
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -13,7 +13,7 @@ import com.intellij.ui.table.JBTable;
 import io.stouder.adonis.cli.json.routes.RouteDomain;
 import io.stouder.adonis.notifier.AdonisRouteUpdateNotifier;
 import io.stouder.adonis.service.AdonisAppService;
-import io.stouder.adonis.ui.models.RoutesTableModel;
+import io.stouder.adonis.model.RoutesTableModel;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
