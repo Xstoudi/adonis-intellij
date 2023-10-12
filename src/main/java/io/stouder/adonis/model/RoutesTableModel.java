@@ -1,5 +1,6 @@
 package io.stouder.adonis.model;
 
+import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.cli.json.routes.ClosureRouteHandler;
 import io.stouder.adonis.cli.json.routes.ControllerRouteHandler;
 import io.stouder.adonis.cli.json.routes.RouteDomain;
@@ -11,7 +12,13 @@ import java.util.stream.Collectors;
 
 public class RoutesTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = {"Domain", "Method", "Route", "Handler", "Middleware"};
+    private final String[] columnNames = {
+            AdonisBundle.message("adonis.routes.columns.domain"),
+            AdonisBundle.message("adonis.routes.columns.method"),
+            AdonisBundle.message("adonis.routes.columns.route"),
+            AdonisBundle.message("adonis.routes.columns.handler"),
+            AdonisBundle.message("adonis.routes.columns.middleware")
+    };
 
     private final List<Row> rows;
 
@@ -73,7 +80,7 @@ public class RoutesTableModel extends AbstractTableModel {
         } else if (handler instanceof ControllerRouteHandler) {
             return ((ControllerRouteHandler) handler).getModuleNameOrPath() + "." + ((ControllerRouteHandler) handler).getMethod();
         }
-        return "MEH";
+        throw new RuntimeException("Unknown handler type: " + handler.getClass().getName());
     }
 
     private record Row(

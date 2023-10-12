@@ -95,6 +95,7 @@ public class AdonisToolWindow implements ToolWindowFactory {
 
         @Override
         public void routes(RouteDomain[] routes) {
+            if (routes == null) return;
             TableModel model = new RoutesTableModel(List.of(routes));
             this.routesTable.setModel(model);
         }

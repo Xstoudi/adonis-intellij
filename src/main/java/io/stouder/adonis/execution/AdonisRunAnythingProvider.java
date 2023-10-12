@@ -4,6 +4,7 @@ import com.intellij.ide.actions.runAnything.RunAnythingUtil;
 import com.intellij.ide.actions.runAnything.activity.RunAnythingCommandLineProvider;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
+import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.ace.CommandFlag;
 import io.stouder.adonis.notifier.AdonisRcUpdateNotifier;
@@ -37,13 +38,13 @@ public class AdonisRunAnythingProvider extends RunAnythingCommandLineProvider im
     @Nullable
     @Nls(capitalization = Nls.Capitalization.Title)
     public String getHelpGroupTitle() {
-        return "Adonis";
+        return AdonisBundle.message("adonis.run.anything.help.group.title");
     }
 
     @Override
     @Nullable
     public String getCompletionGroupTitle() {
-        return "Adonis";
+        return AdonisBundle.message("adonis.run.anything.completion.group.title");
     }
 
     @Nullable
@@ -107,6 +108,7 @@ public class AdonisRunAnythingProvider extends RunAnythingCommandLineProvider im
 
     @Override
     public void commands(Command[] commands) {
+        if(commands == null) return;
         this.commands = List.of(commands);
         System.out.println("commands: " + Arrays.toString(commands));
     }

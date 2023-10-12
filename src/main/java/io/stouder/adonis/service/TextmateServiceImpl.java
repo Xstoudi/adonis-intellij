@@ -2,6 +2,7 @@ package io.stouder.adonis.service;
 
 import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.openapi.diagnostic.Logger;
+import io.stouder.adonis.AdonisBundle;
 
 import java.io.IOException;
 import java.io.InputStream;

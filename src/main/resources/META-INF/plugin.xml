@@ -51,15 +51,11 @@
       icon="io.stouder.adonis.AdonisIcons.ADONIS"
     />
 
-    <runAnything.executionProvider implementation="io.stouder.adonis.execution.AdonisRunAnythingProvider" order="first" />
+    <!--<runAnything.executionProvider implementation="io.stouder.adonis.execution.AdonisRunAnythingProvider" order="first" />-->
 
     <moduleBuilder
       builderClass="io.stouder.adonis.module.AdonisModuleBuilder"
       id="ADONIS_MODULE_BUILDER"
-    />
-    <moduleType
-      id="ADONIS_MODULE_TYPE"
-      implementationClass="io.stouder.adonis.module.AdonisModuleType"
     />
   </extensions>
 
