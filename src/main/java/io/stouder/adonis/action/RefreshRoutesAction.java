@@ -9,6 +9,8 @@ import io.stouder.adonis.notifier.AdonisRouteUpdateNotifier;
 import io.stouder.adonis.service.AdonisAceService;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class RefreshRoutesAction extends AnAction {
 
     @Override
@@ -19,9 +21,7 @@ public class RefreshRoutesAction extends AnAction {
         e.getPresentation().setEnabled(false);
         AdonisRouteUpdateNotifier publisher = project.getMessageBus().syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC);
         RouteDomain[] routeDomains = AdonisAceService.getInstance(project).runAceCommand(
-                RouteDomain[].class,
-                AdonisBundle.message("adonis.actions.refresh.routes"),
-                "list:routes", "--json"
+                AdonisBundle.message("adonis.actions.refresh.routes"), List.of("list:routes", "--json"), RouteDomain[].class
         );
         publisher.routes(routeDomains);
         e.getPresentation().setEnabled(true);

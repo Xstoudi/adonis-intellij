@@ -84,6 +84,10 @@
       topic="io.stouder.adonis.notifier.AdonisRcUpdateNotifier"
     />
     <listener
+      class="io.stouder.adonis.tool_window.content.MakeToolWindowContent"
+      topic="io.stouder.adonis.notifier.AdonisRcUpdateNotifier"
+    />
+    <listener
       class="io.stouder.adonis.listener.AdonisBulkFileListener"
       topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"
     />

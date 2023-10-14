@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class AdonisRouteServiceImpl implements AdonisRouteService {
     private static final Logger LOG = Logger.getInstance(AdonisRouteService.class);
 
-    private List<RouteDomain> routes = List.of();
+    private final List<RouteDomain> routes = List.of();
 
     private final Project project;
 
@@ -21,7 +21,7 @@ public class AdonisRouteServiceImpl implements AdonisRouteService {
     @Override
     public void fetchRoutes(Consumer<RouteDomain[]> callback) {
         AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
-        adonisAceService.runAceCommandAsync(RouteDomain[].class, callback, "list:routes", "--json");
+        adonisAceService.runAceCommandAsync(callback, List.of("list:routes", "--json"), RouteDomain[].class);
     }
 
 }
