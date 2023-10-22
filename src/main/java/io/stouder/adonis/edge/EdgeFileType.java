@@ -1,26 +1,22 @@
 package io.stouder.adonis.edge;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.util.NlsContexts;
-import com.intellij.openapi.util.NlsSafe;
-import io.stouder.adonis.AdonisBundle;
-import io.stouder.adonis.AdonisIcons;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.javascript.web.html.WebFrameworkHtmlFileType;
 
-import javax.swing.*;
-
-public class EdgeFileType extends LanguageFileType {
+public class EdgeFileType extends WebFrameworkHtmlFileType {
 
     public static final EdgeFileType INSTANCE = new EdgeFileType();
 
+    public EdgeFileType() {
+        super(EdgeLanguage.INSTANCE, "Edge", "edge");
+    }
+/*
     private EdgeFileType() {
         super(EdgeLanguage.INSTANCE);
     }
 
     @Override
     public @NonNls @NotNull String getName() {
-        return AdonisBundle.message("adonis.edge.name");
+        return "Edge";
     }
 
     @Override
@@ -36,5 +32,5 @@ public class EdgeFileType extends LanguageFileType {
     @Override
     public Icon getIcon() {
         return AdonisIcons.EDGE;
-    }
+    }*/
 }

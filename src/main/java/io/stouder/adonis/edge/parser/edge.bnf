@@ -1,0 +1,34 @@
+{
+  parserClass="io.stouder.adonis.edge.parser.EdgeParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Edge"
+  psiImplClassSuffix="Impl"
+  psiPackage="io.stouder.adonis.edge.psi"
+  psiImplPackage="io.stouder.adonis.edge.psi.impl"
+
+  //parserImports=["static io.stouder.adonis.edge.psi.EdgeManualParsing.*"]
+
+  elementTypeHolderClass="io.stouder.adonis.edge.psi.EdgeTokenTypes"
+  elementTypeClass="io.stouder.adonis.edge.psi.EdgeElementType"
+  tokenTypeClass="io.stouder.adonis.edge.psi.EdgeTokenType"
+
+  tokens = [
+    MUSTACHE_OPEN="{{"
+    MUSTACHE_CLOSE="}}"
+    MUSTACHE="<mustache>"
+  ]
+
+  pin("interpolation")=1
+  recoverWhile(".*Tag|interpolation")=mustache_recover
+}
+
+edgeComponent ::= privateScope
+
+private mustache_recover ::= !('{{' | HTML_FRAGMENT)
+
+private privateScope ::= (interpolation|HTML_FRAGMENT)*
+
+interpolation ::= MUSTACHE_OPEN expression MUSTACHE_CLOSE
+

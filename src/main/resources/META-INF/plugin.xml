@@ -36,12 +36,20 @@
     <postStartupActivity implementation="io.stouder.adonis.activity.InitCommandsActivity" />
     
     <fileType
-      name="Edge file"
+      name="Edge"
       implementationClass="io.stouder.adonis.edge.EdgeFileType"
       fieldName="INSTANCE"
       language="Edge"
       extensions="edge"
     />
+
+    <webSymbols.framework id="edge" implementation="io.stouder.adonis.AdonisFramework" />
+
+    <lang.parserDefinition
+      language="Edge"
+      implementationClass="io.stouder.adonis.edge.parser.EdgeParserDefinition"
+    />
+    <lang.syntaxHighlighterFactory language="Edge" implementationClass="io.stouder.adonis.edge.highlighter.EdgeSyntaxHighlighterFactory" />
     
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"

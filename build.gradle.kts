@@ -1,5 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -11,6 +13,7 @@ plugins {
   alias(libs.plugins.changelog) // Gradle Changelog Plugin
   alias(libs.plugins.qodana) // Gradle Qodana Plugin
   alias(libs.plugins.kover) // Gradle Kover Plugin
+  alias(libs.plugins.grammarkit) // Gradle GrammarKit plugin
   id("io.freefair.lombok") version "8.3"
 }
 
@@ -21,6 +24,8 @@ dependencies {
 
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
+
+sourceSets["main"].java.srcDirs("src/main/gen")
 
 repositories {
   mavenCentral()
@@ -68,9 +73,24 @@ koverReport {
   }
 }
 
+val generateEdgeLexer = task<GenerateLexerTask>("generateEdgeLexer") {
+  source.set("src/main/java/io/stouder/adonis/edge/lexer/edge.flex")
+  targetDir.set("src/main/gen/io/stouder/adonis/edge/lexer")
+  targetClass.set("_EdgeLexer")
+  purgeOldFiles.set(true)
+}
+
+
 tasks {
   wrapper {
     gradleVersion = properties("gradleVersion").get()
+  }
+
+  withType<JavaCompile> {
+    dependsOn(generateEdgeLexer)
+  }
+  withType<KotlinCompile> {
+    dependsOn(generateEdgeLexer)
   }
 
   patchPluginXml {
