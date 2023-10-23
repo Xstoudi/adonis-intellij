@@ -1,9 +1,7 @@
 package io.stouder.adonis.edge;
 
 import com.intellij.javascript.web.html.WebFrameworkHtmlDialect;
-import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.psi.templateLanguages.TemplateLanguage;
+import com.intellij.psi.html.HtmlTag;
 import io.stouder.adonis.AdonisBundle;
 import org.jetbrains.annotations.NotNull;
 

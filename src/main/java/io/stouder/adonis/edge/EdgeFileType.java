@@ -1,6 +1,14 @@
 package io.stouder.adonis.edge;
 
 import com.intellij.javascript.web.html.WebFrameworkHtmlFileType;
+import com.intellij.openapi.util.NlsContexts;
+import com.intellij.openapi.util.NlsSafe;
+import io.stouder.adonis.AdonisBundle;
+import io.stouder.adonis.AdonisIcons;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 
 public class EdgeFileType extends WebFrameworkHtmlFileType {
 
@@ -8,10 +16,6 @@ public class EdgeFileType extends WebFrameworkHtmlFileType {
 
     public EdgeFileType() {
         super(EdgeLanguage.INSTANCE, "Edge", "edge");
-    }
-/*
-    private EdgeFileType() {
-        super(EdgeLanguage.INSTANCE);
     }
 
     @Override
@@ -32,5 +36,5 @@ public class EdgeFileType extends WebFrameworkHtmlFileType {
     @Override
     public Icon getIcon() {
         return AdonisIcons.EDGE;
-    }*/
+    }
 }

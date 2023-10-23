@@ -50,7 +50,7 @@
       implementationClass="io.stouder.adonis.edge.parser.EdgeParserDefinition"
     />
     <lang.syntaxHighlighterFactory language="Edge" implementationClass="io.stouder.adonis.edge.highlighter.EdgeSyntaxHighlighterFactory" />
-    
+
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"
       id="adonis"

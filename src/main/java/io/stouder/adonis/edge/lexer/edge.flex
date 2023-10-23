@@ -2,8 +2,8 @@ package io.stouder.adonis.edge.lexer;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.xml.XmlTokenType;
-import com.intellij.lexer.FlexLexer;
 import io.stouder.adonis.edge.psi.EdgeTokenTypes;
+import com.intellij.lexer.FlexLexer;
 
 // suppress various warnings/inspections for the generated class
 // @SuppressWarnings ({"FieldCanBeLocal", "UnusedDeclaration", "UnusedAssignment", "AccessStaticViaInstance", "MismatchedReadAndWriteOfArray", "WeakerAccess", "SameParameterValue", "CanBeFinal", "SameReturnValue", "RedundantThrows", "ConstantConditions"})
@@ -43,6 +43,14 @@ import io.stouder.adonis.edge.psi.EdgeTokenTypes;
 %state C_COMMENT_END
 %state MUSTACHE_OPEN
 %state MUSTACHE
+%state SAFE_MUSTACHE_OPEN
+%state SAFE_MUSTACHE
+%state ESCAPED_MUSTACHE_OPEN
+%state ESCAPED_MUSTACHE
+%state ESCAPED_SAFE_MUSTACHE_OPEN
+%state ESCAPED_SAFE_MUSTACHE
+%state MUSTACHE_COMMENT_OPEN
+%state MUSTACHE_COMMENT
 /* IMPORTANT! number of states should not exceed 16. See JspHighlightingLexer. */
 
 ALPHA=[:letter:]
@@ -112,6 +120,26 @@ CONDITIONAL_COMMENT_CONDITION=({ALPHA})({ALPHA}|{WHITE_SPACE_CHARS}|{DIGIT}|"."|
 }
 
 // EDGE START
+<YYINITIAL> "@{{{" {
+    yybegin(ESCAPED_SAFE_MUSTACHE_OPEN);
+    return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
+}
+
+<YYINITIAL> "@{{" {
+    yybegin(ESCAPED_MUSTACHE_OPEN);
+    return EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN;
+}
+
+<YYINITIAL> "{{{" {
+    yybegin(SAFE_MUSTACHE_OPEN);
+    return EdgeTokenTypes.SAFE_MUSTACHE_OPEN;
+}
+
+<YYINITIAL> "{{--" {
+    yybegin(MUSTACHE_COMMENT_OPEN);
+    return EdgeTokenTypes.MUSTACHE_COMMENT_OPEN;
+}
+
 <YYINITIAL> "{{" {
     yybegin(MUSTACHE_OPEN);
     return EdgeTokenTypes.MUSTACHE_OPEN;
@@ -123,6 +151,35 @@ CONDITIONAL_COMMENT_CONDITION=({ALPHA})({ALPHA}|{WHITE_SPACE_CHARS}|{DIGIT}|"."|
         yypushback(yylength());
     }
 }
+
+<SAFE_MUSTACHE_OPEN> {
+    [^] {
+        yybegin(SAFE_MUSTACHE);
+        yypushback(yylength());
+    }
+}
+
+<ESCAPED_MUSTACHE_OPEN> {
+    [^] {
+        yybegin(ESCAPED_MUSTACHE);
+        yypushback(yylength());
+    }
+}
+
+<ESCAPED_SAFE_MUSTACHE_OPEN> {
+    [^] {
+        yybegin(ESCAPED_SAFE_MUSTACHE);
+        yypushback(yylength());
+    }
+}
+
+<MUSTACHE_COMMENT_OPEN> {
+    [^] {
+        yybegin(MUSTACHE_COMMENT);
+        yypushback(yylength());
+    }
+}
+
 // EDGE END
 
 <START_TAG_NAME, END_TAG_NAME> {TAG_NAME} { yybegin(BEFORE_TAG_ATTRIBUTES); return XmlTokenType.XML_NAME; }
@@ -158,10 +215,50 @@ CONDITIONAL_COMMENT_CONDITION=({ALPHA})({ALPHA}|{WHITE_SPACE_CHARS}|{DIGIT}|"."|
 // EDGE START
 <MUSTACHE> {
     "}}" {
-            yybegin(YYINITIAL);
-            return EdgeTokenTypes.MUSTACHE_CLOSE;
-        }
-    [^] { return EdgeTokenTypes.MUSTACHE; }
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.MUSTACHE_CLOSE;
+    }
+}
+<SAFE_MUSTACHE> {
+    "}}}" {
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.SAFE_MUSTACHE_CLOSE;
+    }
+}
+<ESCAPED_MUSTACHE> {
+    "}}" {
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE;
+    }
+}
+<ESCAPED_SAFE_MUSTACHE> {
+    "}}}" {
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE;
+    }
+}
+<MUSTACHE_COMMENT> {
+    "--}}" {
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.MUSTACHE_COMMENT_CLOSE;
+    }
+}
+<MUSTACHE, SAFE_MUSTACHE, ESCAPED_MUSTACHE, ESCAPED_SAFE_MUSTACHE, MUSTACHE_COMMENT> {
+    "<" {TAG_NAME} {
+        yybegin(START_TAG_NAME);
+        yypushback(yylength());
+      }
+    "</" {TAG_NAME} {
+        yybegin(END_TAG_NAME);
+        yypushback(yylength());
+    }
+    [^] {
+        if(yystate() == MUSTACHE) return EdgeTokenTypes.MUSTACHE;
+        if(yystate() == SAFE_MUSTACHE) return EdgeTokenTypes.SAFE_MUSTACHE;
+        if(yystate() == ESCAPED_MUSTACHE) return EdgeTokenTypes.ESCAPED_MUSTACHE;
+        if(yystate() == ESCAPED_SAFE_MUSTACHE) return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE;
+        if(yystate() == MUSTACHE_COMMENT) return EdgeTokenTypes.MUSTACHE_COMMENT;
+    }
 }
 // EDGE END
 
