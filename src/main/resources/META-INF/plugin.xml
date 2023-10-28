@@ -43,13 +43,16 @@
       extensions="edge"
     />
 
-    <webSymbols.framework id="edge" implementation="io.stouder.adonis.AdonisFramework" />
-
     <lang.parserDefinition
       language="Edge"
       implementationClass="io.stouder.adonis.edge.parser.EdgeParserDefinition"
     />
     <lang.syntaxHighlighterFactory language="Edge" implementationClass="io.stouder.adonis.edge.highlighter.EdgeSyntaxHighlighterFactory" />
+    <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.EdgeBraceMatcher" />
+    <html.embeddedContentSupport implementation="io.stouder.adonis.edge.EdgeEmbeddedContentSupport" />
+    <xml.xmlExtension implementation="io.stouder.adonis.edge.codeInsight.EdgeXmlExtension" />
+    <xml.elementDescriptorProvider implementation="io.stouder.adonis.edge.codeInsight.EdgeElementDescriptorProvider" />
+    <xml.xmlSuppressionProvider implementation="io.stouder.adonis.edge.compatibility.EdgeHtmlInspectionSuppressor" />
 
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"

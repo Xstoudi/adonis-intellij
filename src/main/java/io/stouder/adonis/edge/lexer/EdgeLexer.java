@@ -20,9 +20,6 @@ public class EdgeLexer extends HtmlLexer {
             XmlTokenType.XML_DATA_CHARACTERS,
             XmlTokenType.XML_TAG_CHARACTERS,
             EdgeTokenTypes.MUSTACHE,
-            EdgeTokenTypes.ESCAPED_MUSTACHE,
-            EdgeTokenTypes.SAFE_MUSTACHE,
-            EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE,
             EdgeTokenTypes.MUSTACHE_COMMENT
     );
 }

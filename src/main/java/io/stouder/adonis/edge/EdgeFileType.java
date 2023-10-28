@@ -1,6 +1,6 @@
 package io.stouder.adonis.edge;
 
-import com.intellij.javascript.web.html.WebFrameworkHtmlFileType;
+import com.intellij.ide.highlighter.HtmlFileType;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.NlsSafe;
 import io.stouder.adonis.AdonisBundle;
@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class EdgeFileType extends WebFrameworkHtmlFileType {
+public class EdgeFileType extends HtmlFileType {
 
     public static final EdgeFileType INSTANCE = new EdgeFileType();
 
     public EdgeFileType() {
-        super(EdgeLanguage.INSTANCE, "Edge", "edge");
+        super(EdgeLanguage.INSTANCE);
     }
 
     @Override

@@ -254,9 +254,9 @@ CONDITIONAL_COMMENT_CONDITION=({ALPHA})({ALPHA}|{WHITE_SPACE_CHARS}|{DIGIT}|"."|
     }
     [^] {
         if(yystate() == MUSTACHE) return EdgeTokenTypes.MUSTACHE;
-        if(yystate() == SAFE_MUSTACHE) return EdgeTokenTypes.SAFE_MUSTACHE;
-        if(yystate() == ESCAPED_MUSTACHE) return EdgeTokenTypes.ESCAPED_MUSTACHE;
-        if(yystate() == ESCAPED_SAFE_MUSTACHE) return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE;
+        if(yystate() == SAFE_MUSTACHE) return EdgeTokenTypes.MUSTACHE;
+        if(yystate() == ESCAPED_MUSTACHE) return EdgeTokenTypes.MUSTACHE;
+        if(yystate() == ESCAPED_SAFE_MUSTACHE) return EdgeTokenTypes.MUSTACHE;
         if(yystate() == MUSTACHE_COMMENT) return EdgeTokenTypes.MUSTACHE_COMMENT;
     }
 }

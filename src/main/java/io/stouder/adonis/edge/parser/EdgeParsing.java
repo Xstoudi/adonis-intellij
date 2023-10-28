@@ -12,6 +12,8 @@ import kotlin.Triple;
 import java.util.List;
 import java.util.Optional;
 
+import static io.stouder.adonis.edge.psi.EdgeTokenTypes.MUSTACHES_TROUPLES;
+
 class EdgeParsing extends HtmlParsing {
 
     private static final TokenSet CUSTOM_CONTENT = TokenSet.create(
@@ -26,14 +28,6 @@ class EdgeParsing extends HtmlParsing {
     private static final TokenSet DATA_TOKENS = TokenSet.create(
             XmlTokenType.XML_COMMA,
             XmlTokenType.XML_DATA_CHARACTERS
-    );
-
-    private static final List<Triple<EdgeMustacheElementType, EdgeElementType, EdgeMustacheElementType>> mustachesTriples = List.of(
-            new Triple<>(EdgeTokenTypes.MUSTACHE_OPEN, EdgeTokenTypes.MUSTACHE, EdgeTokenTypes.MUSTACHE_CLOSE),
-            new Triple<>(EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_MUSTACHE, EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE),
-            new Triple<>(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, EdgeTokenTypes.SAFE_MUSTACHE, EdgeTokenTypes.SAFE_MUSTACHE_CLOSE),
-            new Triple<>(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE, EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE),
-            new Triple<>(EdgeTokenTypes.MUSTACHE_COMMENT_OPEN, EdgeTokenTypes.MUSTACHE_COMMENT, EdgeTokenTypes.MUSTACHE_COMMENT_CLOSE)
     );
 
     public EdgeParsing(PsiBuilder builder) {
@@ -55,7 +49,7 @@ class EdgeParsing extends HtmlParsing {
     protected PsiBuilder.Marker parseCustomTagContent(PsiBuilder.Marker xmlText) {
         PsiBuilder.Marker result = xmlText;
 
-        Optional<Triple<EdgeMustacheElementType, EdgeElementType, EdgeMustacheElementType>> maybeTriple = mustachesTriples
+        Optional<Triple<EdgeMustacheElementType, EdgeElementType, EdgeMustacheElementType>> maybeTriple = MUSTACHES_TROUPLES
                 .stream()
                 .filter(mustacheTriple -> mustacheTriple.getFirst().equals(this.token()))
                 .findFirst();

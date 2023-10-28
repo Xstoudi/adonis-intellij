@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 import static io.stouder.adonis.edge.psi.EdgeTokenTypes.COMMENT_TOKENS;
-import static io.stouder.adonis.edge.psi.EdgeTokenTypes.MUSTACHE_TOKENS;
+import static io.stouder.adonis.edge.psi.EdgeTokenTypes.AROUND_MUSTACHE_TOKENS;
 
 public class EdgeSyntaxHighlighter extends HtmlFileHighlighter {
 
@@ -30,7 +30,7 @@ public class EdgeSyntaxHighlighter extends HtmlFileHighlighter {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if(MUSTACHE_TOKENS.contains(tokenType)) {
+        if(AROUND_MUSTACHE_TOKENS.contains(tokenType)) {
             return MUSTACHES_KEYS;
         }
         if(COMMENT_TOKENS.contains(tokenType)) {
