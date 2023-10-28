@@ -61,7 +61,7 @@
       anchor="right"
       icon="io.stouder.adonis.AdonisIcons.ADONIS_TOOL_WINDOW"
     />
-
+    
     <!--<runAnything.executionProvider implementation="io.stouder.adonis.execution.AdonisRunAnythingProvider" order="first" />-->
 
     <moduleBuilder
