@@ -28,8 +28,12 @@ public class EdgeTemplateHighlighter extends LayeredLexerEditorHighlighter {
 
         SyntaxHighlighter outerHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(languageFileType, project, virtualFile);
         SyntaxHighlighter javascriptHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(JavaScriptFileType.INSTANCE, project, virtualFile);
+
         assert outerHighlighter != null;
+        assert javascriptHighlighter != null;
+
         this.registerLayer(EdgeTokenTypes.CONTENT, new LayerDescriptor(outerHighlighter, ""));
         this.registerLayer(EdgeTokenTypes.MUSTACHE_CONTENT, new LayerDescriptor(javascriptHighlighter, ""));
+        this.registerLayer(EdgeTokenTypes.TAG_CONTENT, new LayerDescriptor(javascriptHighlighter, ""));
     }
 }
