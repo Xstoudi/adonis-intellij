@@ -1,6 +1,6 @@
 # Adonis
 
-![Build](https://github.com/Xstoudi/intellij-adonis/workflows/Build/badge.svg)
+![Build](https://github.com/Xstoudi/adonis-intellij/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/io.stouder.adonis.svg)](https://plugins.jetbrains.com/plugin/io.stouder.adonis)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/io.stouder.adonis.svg)](https://plugins.jetbrains.com/plugin/io.stouder.adonis)
 
