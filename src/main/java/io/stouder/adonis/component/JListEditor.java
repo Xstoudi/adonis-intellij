@@ -1,9 +1,9 @@
 package io.stouder.adonis.component;
 
 import com.intellij.ui.components.JBList;
+import io.stouder.adonis.AdonisBundle;
 
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.util.List;
 
@@ -11,8 +11,8 @@ public class JListEditor extends JPanel {
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
     private final JBList<String> stringList = new JBList<>(listModel);
     private final JTextField textField;
-    private final JButton addButton = new JButton("Add");
-    private final JButton removeButton = new JButton("Remove");
+    private final JButton addButton = new JButton(AdonisBundle.message("adonis.component.jlisteditor.add"));
+    private final JButton removeButton = new JButton(AdonisBundle.message("adonis.component.jlisteditor.remove"));
 
     public JListEditor() {
         this(null);

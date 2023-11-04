@@ -5,6 +5,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.notifier.AdonisRcUpdateNotifier;
 import io.stouder.adonis.notifier.AdonisRouteUpdateNotifier;
 import io.stouder.adonis.service.AdonisAppService;
@@ -23,8 +24,8 @@ public class AdonisToolWindow implements ToolWindowFactory {
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         RoutesToolWindowContent routesToolWindowContent = new RoutesToolWindowContent(project);
         MakeToolWindowContent makeToolWindowContent = new MakeToolWindowContent(project);
-        Content routesContent = ContentFactory.getInstance().createContent(routesToolWindowContent.getRootPanel(), "Routes", false);
-        Content makeContent = ContentFactory.getInstance().createContent(makeToolWindowContent.getRootPanel(), "Make", false);
+        Content routesContent = ContentFactory.getInstance().createContent(routesToolWindowContent.getRootPanel(), AdonisBundle.message("adonis.tool_window.routes"), false);
+        Content makeContent = ContentFactory.getInstance().createContent(makeToolWindowContent.getRootPanel(), AdonisBundle.message("adonis.tool_window.make"), false);
         toolWindow.getContentManager().addContent(routesContent);
         toolWindow.getContentManager().addContent(makeContent);
 

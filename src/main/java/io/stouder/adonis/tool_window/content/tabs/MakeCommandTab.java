@@ -1,9 +1,9 @@
 package io.stouder.adonis.tool_window.content.tabs;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ui.JBUI;
+import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.ace.CommandArgument;
 import io.stouder.adonis.cli.json.ace.CommandFlag;
@@ -25,7 +25,7 @@ public class MakeCommandTab extends JPanel {
     private final LinkedHashMap<CommandArgument, JTextField> arguments;
     private final LinkedHashMap<CommandFlag<?>, JComponent> flags;
 
-    private final JButton createButton = new JButton("Create");
+    private final JButton createButton = new JButton(AdonisBundle.message("adonis.tool_window.content.tabs.make.create"));
     private final Project project;
     private final Command command;
 
@@ -140,7 +140,6 @@ public class MakeCommandTab extends JPanel {
 
         System.out.println(this.buildCommand());
         boolean result = AdonisAceService.getInstance(this.project).runAceCommand("Creating " + this.command.getCommandName(), this.buildCommand());
-        System.out.println("Result: " + result);
         this.createButton.setEnabled(true);
     }
 
