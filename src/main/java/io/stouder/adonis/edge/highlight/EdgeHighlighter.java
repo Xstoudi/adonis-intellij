@@ -38,7 +38,7 @@ public class EdgeHighlighter extends SyntaxHighlighterBase {
         keys.put(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE, MUSTACHES);
         keys.put(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN, COMMENTS);
         keys.put(EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE, COMMENTS);
-        keys.put(EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT, COMMENTS);
+        keys.put(EdgeTokenTypes.COMMENT_MUSTACHE_CONTENT, COMMENTS);
     }
 
     public EdgeHighlighter() {

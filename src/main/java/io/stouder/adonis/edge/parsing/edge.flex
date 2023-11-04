@@ -8,7 +8,6 @@ package io.stouder.adonis.edge.parsing;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.Stack;
-import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 
 // suppress various warnings/inspections for the generated class
 @SuppressWarnings ({"FieldCanBeLocal", "UnusedDeclaration", "UnusedAssignment", "AccessStaticViaInstance", "MismatchedReadAndWriteOfArray", "WeakerAccess", "SameParameterValue", "CanBeFinal", "SameReturnValue", "RedundantThrows", "ConstantConditions"})
@@ -34,16 +33,26 @@ import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
     }
 %}
 
+TAG_PATTERN = "@""!"?([a-z,A-Z,"_", "."])+
+CRLF = \R
+
 %state MUSTACHE
 %state SAFE_MUSTACHE
 %state ESCAPED_MUSTACHE
 %state ESCAPED_SAFE_MUSTACHE
 %state COMMENT_MUSTACHE
+%state TAG
+%state TAG_CONTENT
+%state TAG_CLOSED
 
 
 %%
 
 <YYINITIAL> {
+    {TAG_PATTERN} {
+        yybegin(TAG);
+        return EdgeTokenTypes.TAG_NAME;
+    }
     "@{{{" {
         yypushState(ESCAPED_SAFE_MUSTACHE);
         return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
@@ -68,39 +77,50 @@ import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
     [^] { return EdgeTokenTypes.CONTENT; }
 }
 
+<TAG> {
+    "(" {
+        yybegin(TAG_CONTENT);
+        return EdgeTokenTypes.TAG_CONTENT_OPEN;
+    }
+}
+<TAG_CONTENT> {
+    ")" {
+        yybegin(TAG_CLOSED);
+        return EdgeTokenTypes.TAG_CONTENT_CLOSE;
+    }
+    [^\R] { return EdgeTokenTypes.TAG_CONTENT; }
+}
+
+<TAG, TAG_CLOSED> {
+    {CRLF} {
+        yybegin(YYINITIAL);
+        return EdgeTokenTypes.NEWLINE;
+    }
+}
+
 <ESCAPED_SAFE_MUSTACHE> {
     "}}}" { yypopState(); return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE; }
-    [^] {
-        return EdgeTokenTypes.MUSTACHE_CONTENT;
-    }
 }
 
 <ESCAPED_MUSTACHE> {
     "}}" { yypopState(); return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE; }
-    [^] {
-        return EdgeTokenTypes.MUSTACHE_CONTENT;
-    }
 }
 
 <COMMENT_MUSTACHE> {
     "--}}" { yypopState(); return EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE; }
-    [^] {
-        return EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT;
-    }
+    [^] { return EdgeTokenTypes.COMMENT_MUSTACHE_CONTENT; }
 }
 
 <SAFE_MUSTACHE> {
     "}}}" { yypopState(); return EdgeTokenTypes.SAFE_MUSTACHE_CLOSE; }
-    [^] {
-        return EdgeTokenTypes.MUSTACHE_CONTENT;
-    }
 }
 
 <MUSTACHE> {
     "}}" { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE; }
-    [^] {
-        return EdgeTokenTypes.MUSTACHE_CONTENT;
-    }
+}
+
+<ESCAPED_SAFE_MUSTACHE, ESCAPED_MUSTACHE, SAFE_MUSTACHE, MUSTACHE> {
+    [^] { return EdgeTokenTypes.MUSTACHE_CONTENT; }
 }
 
 

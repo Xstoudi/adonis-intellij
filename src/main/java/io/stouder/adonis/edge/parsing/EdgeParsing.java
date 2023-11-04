@@ -71,6 +71,9 @@ public class EdgeParsing {
         } else if (tokenType == EdgeTokenTypes.COMMENT_MUSTACHE_OPEN) {
             this.parseMustacheComment();
             return true;
+        } else if (tokenType == EdgeTokenTypes.TAG_NAME) {
+            this.parseTag();
+            return true;
         } else if (tokenType == EdgeTokenTypes.CONTENT) {
             this.builder.advanceLexer();
             return true;
@@ -93,10 +96,25 @@ public class EdgeParsing {
         PsiBuilder.Marker mustacheCommentMarker = this.builder.mark();
 
         this.parseLeafToken(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN);
-        this.parseLeafToken(EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT);
+        this.parseLeafToken(EdgeTokenTypes.COMMENT_MUSTACHE_CONTENT);
         this.parseLeafTokenGreedy(EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE);
 
-        mustacheCommentMarker.done(EdgeTokenTypes.MUSTACHE_COMMENT);
+        mustacheCommentMarker.done(EdgeTokenTypes.COMMENT_MUSTACHE);
+    }
+
+    protected void parseTag() {
+        PsiBuilder.Marker mustacheMarker = this.builder.mark();
+
+        this.parseLeafToken(EdgeTokenTypes.TAG_NAME);
+        if(this.builder.getTokenType() == EdgeTokenTypes.TAG_CONTENT_OPEN) {
+            this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT_OPEN);
+            this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT);
+            this.parseLeafTokenGreedy(EdgeTokenTypes.TAG_CONTENT_CLOSE);
+        }
+
+        this.parseLeafToken(EdgeTokenTypes.NEWLINE);
+
+        mustacheMarker.done(EdgeTokenTypes.TAG);
     }
 
     protected boolean parseLeafToken(IElementType leafTokenType) {
