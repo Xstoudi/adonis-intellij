@@ -18,6 +18,7 @@
   <!-- Product and plugin compatibility requirements.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
   <depends>org.jetbrains.plugins.textmate</depends>
   <depends>JavaScript</depends>
 
@@ -37,7 +38,7 @@
     
     <fileType
       name="Edge"
-      implementationClass="io.stouder.adonis.edge.EdgeFileType"
+      implementationClass="io.stouder.adonis.edge.file.EdgeFileType"
       fieldName="INSTANCE"
       language="Edge"
       extensions="edge"
@@ -45,15 +46,14 @@
 
     <lang.parserDefinition
       language="Edge"
-      implementationClass="io.stouder.adonis.edge.parser.EdgeParserDefinition"
+      implementationClass="io.stouder.adonis.edge.parsing.EdgeParserDefinition"
     />
-    <lang.syntaxHighlighterFactory language="Edge" implementationClass="io.stouder.adonis.edge.highlighter.EdgeSyntaxHighlighterFactory" />
+    <lang.parserDefinition language="Edge" implementationClass="io.stouder.adonis.edge.parsing.EdgeParserDefinition" />
+    <lang.ast.factory language="Edge" implementationClass="io.stouder.adonis.edge.parsing.EdgeAstFactory" />
+    <lang.fileViewProviderFactory language="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeFileViewProviderFactory" />
     <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.EdgeBraceMatcher" />
-    <html.embeddedContentSupport implementation="io.stouder.adonis.edge.EdgeEmbeddedContentSupport" />
-    <xml.xmlExtension implementation="io.stouder.adonis.edge.codeInsight.EdgeXmlExtension" />
-    <xml.elementDescriptorProvider implementation="io.stouder.adonis.edge.codeInsight.EdgeElementDescriptorProvider" />
-    <xml.xmlSuppressionProvider implementation="io.stouder.adonis.edge.compatibility.EdgeHtmlInspectionSuppressor" />
-
+    <lang.syntaxHighlighter language="Edge" implementationClass="io.stouder.adonis.edge.highlight.EdgeHighlighter" />
+    <editorHighlighterProvider filetype="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeHighlighterProvider" />
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"
       id="adonis"

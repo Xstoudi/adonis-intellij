@@ -4,22 +4,20 @@ import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
-import io.stouder.adonis.edge.psi.EdgeTokenTypes;
+import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class EdgeBraceMatcher implements PairedBraceMatcher {
+    private static final BracePair[] BRACE_PAIRS = new BracePair[]{
+            new BracePair(EdgeTokenTypes.MUSTACHE_OPEN, EdgeTokenTypes.MUSTACHE_CLOSE, true),
+            new BracePair(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, EdgeTokenTypes.SAFE_MUSTACHE_CLOSE, true),
+    };
     @Override
-    public BracePair @NotNull [] getPairs() {
-        return List.of(
-                new BracePair(EdgeTokenTypes.MUSTACHE_OPEN, EdgeTokenTypes.MUSTACHE_CLOSE, false),
-                new BracePair(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, EdgeTokenTypes.SAFE_MUSTACHE_CLOSE, false),
-                new BracePair(EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE, false),
-                new BracePair(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE, false),
-                new BracePair(EdgeTokenTypes.MUSTACHE_COMMENT_OPEN, EdgeTokenTypes.MUSTACHE_COMMENT_CLOSE, false)
-        ).toArray(new BracePair[0]);
+    public BracePair @NotNull []  getPairs() {
+        return BRACE_PAIRS;
     }
 
     @Override

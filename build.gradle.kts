@@ -74,8 +74,8 @@ koverReport {
 }
 
 val generateEdgeLexer = task<GenerateLexerTask>("generateEdgeLexer") {
-  source.set("src/main/java/io/stouder/adonis/edge/lexer/edge.flex")
-  targetDir.set("src/main/gen/io/stouder/adonis/edge/lexer")
+  source.set("src/main/java/io/stouder/adonis/edge/parsing/edge.flex")
+  targetDir.set("src/main/gen/io/stouder/adonis/edge/parsing")
   targetClass.set("_EdgeLexer")
   purgeOldFiles.set(true)
 }

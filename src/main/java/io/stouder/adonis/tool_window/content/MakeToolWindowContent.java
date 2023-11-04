@@ -1,6 +1,8 @@
 package io.stouder.adonis.tool_window.content;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.application.TransactionGuard;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.components.JBTabbedPane;
@@ -54,7 +56,6 @@ public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
         this.makeCommands = Stream.of(commands)
                 .filter(command -> "make".equals(command.getNamespace()))
                 .toList();
-
         ApplicationManager.getApplication().invokeLater(this::buildTabs);
     }
 }
