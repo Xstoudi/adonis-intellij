@@ -32,6 +32,9 @@ final class _EdgeLexer implements FlexLexer {
   public static final int YYINITIAL = 0;
   public static final int MUSTACHE = 2;
   public static final int SAFE_MUSTACHE = 4;
+  public static final int ESCAPED_MUSTACHE = 6;
+  public static final int ESCAPED_SAFE_MUSTACHE = 8;
+  public static final int COMMENT_MUSTACHE = 10;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -40,7 +43,7 @@ final class _EdgeLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2, 2
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5, 5
   };
 
   /** 
@@ -62,7 +65,7 @@ final class _EdgeLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 256 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\173\0\1\1\1\0\1\2\202\0");
+    "\55\0\1\3\22\0\1\1\72\0\1\2\1\0\1\4\202\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -70,10 +73,12 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\2\1\3\2\1\3\1\4\1\0\1\5\1\6";
+    "\6\0\3\1\5\2\2\3\1\0\1\4\1\5\1\0"+
+    "\1\6\2\0\1\7\1\10\1\0\1\11\1\12\1\0"+
+    "\1\13\1\14\1\15";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[13];
+    int [] result = new int[32];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -98,11 +103,13 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\3\0\6\0\11\0\14\0\11\0\17\0\22"+
-    "\0\25\0\11\0\30\0\11\0\11";
+    "\0\0\0\5\0\12\0\17\0\24\0\31\0\36\0\43"+
+    "\0\50\0\36\0\55\0\62\0\67\0\74\0\36\0\101"+
+    "\0\106\0\113\0\36\0\120\0\36\0\125\0\132\0\137"+
+    "\0\36\0\144\0\36\0\36\0\151\0\36\0\36\0\36";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[13];
+    int [] result = new int[32];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -125,12 +132,15 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\1\4\2\6\1\7\2\6\1\10\4\0"+
-    "\1\11\3\0\1\12\2\0\1\13\1\0\1\14\3\0"+
-    "\1\15";
+    "\1\7\1\10\1\11\2\7\4\12\1\13\4\12\1\14"+
+    "\4\12\1\15\4\12\1\16\3\17\1\20\1\17\7\0"+
+    "\1\21\4\0\1\22\6\0\1\23\4\0\1\24\4\0"+
+    "\1\25\4\0\1\26\3\0\1\27\3\0\1\30\4\0"+
+    "\1\31\1\32\5\0\1\33\4\0\1\34\4\0\1\35"+
+    "\2\0\1\36\5\0\1\37\5\0\1\40";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[27];
+    int [] result = new int[110];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -168,10 +178,12 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\1\11\1\1\1\11\3\1\1\11\1\0\2\11";
+    "\6\0\1\11\2\1\1\11\4\1\1\11\1\1\1\0"+
+    "\1\1\1\11\1\0\1\11\2\0\1\1\1\11\1\0"+
+    "\2\11\1\0\3\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[13];
+    int [] result = new int[32];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -487,34 +499,72 @@ final class _EdgeLexer implements FlexLexer {
             { return EdgeTokenTypes.CONTENT;
             } 
             // fall through
-          case 7: break;
+          case 14: break;
           case 2: 
             { return EdgeTokenTypes.MUSTACHE_CONTENT;
             } 
             // fall through
-          case 8: break;
+          case 15: break;
           case 3: 
+            { return EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT;
+            } 
+            // fall through
+          case 16: break;
+          case 4: 
             { yypushState(MUSTACHE);
         return EdgeTokenTypes.MUSTACHE_OPEN;
             } 
             // fall through
-          case 9: break;
-          case 4: 
+          case 17: break;
+          case 5: 
             { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE;
             } 
             // fall through
-          case 10: break;
-          case 5: 
+          case 18: break;
+          case 6: 
+            { yypopState(); return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE;
+            } 
+            // fall through
+          case 19: break;
+          case 7: 
+            { yypushState(ESCAPED_MUSTACHE);
+        return EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN;
+            } 
+            // fall through
+          case 20: break;
+          case 8: 
             { yypushState(SAFE_MUSTACHE);
         return EdgeTokenTypes.SAFE_MUSTACHE_OPEN;
             } 
             // fall through
-          case 11: break;
-          case 6: 
+          case 21: break;
+          case 9: 
             { yypopState(); return EdgeTokenTypes.SAFE_MUSTACHE_CLOSE;
             } 
             // fall through
-          case 12: break;
+          case 22: break;
+          case 10: 
+            { yypopState(); return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE;
+            } 
+            // fall through
+          case 23: break;
+          case 11: 
+            { yypushState(ESCAPED_SAFE_MUSTACHE);
+        return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
+            } 
+            // fall through
+          case 24: break;
+          case 12: 
+            { yypushState(COMMENT_MUSTACHE);
+        return EdgeTokenTypes.COMMENT_MUSTACHE_OPEN;
+            } 
+            // fall through
+          case 25: break;
+          case 13: 
+            { yypopState(); return EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE;
+            } 
+            // fall through
+          case 26: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

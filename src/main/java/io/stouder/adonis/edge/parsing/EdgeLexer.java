@@ -11,6 +11,7 @@ public class EdgeLexer extends MergingLexerAdapter {
     private final static TokenSet TOKENS_TO_MERGE = TokenSet.create(
             EdgeTokenTypes.CONTENT,
             EdgeTokenTypes.MUSTACHE_CONTENT,
+            EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT,
             EdgeTokenTypes.WHITE_SPACE
     );
 

@@ -62,6 +62,15 @@ public class EdgeParsing {
         } else if (tokenType == EdgeTokenTypes.SAFE_MUSTACHE_OPEN) {
             this.parseMustache(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, EdgeTokenTypes.SAFE_MUSTACHE_CLOSE);
             return true;
+        } else if (tokenType == EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN) {
+            this.parseMustache(EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE);
+            return true;
+        } else if (tokenType == EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN) {
+            this.parseMustache(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE);
+            return true;
+        } else if (tokenType == EdgeTokenTypes.COMMENT_MUSTACHE_OPEN) {
+            this.parseMustacheComment();
+            return true;
         } else if (tokenType == EdgeTokenTypes.CONTENT) {
             this.builder.advanceLexer();
             return true;
@@ -78,6 +87,16 @@ public class EdgeParsing {
         this.parseLeafTokenGreedy(closeMustache);
 
         mustacheMarker.done(EdgeTokenTypes.MUSTACHE);
+    }
+
+    protected void parseMustacheComment() {
+        PsiBuilder.Marker mustacheCommentMarker = this.builder.mark();
+
+        this.parseLeafToken(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN);
+        this.parseLeafToken(EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT);
+        this.parseLeafTokenGreedy(EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE);
+
+        mustacheCommentMarker.done(EdgeTokenTypes.MUSTACHE_COMMENT);
     }
 
     protected boolean parseLeafToken(IElementType leafTokenType) {

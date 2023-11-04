@@ -21,12 +21,24 @@ public class EdgeHighlighter extends SyntaxHighlighterBase {
             DefaultLanguageHighlighterColors.BRACES
     );
 
+    private static final TextAttributesKey COMMENTS = TextAttributesKey.createTextAttributesKey(
+            "EDGE.COMMENTS",
+            DefaultLanguageHighlighterColors.BLOCK_COMMENT
+    );
+
     static {
         keys = new HashMap<>();
         keys.put(EdgeTokenTypes.MUSTACHE_OPEN, MUSTACHES);
         keys.put(EdgeTokenTypes.MUSTACHE_CLOSE, MUSTACHES);
         keys.put(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, MUSTACHES);
         keys.put(EdgeTokenTypes.SAFE_MUSTACHE_CLOSE, MUSTACHES);
+        keys.put(EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN, MUSTACHES);
+        keys.put(EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE, MUSTACHES);
+        keys.put(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN, MUSTACHES);
+        keys.put(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE, MUSTACHES);
+        keys.put(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN, COMMENTS);
+        keys.put(EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE, COMMENTS);
+        keys.put(EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT, COMMENTS);
     }
 
     public EdgeHighlighter() {

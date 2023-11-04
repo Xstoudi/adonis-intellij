@@ -14,6 +14,9 @@ public class EdgeBraceMatcher implements PairedBraceMatcher {
     private static final BracePair[] BRACE_PAIRS = new BracePair[]{
             new BracePair(EdgeTokenTypes.MUSTACHE_OPEN, EdgeTokenTypes.MUSTACHE_CLOSE, true),
             new BracePair(EdgeTokenTypes.SAFE_MUSTACHE_OPEN, EdgeTokenTypes.SAFE_MUSTACHE_CLOSE, true),
+            new BracePair(EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE, true),
+            new BracePair(EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN, EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE, true),
+            new BracePair(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN, EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE, true),
     };
     @Override
     public BracePair @NotNull []  getPairs() {

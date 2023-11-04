@@ -36,25 +36,56 @@ import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 
 %state MUSTACHE
 %state SAFE_MUSTACHE
+%state ESCAPED_MUSTACHE
+%state ESCAPED_SAFE_MUSTACHE
+%state COMMENT_MUSTACHE
+
 
 %%
 
 <YYINITIAL> {
-    "{{" {
-        yypushState(MUSTACHE);
-        return EdgeTokenTypes.MUSTACHE_OPEN;
+    "@{{{" {
+        yypushState(ESCAPED_SAFE_MUSTACHE);
+        return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
+    }
+    "@{{" {
+        yypushState(ESCAPED_MUSTACHE);
+        return EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN;
+    }
+    "{{--" {
+        yypushState(COMMENT_MUSTACHE);
+        return EdgeTokenTypes.COMMENT_MUSTACHE_OPEN;
     }
     "{{{" {
         yypushState(SAFE_MUSTACHE);
         return EdgeTokenTypes.SAFE_MUSTACHE_OPEN;
     }
+    "{{" {
+        yypushState(MUSTACHE);
+        return EdgeTokenTypes.MUSTACHE_OPEN;
+    }
+
     [^] { return EdgeTokenTypes.CONTENT; }
 }
 
-<MUSTACHE> {
-    "}}" { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE; }
+<ESCAPED_SAFE_MUSTACHE> {
+    "}}}" { yypopState(); return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE; }
     [^] {
         return EdgeTokenTypes.MUSTACHE_CONTENT;
+    }
+}
+
+<ESCAPED_MUSTACHE> {
+    "}}" { yypopState(); return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE; }
+    [^] {
+        return EdgeTokenTypes.MUSTACHE_CONTENT;
+    }
+}
+
+<COMMENT_MUSTACHE> {
+    "--}}" { yypopState(); return EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE; }
+    [^] {
+        return EdgeTokenTypes.MUSTACHE_COMMENT_CONTENT;
     }
 }
 
@@ -64,4 +95,12 @@ import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
         return EdgeTokenTypes.MUSTACHE_CONTENT;
     }
 }
+
+<MUSTACHE> {
+    "}}" { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE; }
+    [^] {
+        return EdgeTokenTypes.MUSTACHE_CONTENT;
+    }
+}
+
 
