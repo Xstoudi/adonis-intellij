@@ -21,7 +21,6 @@
 
 
 Features:
-* Textmate bundle autoinstall
 * Project creation
 * List routes
 * GUI to use make: commands

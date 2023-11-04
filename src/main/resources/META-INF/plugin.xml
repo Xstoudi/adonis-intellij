@@ -19,7 +19,6 @@
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.lang</depends>
-  <depends>org.jetbrains.plugins.textmate</depends>
   <depends>JavaScript</depends>
 
   <resource-bundle>messages.AdonisBundle</resource-bundle>
@@ -27,12 +26,10 @@
   <!-- Extension points defined by the plugin.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="io.stouder.adonis.service.TextmateServiceImpl" serviceInterface="io.stouder.adonis.service.TextmateService" />
     <projectService serviceImplementation="io.stouder.adonis.service.AdonisAppServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAppService" />
     <projectService serviceImplementation="io.stouder.adonis.service.AdonisRouteServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisRouteService" />
     <projectService serviceImplementation="io.stouder.adonis.service.AdonisAceServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAceService" />
 
-    <postStartupActivity implementation="io.stouder.adonis.activity.InitTextmateActivity" />
     <postStartupActivity implementation="io.stouder.adonis.activity.InitRoutesActivity" />
     <postStartupActivity implementation="io.stouder.adonis.activity.InitCommandsActivity" />
     
