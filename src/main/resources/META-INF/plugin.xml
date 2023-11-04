@@ -1,18 +1,7 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-  <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
   <id>io.stouder.adonis</id>
-
-  <!-- Public plugin name should be written in Title Case.
-       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
   <name>Adonis</name>
-
-  <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
   <vendor email="xavier+adonis@stouder.io" url="https://stouder.io/">StouderIO</vendor>
-
-  <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-       Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
   <description><![CDATA[
 <p>Support for <a href="https://adonisjs.com/">AdonisJS</a></p>
 <p>Features</p>
@@ -23,16 +12,12 @@
 <li>GUI to execute ace commands</li>
 </ul>]]></description>
 
-  <!-- Product and plugin compatibility requirements.
-       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.lang</depends>
   <depends>JavaScript</depends>
 
   <resource-bundle>messages.AdonisBundle</resource-bundle>
 
-  <!-- Extension points defined by the plugin.
-       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
     <projectService serviceImplementation="io.stouder.adonis.service.AdonisAppServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAppService" />
     <projectService serviceImplementation="io.stouder.adonis.service.AdonisRouteServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisRouteService" />
