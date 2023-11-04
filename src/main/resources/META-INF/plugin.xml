@@ -61,8 +61,6 @@
       anchor="right"
       icon="io.stouder.adonis.AdonisIcons.ADONIS_TOOL_WINDOW"
     />
-    
-    <!--<runAnything.executionProvider implementation="io.stouder.adonis.execution.AdonisRunAnythingProvider" order="first" />-->
 
     <moduleBuilder
       builderClass="io.stouder.adonis.module.AdonisModuleBuilder"
@@ -90,10 +88,6 @@
   </actions>
 
   <projectListeners>
-    <listener
-      class="io.stouder.adonis.execution.AdonisRunAnythingProvider"
-      topic="io.stouder.adonis.notifier.AdonisRcUpdateNotifier"
-    />
     <listener
       class="io.stouder.adonis.tool_window.content.MakeToolWindowContent"
       topic="io.stouder.adonis.notifier.AdonisRcUpdateNotifier"
