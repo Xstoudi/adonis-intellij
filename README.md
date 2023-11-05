@@ -1,6 +1,6 @@
 # Adonis
 
-![Build][badge:build]
+![Build][badge:build:image]
 [![Version][badge:version:image]][badge:version:url]
 [![Downloads][badge:downloads:image]][badge:downloads:url]
 
