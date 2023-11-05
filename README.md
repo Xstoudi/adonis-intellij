@@ -1,17 +1,17 @@
-# Adonis
+_# Adonis
 ![Build][badge:build:image]
 [![Version][badge:version:image]][badge:version:url]
 [![Downloads][badge:downloads:image]][badge:downloads:url]
 
-<!-- Plugin description -->
-<!-- Plugin description end -->
+
 
 ## Features
-
+<!-- Plugin description -->
 * ✍️ Adonis project initialization wizard
 * 🛣️️ GUI to list routes
 * 📢 GUI to run make: commands
 * 🎨 Syntax highlighting for `.edge` files
+<!-- Plugin description end -->
 
 ## Installation
 
