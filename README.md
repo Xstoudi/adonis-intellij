@@ -1,8 +1,4 @@
 # Adonis
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 ![Build][badge:build:image]
 [![Version][badge:version:image]][badge:version:url]
 [![Downloads][badge:downloads:image]][badge:downloads:url]
@@ -30,6 +26,10 @@
   Download the latest release and install it manually using Settings/Preferences > Plugins > ⚙️ > Install plugin from disk...
 
 ## Contributors
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

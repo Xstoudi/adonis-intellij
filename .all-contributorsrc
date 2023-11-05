@@ -21,6 +21,7 @@
     }
   ],
   "contributorsPerLine": 7,
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/Xstoudi/adonis-intellij)](#contributors)",
   "skipCi": true,
   "repoType": "github",
   "repoHost": "https://github.com",
