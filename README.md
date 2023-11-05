@@ -1,47 +1,44 @@
 # Adonis
 
-![Build](https://github.com/Xstoudi/adonis-intellij/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/io.stouder.adonis.svg)](https://plugins.jetbrains.com/plugin/io.stouder.adonis)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/io.stouder.adonis.svg)](https://plugins.jetbrains.com/plugin/io.stouder.adonis)
-
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [x] Get familiar with the [template documentation][template].
-- [x] Adjust the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [x] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [x] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [x] Set the `PLUGIN_ID` in the above README badges.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+![Build][badge:build]
+[![Version][badge:version:image]][badge:version:url]
+[![Downloads][badge:downloads:image]][badge:downloads:url]
 
 <!-- Plugin description -->
-### Adonis framework support plugin.
-
-
-Features:
-* Project creation
-* List routes
-* GUI to use make: commands
-
 <!-- Plugin description end -->
+
+## Features
+
+* ✍️ Adonis project initialization wizard
+* 🛣️️ GUI to list routes
+* 📢 GUI to run make: commands
+* 🎨 Syntax highlighting for `.edge` files
 
 ## Installation
 
 - Using the IDE built-in plugin system:
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "%NAME%"</kbd> >
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Adonis"</kbd> >
   <kbd>Install</kbd>
 
-- Manually:
 
-  Download the [latest release](https://github.com/%REPOSITORY%/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- Manually
+
+  Download the latest release and install it manually using Settings/Preferences > Plugins > ⚙️ > Install plugin from disk...
+
+## Contributors
 
 
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
+
+[badge:build:image]: https://github.com/Xstoudi/adonis-intellij/workflows/Build/badge.svg
+
+[badge:version:image]: https://img.shields.io/jetbrains/plugin/v/io.stouder.adonis.svg
+[badge:version:url]: https://plugins.jetbrains.com/plugin/io.stouder.adonis
+
+[badge:downloads:image]: https://img.shields.io/jetbrains/plugin/d/io.stouder.adonis.svg
+[badge:downloads:url]: https://plugins.jetbrains.com/plugin/io.stouder.adonis
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
