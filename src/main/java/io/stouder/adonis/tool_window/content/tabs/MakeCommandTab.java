@@ -44,7 +44,6 @@ public class MakeCommandTab extends JPanel {
                 .map(flag -> {
                     JComponent inputComponent = switch (flag.getType()) {
                         case "boolean" -> new JCheckBox();
-                        case "string" -> new JTextField();
                         case "number" -> new JFormattedTextField(this.getNumberFormatter());
                         case "array" -> new JListEditor();
                         case "numArray" -> new JListEditor(this.getNumberFormatter());
@@ -74,7 +73,7 @@ public class MakeCommandTab extends JPanel {
         .collect(LinkedHashMap::new, (m, v) -> m.put(v.getKey(), v.getValue()), LinkedHashMap::putAll);
 
         for (Map.Entry<?, JComponent> entry : entries.entrySet()) {
-            String name = "";
+            String name;
             if (entry.getKey() instanceof CommandArgument) {
                 name = ((CommandArgument) entry.getKey()).getName();
             } else if (entry.getKey() instanceof CommandFlag<?>) {

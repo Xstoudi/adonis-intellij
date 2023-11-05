@@ -8,7 +8,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.LabeledComponent;
-import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.platform.ProjectGeneratorPeer;
 import io.stouder.adonis.AdonisBundle;
@@ -55,12 +54,12 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
     }
 
     @Override
-    public @NlsContexts.DetailedDescription String getDescription() {
+    public String getDescription() {
         return AdonisBundle.message("adonis.project.generator.description");
     }
 
     @Override
-    public @NotNull @NlsContexts.Label String getName() {
+    public @NotNull String getName() {
         return AdonisBundle.message("adonis.project.generator.name");
     }
 
@@ -100,7 +99,8 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
             this.starterKit = new ComboBox<>(
                     Arrays.stream(AdonisStarterKit.values())
                             .map(AdonisStarterKit::getName)
-                            .toArray(String[]::new)
+                            .toList()
+                            .toArray(new String[0])
             );
             panel.add(createLabeledComponent(AdonisBundle.message("adonis.project.generator.starter.kit"), this.starterKit));
 

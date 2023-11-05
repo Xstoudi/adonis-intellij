@@ -7,7 +7,6 @@ import lombok.Getter;
 public enum AdonisStarterKit {
     SLIM("Slim", AdonisBundle.message("adonis.project.generator.template.slim.description"), "github:adonisjs/slim-starter-kit"),
     WEB("Web", AdonisBundle.message("adonis.project.generator.template.web.description"), "github:adonisjs/web-starter-kit"),
-
     API("API", AdonisBundle.message("adonis.project.generator.template.api.description"), "github:adonisjs/api-starter-kit"),
     ;
 
@@ -20,5 +19,4 @@ public enum AdonisStarterKit {
         this.hint = hint;
         this.repositoryUrl = repositoryUrl;
     }
-
 }

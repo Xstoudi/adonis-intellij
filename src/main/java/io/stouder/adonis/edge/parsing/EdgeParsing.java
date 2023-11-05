@@ -129,11 +129,6 @@ public class EdgeParsing {
         return false;
     }
 
-    /**
-     * Eats tokens until it finds the expected token, marking errors along the way.
-     * @param elementType
-     * @return
-     */
     protected void parseLeafTokenGreedy(IElementType elementType) {
         if(this.builder.getTokenType() != elementType) {
             PsiBuilder.Marker unexpectedTokensMarker = builder.mark();

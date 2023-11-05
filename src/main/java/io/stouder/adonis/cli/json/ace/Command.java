@@ -1,9 +1,6 @@
 package io.stouder.adonis.cli.json.ace;
 
 import com.google.gson.*;
-import io.stouder.adonis.cli.json.routes.ClosureRouteHandler;
-import io.stouder.adonis.cli.json.routes.ControllerRouteHandler;
-import io.stouder.adonis.cli.json.routes.RouteHandler;
 import lombok.Getter;
 
 import java.lang.reflect.Type;

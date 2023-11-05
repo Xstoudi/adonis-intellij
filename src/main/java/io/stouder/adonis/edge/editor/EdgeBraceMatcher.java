@@ -7,9 +7,6 @@ import com.intellij.psi.tree.IElementType;
 import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-
 public class EdgeBraceMatcher implements PairedBraceMatcher {
     private static final BracePair[] BRACE_PAIRS = new BracePair[]{
             new BracePair(EdgeTokenTypes.MUSTACHE_OPEN, EdgeTokenTypes.MUSTACHE_CLOSE, true),

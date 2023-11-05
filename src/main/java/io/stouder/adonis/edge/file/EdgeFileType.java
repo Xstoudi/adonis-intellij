@@ -2,8 +2,6 @@ package io.stouder.adonis.edge.file;
 
 import com.intellij.ide.highlighter.XmlLikeFileType;
 import com.intellij.openapi.fileTypes.TemplateLanguageFileType;
-import com.intellij.openapi.util.NlsContexts;
-import com.intellij.openapi.util.NlsSafe;
 import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.AdonisIcons;
 import io.stouder.adonis.edge.EdgeLanguage;
@@ -26,12 +24,12 @@ public class EdgeFileType extends XmlLikeFileType implements TemplateLanguageFil
     }
 
     @Override
-    public @NlsContexts.Label @NotNull String getDescription() {
+    public @NotNull String getDescription() {
         return AdonisBundle.message("adonis.edge.description");
     }
 
     @Override
-    public @NlsSafe @NotNull String getDefaultExtension() {
+    public @NotNull String getDefaultExtension() {
         return "edge";
     }
 

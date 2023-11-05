@@ -97,6 +97,7 @@ public class EdgeFileViewProvider extends MultiplePsiFilesPerDocumentFileViewPro
         return null;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public @Nullable IElementType getContentElementType(@NotNull Language language) {
         if (language.is(this.templateLanguage))

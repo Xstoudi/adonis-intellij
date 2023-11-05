@@ -8,7 +8,6 @@ profile:
   name: qodana.recommended
 plugins:
   - id: Lombook Plugin
-
 exclude:
   - name: All
     paths:
