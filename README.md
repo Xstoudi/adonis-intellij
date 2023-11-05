@@ -1,17 +1,17 @@
-_# Adonis
+# Adonis
 ![Build][badge:build:image]
 [![Version][badge:version:image]][badge:version:url]
 [![Downloads][badge:downloads:image]][badge:downloads:url]
 
-
+<!-- Plugin description -->
+A plugin for JetBrains IDEs that provides support for the [AdonisJS](https://adonisjs.com/) framework.
+<!-- Plugin description end -->
 
 ## Features
-<!-- Plugin description -->
 * ✍️ Adonis project initialization wizard
 * 🛣️️ GUI to list routes
 * 📢 GUI to run make: commands
 * 🎨 Syntax highlighting for `.edge` files
-<!-- Plugin description end -->
 
 ## Installation
 
