@@ -6,10 +6,10 @@
 <p>Support for <a href="https://adonisjs.com/">AdonisJS</a></p>
 <p>Features</p>
 <ul>
-<li>Highlighting for <a href="https://edgejs.dev/">EdgeJS</a></li>
-<li>Adonis project initialization</li>
-<li>Files with the .html extension can be treated as Edge files</li>
-<li>GUI to execute ace commands</li>
+<li>✍️ Adonis project initialization wizard</li>
+<li>🛣️️ GUI to list routes</li>
+<li>📢 GUI to run make: commands</li>
+<li>🎨 Syntax highlighting for `.edge` files</li>
 </ul>]]></description>
 
   <depends>com.intellij.modules.platform</depends>
