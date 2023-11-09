@@ -36,6 +36,7 @@ final class _EdgeLexer implements FlexLexer {
   public static final int COMMENT_MUSTACHE = 10;
   public static final int TAG = 12;
   public static final int TAG_CONTENT = 14;
+  public static final int TAG_CLOSE = 16;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -44,7 +45,8 @@ final class _EdgeLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7, 7
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7,  7, 
+     8, 8
   };
 
   /** 
@@ -75,10 +77,10 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\10\0\3\1\5\2\2\3\2\4\1\5\2\6\1\0"+
-    "\1\7\1\0\1\10\1\11\1\0\1\12\2\0\2\13"+
-    "\1\14\1\15\1\0\1\16\1\17\1\0\1\20\1\21"+
-    "\1\22";
+    "\11\0\3\1\5\2\2\3\2\4\1\5\1\6\1\7"+
+    "\1\10\1\0\1\11\1\0\1\12\1\13\1\0\1\14"+
+    "\2\0\1\15\1\16\1\0\1\17\1\20\1\0\1\21"+
+    "\1\22\1\23";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[43];
@@ -107,11 +109,11 @@ final class _EdgeLexer implements FlexLexer {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\15\0\32\0\47\0\64\0\101\0\116\0\133"+
-    "\0\150\0\165\0\202\0\150\0\217\0\234\0\251\0\266"+
-    "\0\150\0\303\0\150\0\320\0\150\0\150\0\335\0\352"+
-    "\0\352\0\367\0\u0104\0\150\0\u0111\0\150\0\u011e\0\u012b"+
-    "\0\150\0\u0138\0\u0145\0\150\0\u0152\0\150\0\150\0\u015f"+
-    "\0\150\0\150\0\150";
+    "\0\150\0\165\0\202\0\217\0\165\0\234\0\251\0\266"+
+    "\0\303\0\165\0\320\0\165\0\335\0\165\0\165\0\165"+
+    "\0\165\0\352\0\352\0\367\0\u0104\0\165\0\u0111\0\165"+
+    "\0\u011e\0\u012b\0\u0138\0\165\0\u0145\0\165\0\165\0\u0152"+
+    "\0\165\0\165\0\165";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[43];
@@ -137,19 +139,18 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\11\1\12\5\11\1\13\5\11\14\14\1\15\14\14"+
-    "\1\16\14\14\1\17\14\14\1\20\10\21\1\22\4\21"+
-    "\4\0\2\23\1\24\2\0\1\25\3\0\12\26\1\27"+
-    "\1\0\1\26\17\0\1\30\1\31\3\0\1\32\3\0"+
-    "\1\31\10\0\1\33\21\0\1\34\14\0\1\35\14\0"+
-    "\1\36\14\0\1\37\10\0\1\40\11\0\1\23\13\0"+
-    "\2\41\1\42\11\0\1\31\7\0\1\31\10\0\1\43"+
-    "\14\0\1\44\1\45\20\0\1\46\14\0\1\47\14\0"+
-    "\1\50\5\0\1\41\16\0\1\51\15\0\1\52\20\0"+
-    "\1\53";
+    "\1\12\1\13\5\12\1\14\5\12\14\15\1\16\14\15"+
+    "\1\17\14\15\1\20\14\15\1\21\10\22\1\23\4\22"+
+    "\4\0\2\24\1\25\2\0\1\26\3\0\11\27\1\30"+
+    "\1\31\1\0\1\27\4\0\2\24\1\25\25\0\1\32"+
+    "\1\33\3\0\1\34\3\0\1\33\10\0\1\35\21\0"+
+    "\1\36\14\0\1\37\14\0\1\40\14\0\1\41\10\0"+
+    "\1\42\11\0\1\24\12\0\1\33\7\0\1\33\10\0"+
+    "\1\43\14\0\1\44\1\45\20\0\1\46\14\0\1\47"+
+    "\14\0\1\50\7\0\1\51\15\0\1\52\20\0\1\53";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[364];
+    int [] result = new int[351];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -187,10 +188,9 @@ final class _EdgeLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\10\0\1\11\2\1\1\11\4\1\1\11\1\1\1\11"+
-    "\1\1\2\11\1\1\1\0\1\1\1\0\1\1\1\11"+
-    "\1\0\1\11\2\0\1\11\2\1\1\11\1\0\2\11"+
-    "\1\0\3\11";
+    "\11\0\1\11\2\1\1\11\4\1\1\11\1\1\1\11"+
+    "\1\1\4\11\1\0\1\1\1\0\1\1\1\11\1\0"+
+    "\1\11\2\0\1\1\1\11\1\0\2\11\1\0\3\11";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[43];
@@ -250,6 +250,7 @@ final class _EdgeLexer implements FlexLexer {
 
   /* user code: */
     private Stack<Integer> stack = new Stack<>();
+    private int tagParenLevel;
 
     public void yypushState(int newState) {
       stack.push(yystate());
@@ -509,101 +510,111 @@ final class _EdgeLexer implements FlexLexer {
             { return EdgeTokenTypes.CONTENT;
             } 
             // fall through
-          case 19: break;
+          case 20: break;
           case 2: 
             { return EdgeTokenTypes.MUSTACHE_CONTENT;
             } 
             // fall through
-          case 20: break;
+          case 21: break;
           case 3: 
             { return EdgeTokenTypes.COMMENT_MUSTACHE_CONTENT;
             } 
             // fall through
-          case 21: break;
+          case 22: break;
           case 4: 
             { yybegin(YYINITIAL);
         return  EdgeTokenTypes.NEWLINE;
             } 
             // fall through
-          case 22: break;
+          case 23: break;
           case 5: 
             { yybegin(TAG_CONTENT);
+        tagParenLevel = 1;
         return EdgeTokenTypes.TAG_CONTENT_OPEN;
             } 
             // fall through
-          case 23: break;
+          case 24: break;
           case 6: 
             { return EdgeTokenTypes.TAG_CONTENT;
             } 
             // fall through
-          case 24: break;
+          case 25: break;
           case 7: 
+            { tagParenLevel++;
+        return EdgeTokenTypes.TAG_CONTENT;
+            } 
+            // fall through
+          case 26: break;
+          case 8: 
+            { if (--tagParenLevel <= 0) {
+            yybegin(TAG_CLOSE);
+            return EdgeTokenTypes.TAG_CONTENT_CLOSE;
+        }
+        return EdgeTokenTypes.TAG_CONTENT;
+            } 
+            // fall through
+          case 27: break;
+          case 9: 
             { yybegin(TAG);
         return EdgeTokenTypes.TAG_NAME;
             } 
             // fall through
-          case 25: break;
-          case 8: 
+          case 28: break;
+          case 10: 
             { yypushState(MUSTACHE);
         return EdgeTokenTypes.MUSTACHE_OPEN;
             } 
             // fall through
-          case 26: break;
-          case 9: 
+          case 29: break;
+          case 11: 
             { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE;
             } 
             // fall through
-          case 27: break;
-          case 10: 
+          case 30: break;
+          case 12: 
             { yypopState(); return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE;
             } 
             // fall through
-          case 28: break;
-          case 11: 
-            { yybegin(YYINITIAL);
-        return EdgeTokenTypes.TAG_CONTENT_CLOSE;
-            } 
-            // fall through
-          case 29: break;
-          case 12: 
+          case 31: break;
+          case 13: 
             { yypushState(ESCAPED_MUSTACHE);
         return EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN;
             } 
             // fall through
-          case 30: break;
-          case 13: 
+          case 32: break;
+          case 14: 
             { yypushState(SAFE_MUSTACHE);
         return EdgeTokenTypes.SAFE_MUSTACHE_OPEN;
             } 
             // fall through
-          case 31: break;
-          case 14: 
+          case 33: break;
+          case 15: 
             { yypopState(); return EdgeTokenTypes.SAFE_MUSTACHE_CLOSE;
             } 
             // fall through
-          case 32: break;
-          case 15: 
+          case 34: break;
+          case 16: 
             { yypopState(); return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE;
             } 
             // fall through
-          case 33: break;
-          case 16: 
+          case 35: break;
+          case 17: 
             { yypushState(ESCAPED_SAFE_MUSTACHE);
         return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
             } 
             // fall through
-          case 34: break;
-          case 17: 
+          case 36: break;
+          case 18: 
             { yypushState(COMMENT_MUSTACHE);
         return EdgeTokenTypes.COMMENT_MUSTACHE_OPEN;
             } 
             // fall through
-          case 35: break;
-          case 18: 
+          case 37: break;
+          case 19: 
             { yypopState(); return EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE;
             } 
             // fall through
-          case 36: break;
+          case 38: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

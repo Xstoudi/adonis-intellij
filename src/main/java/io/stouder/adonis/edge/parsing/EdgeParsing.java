@@ -109,8 +109,9 @@ public class EdgeParsing {
         IElementType nextToken = this.builder.getTokenType();
         if(nextToken == EdgeTokenTypes.TAG_CONTENT_OPEN) {
             this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT_OPEN);
-            this.parseLeafTokenGreedy(EdgeTokenTypes.TAG_CONTENT);
-            this.parseLeafTokenGreedy(EdgeTokenTypes.TAG_CONTENT_CLOSE);
+            this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT);
+            this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT_CLOSE);
+            this.parseLeafToken(EdgeTokenTypes.NEWLINE);
         } else if(nextToken == EdgeTokenTypes.NEWLINE) {
             this.parseLeafToken(EdgeTokenTypes.NEWLINE);
         } else {

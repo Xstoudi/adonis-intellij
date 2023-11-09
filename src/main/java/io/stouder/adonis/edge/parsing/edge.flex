@@ -22,6 +22,7 @@ import com.intellij.util.containers.Stack;
 
 %{
     private Stack<Integer> stack = new Stack<>();
+    private int tagParenLevel;
 
     public void yypushState(int newState) {
       stack.push(yystate());
@@ -43,7 +44,7 @@ CRLF = \R
 %state COMMENT_MUSTACHE
 %state TAG
 %state TAG_CONTENT
-
+%state TAG_CLOSE
 
 %%
 
@@ -79,6 +80,7 @@ CRLF = \R
 <TAG> {
     "(" {
         yybegin(TAG_CONTENT);
+        tagParenLevel = 1;
         return EdgeTokenTypes.TAG_CONTENT_OPEN;
     }
     {CRLF} {
@@ -87,11 +89,25 @@ CRLF = \R
     }
 }
 <TAG_CONTENT> {
-    [)]{CRLF} {
-        yybegin(YYINITIAL);
-        return EdgeTokenTypes.TAG_CONTENT_CLOSE;
+    ")" {
+        if (--tagParenLevel <= 0) {
+            yybegin(TAG_CLOSE);
+            return EdgeTokenTypes.TAG_CONTENT_CLOSE;
+        }
+        return EdgeTokenTypes.TAG_CONTENT;
+    }
+    "(" {
+        tagParenLevel++;
+        return EdgeTokenTypes.TAG_CONTENT;
     }
     [^\R] { return EdgeTokenTypes.TAG_CONTENT; }
+}
+
+<TAG_CLOSE> {
+    {CRLF} {
+        yybegin(YYINITIAL);
+        return  EdgeTokenTypes.NEWLINE;
+    }
 }
 
 <ESCAPED_SAFE_MUSTACHE> {
