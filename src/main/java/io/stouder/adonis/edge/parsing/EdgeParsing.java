@@ -1,7 +1,6 @@
 package io.stouder.adonis.edge.parsing;
 
 import com.intellij.lang.PsiBuilder;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 
 public class EdgeParsing {
