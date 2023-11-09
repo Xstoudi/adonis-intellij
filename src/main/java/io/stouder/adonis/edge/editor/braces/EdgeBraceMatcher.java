@@ -1,4 +1,4 @@
-package io.stouder.adonis.edge.editor;
+package io.stouder.adonis.edge.editor.braces;
 
 import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
