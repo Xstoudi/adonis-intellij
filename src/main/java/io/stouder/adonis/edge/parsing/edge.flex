@@ -43,7 +43,6 @@ CRLF = \R
 %state COMMENT_MUSTACHE
 %state TAG
 %state TAG_CONTENT
-%state TAG_CLOSED
 
 
 %%
@@ -82,20 +81,17 @@ CRLF = \R
         yybegin(TAG_CONTENT);
         return EdgeTokenTypes.TAG_CONTENT_OPEN;
     }
+    {CRLF} {
+        yybegin(YYINITIAL);
+        return  EdgeTokenTypes.NEWLINE;
+    }
 }
 <TAG_CONTENT> {
-    ")" {
-        yybegin(TAG_CLOSED);
+    [)]{CRLF} {
+        yybegin(YYINITIAL);
         return EdgeTokenTypes.TAG_CONTENT_CLOSE;
     }
     [^\R] { return EdgeTokenTypes.TAG_CONTENT; }
-}
-
-<TAG, TAG_CLOSED> {
-    {CRLF} {
-        yybegin(YYINITIAL);
-        return EdgeTokenTypes.NEWLINE;
-    }
 }
 
 <ESCAPED_SAFE_MUSTACHE> {

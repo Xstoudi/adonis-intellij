@@ -1,6 +1,7 @@
 package io.stouder.adonis.edge.parsing;
 
 import com.intellij.lang.PsiBuilder;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 
 public class EdgeParsing {
@@ -103,18 +104,22 @@ public class EdgeParsing {
     }
 
     protected void parseTag() {
-        PsiBuilder.Marker mustacheMarker = this.builder.mark();
+        PsiBuilder.Marker tagMarker = this.builder.mark();
 
         this.parseLeafToken(EdgeTokenTypes.TAG_NAME);
-        if(this.builder.getTokenType() == EdgeTokenTypes.TAG_CONTENT_OPEN) {
+        IElementType nextToken = this.builder.getTokenType();
+        if(nextToken == EdgeTokenTypes.TAG_CONTENT_OPEN) {
             this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT_OPEN);
-            this.parseLeafToken(EdgeTokenTypes.TAG_CONTENT);
+            this.parseLeafTokenGreedy(EdgeTokenTypes.TAG_CONTENT);
             this.parseLeafTokenGreedy(EdgeTokenTypes.TAG_CONTENT_CLOSE);
+        } else if(nextToken == EdgeTokenTypes.NEWLINE) {
+            this.parseLeafToken(EdgeTokenTypes.NEWLINE);
+        } else {
+            tagMarker.error("Unexpected token: " + nextToken);
+            return;
         }
 
-        this.parseLeafToken(EdgeTokenTypes.NEWLINE);
-
-        mustacheMarker.done(EdgeTokenTypes.TAG);
+        tagMarker.done(EdgeTokenTypes.TAG);
     }
 
     protected boolean parseLeafToken(IElementType leafTokenType) {
@@ -125,7 +130,7 @@ public class EdgeParsing {
             return true;
         }
 
-        leafTokenMark.error("Unexpected token: " + leafTokenType.toString());
+        leafTokenMark.error("Expected token: " + leafTokenType.toString());
         return false;
     }
 
@@ -135,7 +140,7 @@ public class EdgeParsing {
             while(!this.builder.eof() && this.builder.getTokenType() != elementType) {
                 this.builder.advanceLexer();
             }
-            unexpectedTokensMarker.error("Unexpected token: " + elementType.toString());
+            unexpectedTokensMarker.error("Expected token: " + elementType.toString());
         }
 
         if(!this.builder.eof() && builder.getTokenType() == elementType) {
