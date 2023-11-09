@@ -7,6 +7,9 @@
 A plugin for JetBrains IDEs that provides support for the [AdonisJS](https://adonisjs.com/) framework.
 <!-- Plugin description end -->
 
+## ⚠️ Warning ⚠️
+This plugin is still in active development. You may encounter bugs and missing features. Please report any issues you find, or better yet, submit a pull request!
+
 ## Features
 * ✍️ Adonis project initialization wizard
 * 🛣️️ GUI to list routes
