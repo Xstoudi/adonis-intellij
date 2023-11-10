@@ -62,10 +62,10 @@ Plugin based on the [IntelliJ Platform Plugin Template][template].
 [badge:build:image]: https://github.com/Xstoudi/adonis-intellij/workflows/Build/badge.svg
 
 [badge:version:image]: https://img.shields.io/jetbrains/plugin/v/io.stouder.adonis.svg
-[badge:version:url]: https://plugins.jetbrains.com/plugin/io.stouder.adonis
+[badge:version:url]: https://plugins.jetbrains.com/plugin/22932-adonis
 
 [badge:downloads:image]: https://img.shields.io/jetbrains/plugin/d/io.stouder.adonis.svg
-[badge:downloads:url]: https://plugins.jetbrains.com/plugin/io.stouder.adonis
+[badge:downloads:url]: https://plugins.jetbrains.com/plugin/22932-adonis/versions
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 [docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
