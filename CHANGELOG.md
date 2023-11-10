@@ -1,7 +1,8 @@
 # Adonis Changelog
 
 ## [Unreleased]
-- Fix tag closing parenthesis detection in `.edge` files (6fde3cbcd015eca751ab95e784ee4382ba33a63a)
+- Fix tag closing parenthesis detection in `.edge` files (#12)
+- Support Adonis project initialization (#1) 
 
 ## [0.1.0]
 ### Added

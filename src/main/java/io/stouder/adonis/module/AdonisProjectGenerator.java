@@ -10,6 +10,7 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.LabeledComponent;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.platform.ProjectGeneratorPeer;
+import com.intellij.ui.components.JBCheckBox;
 import io.stouder.adonis.AdonisBundle;
 import io.stouder.adonis.AdonisIcons;
 import org.jetbrains.annotations.NotNull;
@@ -71,16 +72,15 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
     @Override
     protected String[] generatorArgs(Project project, VirtualFile baseDir, Settings settings) {
         String workingDirectory = generateInTemp() ? baseDir.getName() : ".";
-        String template = settings.getUserData(AdonisSettingsKeys.STARTER_KIT);
-        if(template == null) {
-            template = AdonisStarterKit.SLIM.getRepositoryUrl();
-        }
+        String template = AdonisSettings.extractStarterKit(settings);
+        Boolean installDependencies = AdonisSettings.extractInstallDependencies(settings);
+        Boolean initializeGit = AdonisSettings.extractInitializeGit(settings);
         return new String[] {
                 workingDirectory,
                 "--kit",
                 template,
-                "--no-skip-install",
-                "--no-skip-git-init"
+                "--" + (installDependencies ? "" : "no-") + "install",
+                "--" + (initializeGit ? "" : "no-") + "git-init"
         };
     }
 
@@ -92,6 +92,8 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
     class CreatePeer extends NpmPackageGeneratorPeer {
 
         private ComboBox<String> starterKit;
+        private JBCheckBox installDependencies;
+        private JBCheckBox initializeGit;
 
         @Override
         protected JPanel createPanel() {
@@ -102,7 +104,12 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
                             .toList()
                             .toArray(new String[0])
             );
+            this.installDependencies = new JBCheckBox(AdonisBundle.message("adonis.project.generator.install.dependencies"));
+            this.initializeGit = new JBCheckBox(AdonisBundle.message("adonis.project.generator.initialize.git"));
+
             panel.add(createLabeledComponent(AdonisBundle.message("adonis.project.generator.starter.kit"), this.starterKit));
+            panel.add(createLabeledComponent(AdonisBundle.message("adonis.project.generator.options"), this.installDependencies));
+            panel.add(createLabeledComponent("", this.initializeGit));
 
             return panel;
         }
@@ -111,6 +118,18 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
         public void buildUI(@NotNull SettingsStep settingsStep) {
             super.buildUI(settingsStep);
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.starter.kit"), this.starterKit);
+            settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.options"), this.installDependencies);
+            settingsStep.addSettingsComponent(this.initializeGit);
+        }
+
+        @Override
+        @NotNull
+        public Settings getSettings() {
+            Settings settings = super.getSettings();
+            settings.putUserData(AdonisSettings.STARTER_KIT, this.starterKit.getSelectedItem().toString());
+            settings.putUserData(AdonisSettings.INSTALL_DEPENDENCIES, this.installDependencies.isSelected());
+            settings.putUserData(AdonisSettings.INITIALIZE_GIT, this.initializeGit.isSelected());
+            return settings;
         }
 
         private LabeledComponent<JComponent> createLabeledComponent(String text, JComponent component) {
