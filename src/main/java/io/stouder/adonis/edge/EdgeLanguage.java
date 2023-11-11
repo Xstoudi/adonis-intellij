@@ -19,7 +19,11 @@ public class EdgeLanguage extends Language implements TemplateLanguage, Injectab
     }
 
     public EdgeLanguage() {
-        super(HTMLLanguage.INSTANCE, "Edge");
+        super("Edge");
+    }
+
+    public EdgeLanguage(@Nullable Language baseLanguage, @NotNull String ID, String... mimeTypes) {
+        super(baseLanguage, ID, mimeTypes);
     }
 
     @Override

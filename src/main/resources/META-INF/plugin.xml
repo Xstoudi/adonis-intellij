@@ -41,9 +41,10 @@
     <lang.parserDefinition language="Edge" implementationClass="io.stouder.adonis.edge.parsing.EdgeParserDefinition" />
     <lang.ast.factory language="Edge" implementationClass="io.stouder.adonis.edge.parsing.EdgeAstFactory" />
     <lang.fileViewProviderFactory language="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeFileViewProviderFactory" />
-    <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.EdgeBraceMatcher" />
+    <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.braces.EdgeBraceMatcher" />
     <lang.syntaxHighlighter language="Edge" implementationClass="io.stouder.adonis.edge.highlight.EdgeHighlighter" />
     <editorHighlighterProvider filetype="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeHighlighterProvider" />
+    <xml.zenCodingGenerator implementation="io.stouder.adonis.edge.editor.templates.EdgeEmmetGenerator" />
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"
       id="adonis"
