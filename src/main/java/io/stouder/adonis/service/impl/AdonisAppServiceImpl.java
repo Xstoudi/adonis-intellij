@@ -22,13 +22,9 @@ public class AdonisAppServiceImpl implements AdonisAppService {
     }
 
     public boolean isAdonisProject() {
-        String projectBasePath = this.project.getBasePath();
-        if(projectBasePath == null) {
-            return false;
-        }
-        String adonisrcFilePath = FileUtil.toSystemIndependentName(projectBasePath + "/adonisrc.ts");
-        File adonisrcFile = new File(adonisrcFilePath);
-        return adonisrcFile.exists();
+        return this.getAdonisRoots()
+                .stream()
+                .anyMatch(this::isAdonisModule);
     }
 
     public List<String> getAdonisRoots() {

@@ -10,6 +10,8 @@ import io.stouder.adonis.service.AdonisAceService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class RefreshRoutesAction extends AnAction {
 
@@ -20,8 +22,10 @@ public class RefreshRoutesAction extends AnAction {
 
         e.getPresentation().setEnabled(false);
         AdonisRouteUpdateNotifier publisher = project.getMessageBus().syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC);
-        RouteDomain[] routeDomains = AdonisAceService.getInstance(project).runAceCommand(
-                AdonisBundle.message("adonis.actions.refresh.routes"), List.of("list:routes", "--json"), RouteDomain[].class
+        Map<String, Optional<RouteDomain[]>> routeDomains = AdonisAceService.getInstance(project).runAceGetCommand(
+                AdonisBundle.message("adonis.actions.refresh.routes"),
+                List.of("list:routes", "--json"),
+                RouteDomain[].class
         );
         publisher.routes(routeDomains);
         e.getPresentation().setEnabled(true);

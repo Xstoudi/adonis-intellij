@@ -12,11 +12,15 @@ import com.intellij.openapi.project.Project;
 import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.routes.RouteHandler;
 import io.stouder.adonis.service.AdonisAceService;
+import io.stouder.adonis.service.AdonisAppService;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class AdonisAceServiceImpl implements AdonisAceService {
 
@@ -26,12 +30,72 @@ public class AdonisAceServiceImpl implements AdonisAceService {
     private final Project project;
 
     public AdonisAceServiceImpl(Project project) {
-        this.project = project;
-
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(RouteHandler.class, new RouteHandler.Deserializer());
         gsonBuilder.registerTypeAdapter(Command.class, new Command.Deserializer());
         this.gson = gsonBuilder.create();
+        this.project = project;
+
+    }
+
+    @Override
+    public <T> Map<String, Optional<T>> runAceGetCommand(String progressTitle, List<String> parameters, Class<T> responseType) {
+        List<String> params = new ArrayList<>(parameters);
+        params.add(0, "ace");
+
+        return ProgressManager.getInstance().runProcessWithProgressSynchronously(
+                () -> AdonisAppService.getInstance(this.project).getAdonisRoots()
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        basePath -> basePath,
+                                        basePath -> {
+                                            try {
+                                                GeneralCommandLine commandLine = new GeneralCommandLine()
+                                                        .withExePath("node")
+                                                        .withWorkDirectory(basePath)
+                                                        .withParameters(params);
+                                                String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
+                                                return Optional.of(gson.fromJson(jsonOutput, responseType));
+                                            } catch (ExecutionException e) {
+                                                return Optional.empty();
+                                            }
+                                        }
+                                )
+                        ),
+                progressTitle,
+                true,
+                this.project
+        );
+    }
+
+    @Override
+    public <T> void runAceGetCommandAsync(Consumer<Map<String, Optional<T>>> callback, List<String> parameters, Class<T> responseType) {
+        List<String> params = new ArrayList<>(parameters);
+        params.add(0, "ace");
+
+        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            Map<String, Optional<T>> result = AdonisAppService.getInstance(this.project).getAdonisRoots()
+                    .stream()
+                    .collect(
+                            Collectors.toMap(
+                                    basePath -> basePath,
+                                    basePath -> {
+                                        try {
+                                            GeneralCommandLine commandLine = new GeneralCommandLine()
+                                                    .withExePath("node")
+                                                    .withWorkDirectory(basePath)
+                                                    .withParameters(params);
+                                            String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
+                                            return Optional.of(gson.fromJson(jsonOutput, responseType));
+                                        } catch (ExecutionException e) {
+                                            return Optional.empty();
+                                        }
+                                    }
+                            )
+                    );
+            callback.accept(result);
+        });
     }
 
     @Override

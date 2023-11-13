@@ -14,7 +14,11 @@ import lombok.Getter;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RoutesToolWindowContent implements AdonisRouteUpdateNotifier {
 
@@ -47,7 +51,7 @@ public class RoutesToolWindowContent implements AdonisRouteUpdateNotifier {
     }
 
     private void buildTable() {
-        TableModel model = new RoutesTableModel(java.util.List.of());
+        TableModel model = new RoutesTableModel(Map.of());
 
         this.routesTable.setModel(model);
         this.routesTable.setRowHeight(30);
@@ -57,9 +61,20 @@ public class RoutesToolWindowContent implements AdonisRouteUpdateNotifier {
     }
 
     @Override
-    public void routes(RouteDomain[] routes) {
+    public void routes(Map<String, Optional<RouteDomain[]>> routes) {
         if (routes == null) return;
-        TableModel model = new RoutesTableModel(List.of(routes));
+        TableModel model = new RoutesTableModel(
+                routes
+                        .entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().isPresent())
+                        .collect(
+                                Collectors.toMap(
+                                        Map.Entry::getKey,
+                                        entry -> List.of(entry.getValue().get())
+                                )
+                        )
+        );
         this.routesTable.setModel(model);
     }
 }

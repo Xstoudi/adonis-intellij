@@ -5,14 +5,20 @@ import io.stouder.adonis.cli.json.routes.ClosureRouteHandler;
 import io.stouder.adonis.cli.json.routes.ControllerRouteHandler;
 import io.stouder.adonis.cli.json.routes.RouteDomain;
 import io.stouder.adonis.cli.json.routes.RouteHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.table.AbstractTableModel;
+import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RoutesTableModel extends AbstractTableModel {
 
     private final String[] columnNames = {
+            "Module",
             AdonisBundle.message("adonis.routes.columns.domain"),
             AdonisBundle.message("adonis.routes.columns.method"),
             AdonisBundle.message("adonis.routes.columns.route"),
@@ -20,11 +26,15 @@ public class RoutesTableModel extends AbstractTableModel {
             AdonisBundle.message("adonis.routes.columns.middleware")
     };
 
+    private final int moduleCount;
+    private final int ignoreColumns;
     private final List<Row> rows;
 
-    public RoutesTableModel(List<RouteDomain> domains) {
+    public RoutesTableModel(Map<String, List<RouteDomain>> modules) {
         super();
-        this.rows = this.generateRows(domains);
+        this.moduleCount = modules.size();
+        this.ignoreColumns = this.moduleCount > 1 ? 0 : 1;
+        this.rows = this.generateRows(modules);
     }
 
 
@@ -35,7 +45,7 @@ public class RoutesTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return this.columnNames.length;
+        return this.columnNames.length - this.ignoreColumns;
     }
 
     @Override
@@ -43,34 +53,41 @@ public class RoutesTableModel extends AbstractTableModel {
         if(rowIndex < 0 || rowIndex >= this.rows.size()) {
             return "MISSING";
         }
-        return this.rows.get(rowIndex).getColValue(columnIndex);
+        return this.rows.get(rowIndex).getColValue(columnIndex + this.ignoreColumns);
     }
 
     @Override
     public String getColumnName(int column) {
-        return this.columnNames[column];
+        return this.columnNames[column + this.ignoreColumns];
     }
 
     public Class<?> getColumnClass(int columnIndex) {
         return String.class;
     }
 
-    private List<Row> generateRows(List<RouteDomain> domains) {
-        return domains
+    private List<Row> generateRows(Map<String, List<RouteDomain>> modules) {
+        return modules
+                .entrySet()
                 .stream()
-                .flatMap(domain ->
-                        domain.getRoutes().stream().flatMap(route ->
-                                route.getMethods().stream().map(method ->
-                                        new Row(
-                                                domain.getDomain(),
-                                                method,
-                                                route.getPattern() + (route.getName().isEmpty() ? "" : " (" + route.getName() + ")"),
-                                                route.getHandler() instanceof ClosureRouteHandler ? "closure" : ((ControllerRouteHandler) route.getHandler()).getModuleNameOrPath() + "." + ((ControllerRouteHandler) route.getHandler()).getMethod(),
-                                                String.join(", ", route.getMiddleware())
-                                        )
-                                )
-                        )
+                .flatMap(entry ->
+                    entry.getValue()
+                            .stream()
+                            .flatMap(domain ->
+                                    domain.getRoutes().stream().flatMap(route ->
+                                            route.getMethods().stream().map(method ->
+                                                    new Row(
+                                                            Path.of(entry.getKey()).getFileName().toString(),
+                                                            domain.getDomain(),
+                                                            method,
+                                                            route.getPattern() + (route.getName().isEmpty() ? "" : " (" + route.getName() + ")"),
+                                                            route.getHandler() instanceof ClosureRouteHandler ? "closure" : ((ControllerRouteHandler) route.getHandler()).getModuleNameOrPath() + "." + ((ControllerRouteHandler) route.getHandler()).getMethod(),
+                                                            String.join(", ", route.getMiddleware())
+                                                    )
+                                            )
+                                    )
+                            )
                 )
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -84,21 +101,34 @@ public class RoutesTableModel extends AbstractTableModel {
     }
 
     private record Row(
+        String module,
         String domain,
         String method,
         String route,
         String handler,
         String middleware
-    ) {
+    ) implements Comparable<Row> {
         public String getColValue(int columnIndex) {
             return switch (columnIndex) {
-                case 0 -> this.domain;
-                case 1 -> this.method;
-                case 2 -> this.route;
-                case 3 -> this.handler;
-                case 4 -> this.middleware;
+                case 0 -> this.module;
+                case 1 -> this.domain;
+                case 2 -> this.method;
+                case 3 -> this.route;
+                case 4 -> this.handler;
+                case 5 -> this.middleware;
                 default -> null;
             };
+        }
+
+        @Override
+        public int compareTo(@NotNull RoutesTableModel.Row other) {
+            return Comparator.comparing(Row::module)
+                    .thenComparing(Row::domain)
+                    .thenComparing(Row::route)
+                    .thenComparing(Row::method)
+                    .thenComparing(Row::handler)
+                    .thenComparing(Row::middleware)
+                    .compare(this, other);
         }
     }
 }
