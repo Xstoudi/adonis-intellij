@@ -119,4 +119,7 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+### Codegen ###
+src/main/gen
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all
