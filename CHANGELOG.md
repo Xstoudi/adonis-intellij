@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- Support multiples Adonis projects under separate modules
+- Update `.edge` file icon
+- Full and proper support for Emmet abbreviations in `.edge` files
+
+
 ## [0.2.0] - 2023-11-10
 
 - Fix tag closing parenthesis detection in `.edge` files (#12)
