@@ -1,10 +1,11 @@
-package io.stouder.adonis.service;
+package io.stouder.adonis.service.impl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import io.stouder.adonis.service.AdonisAppService;
 
 import java.io.File;
 import java.util.Arrays;

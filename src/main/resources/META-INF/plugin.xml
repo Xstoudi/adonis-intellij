@@ -19,9 +19,9 @@
   <resource-bundle>messages.AdonisBundle</resource-bundle>
 
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="io.stouder.adonis.service.AdonisAppServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAppService" />
-    <projectService serviceImplementation="io.stouder.adonis.service.AdonisRouteServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisRouteService" />
-    <projectService serviceImplementation="io.stouder.adonis.service.AdonisAceServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAceService" />
+    <projectService serviceImplementation="io.stouder.adonis.service.impl.AdonisAppServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAppService" />
+    <projectService serviceImplementation="io.stouder.adonis.service.impl.AdonisRouteServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisRouteService" />
+    <projectService serviceImplementation="io.stouder.adonis.service.impl.AdonisAceServiceImpl" serviceInterface="io.stouder.adonis.service.AdonisAceService" />
 
     <postStartupActivity implementation="io.stouder.adonis.activity.InitRoutesActivity" />
     <postStartupActivity implementation="io.stouder.adonis.activity.InitCommandsActivity" />
