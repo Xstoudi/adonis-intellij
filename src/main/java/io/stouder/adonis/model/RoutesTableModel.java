@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.table.AbstractTableModel;
 import java.nio.file.Path;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,14 +25,12 @@ public class RoutesTableModel extends AbstractTableModel {
             AdonisBundle.message("adonis.routes.columns.middleware")
     };
 
-    private final int moduleCount;
     private final int ignoreColumns;
     private final List<Row> rows;
 
     public RoutesTableModel(Map<String, List<RouteDomain>> modules) {
         super();
-        this.moduleCount = modules.size();
-        this.ignoreColumns = this.moduleCount > 1 ? 0 : 1;
+        this.ignoreColumns = modules.size() > 1 ? 0 : 1;
         this.rows = this.generateRows(modules);
     }
 

@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
 
@@ -126,7 +127,7 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
         @NotNull
         public Settings getSettings() {
             Settings settings = super.getSettings();
-            settings.putUserData(AdonisSettings.STARTER_KIT, this.starterKit.getSelectedItem().toString());
+            settings.putUserData(AdonisSettings.STARTER_KIT, Optional.ofNullable(this.starterKit.getSelectedItem()).orElse(AdonisStarterKit.API).toString());
             settings.putUserData(AdonisSettings.INSTALL_DEPENDENCIES, this.installDependencies.isSelected());
             settings.putUserData(AdonisSettings.INITIALIZE_GIT, this.initializeGit.isSelected());
             return settings;

@@ -14,7 +14,6 @@ import lombok.Getter;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
