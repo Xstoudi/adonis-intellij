@@ -56,7 +56,7 @@ public class AdonisAceServiceImpl implements AdonisAceService {
                                                         .withWorkDirectory(basePath)
                                                         .withParameters(params);
                                                 String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
-                                                return Optional.of(gson.fromJson(jsonOutput, responseType));
+                                                return Optional.ofNullable(gson.fromJson(jsonOutput, responseType));
                                             } catch (ExecutionException e) {
                                                 return Optional.empty();
                                             }
@@ -87,7 +87,8 @@ public class AdonisAceServiceImpl implements AdonisAceService {
                                                     .withWorkDirectory(basePath)
                                                     .withParameters(params);
                                             String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
-                                            return Optional.of(gson.fromJson(jsonOutput, responseType));
+                                            System.out.println(basePath + " " + jsonOutput);
+                                            return Optional.ofNullable(gson.fromJson(jsonOutput, responseType));
                                         } catch (ExecutionException e) {
                                             return Optional.empty();
                                         }
@@ -187,8 +188,8 @@ public class AdonisAceServiceImpl implements AdonisAceService {
     }
 
     @Override
-    public void fetchCommands(Consumer<Command[]> callback) {
+    public void fetchCommands(Consumer<Map<String, Optional<Command[]>>> callback) {
         AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
-        adonisAceService.runAceCommandAsync(callback, List.of("list","--json"), Command[].class);
+        adonisAceService.runAceGetCommandAsync(callback, List.of("list","--json"), Command[].class);
     }
 }

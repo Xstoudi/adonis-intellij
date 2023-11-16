@@ -21,5 +21,5 @@ public interface AdonisAceService {
 
     <T> void runAceCommandAsync(Consumer<T> callback, List<String> parameters, Class<T> responseType);
     void runAceCommandAsync(BooleanConsumer callback, List<String> parameters);
-    void fetchCommands(Consumer<Command[]> callback);
+    void fetchCommands(Consumer<Map<String, Optional<Command[]>>> callback);
 }
