@@ -5,7 +5,8 @@
 - Support multiples Adonis projects under separate modules (#14)
 - Update `.edge` file icon
 - Full and proper support for Emmet abbreviations in `.edge` files
-- Fix tool window icon size when selected 
+- Fix tool window icon size when selected
+- Bug fix on list editor
 
 ## [0.2.0] - 2023-11-10
 
