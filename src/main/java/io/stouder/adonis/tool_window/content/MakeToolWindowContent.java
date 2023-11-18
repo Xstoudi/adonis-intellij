@@ -58,7 +58,7 @@ public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
                 String commandNameWithoutNamespace = StringUtil.capitalize(
                         command.getCommandName().replace("make:", "")
                 );
-                tabbedPane.addTab(commandNameWithoutNamespace, new MakeCommandTab(command, project));
+                tabbedPane.addTab(commandNameWithoutNamespace, new MakeCommandTab(command, project, module));
             }
         }
     }

@@ -5,7 +5,9 @@ import io.stouder.adonis.AdonisBundle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class JListEditor extends JPanel {
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -24,10 +26,12 @@ public class JListEditor extends JPanel {
         this.behavior();
     }
 
-
-
     public List<String> getValues() {
         return List.of((String[]) this.listModel.toArray());
+    }
+
+    public void reset() {
+        this.listModel.clear();
     }
 
     private void buildUI() {
@@ -74,11 +78,11 @@ public class JListEditor extends JPanel {
             this.stringList.setExpandableItemsEnabled(false);
         });
 
-        this.removeButton.addActionListener(e -> {
-            int selectedIndex = this.stringList.getSelectedIndex();
-            if (selectedIndex >= 0) {
-                this.listModel.remove(selectedIndex);
-            }
-        });
+        this.removeButton.addActionListener(e ->
+            IntStream.of(this.stringList.getSelectedIndices())
+                    .boxed()
+                    .sorted(Collections.reverseOrder())
+                    .forEach(this.listModel::remove)
+        );
     }
 }

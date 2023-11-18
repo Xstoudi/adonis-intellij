@@ -28,10 +28,12 @@ public class MakeCommandTab extends JPanel {
     private final JButton createButton = new JButton(AdonisBundle.message("adonis.tool_window.content.tabs.make.create"));
     private final Project project;
     private final Command command;
+    private final String selectedModule;
 
-    public MakeCommandTab(Command command, Project project) {
+    public MakeCommandTab(Command command, Project project, String selectedModule) {
         this.command = command;
         this.project = project;
+        this.selectedModule = selectedModule;
         this.arguments = command.getArgs()
                 .stream()
                 .map(arg -> new AbstractMap.SimpleEntry<>(
@@ -137,8 +139,11 @@ public class MakeCommandTab extends JPanel {
     private void create(ActionEvent actionEvent) {
         this.createButton.setEnabled(false);
 
-        System.out.println(this.buildCommand());
-        boolean result = AdonisAceService.getInstance(this.project).runAceCommand("Creating " + this.command.getCommandName(), this.buildCommand());
+        boolean result = AdonisAceService.getInstance(this.project).execAceCommand(
+                "Creating " + this.command.getCommandName(),
+                this.buildCommand(),
+                selectedModule
+        );
         this.createButton.setEnabled(true);
     }
 
@@ -177,6 +182,20 @@ public class MakeCommandTab extends JPanel {
         return str.contains(" ") ? "\"" + str + "\"" : str;
     }
 
+    private void resetFields() {
+        this.arguments.values().forEach(field -> field.setText(""));
+        this.flags.values().forEach(component -> {
+            if (component instanceof JCheckBox) {
+                ((JCheckBox) component).setSelected(false);
+            } else if (component instanceof JListEditor) {
+                ((JListEditor) component).reset();
+            } else if (component instanceof JTextField) {
+                ((JTextField) component).setText("");
+            } else {
+                throw new RuntimeException("Unknown type");
+            }
+        });
+    }
 
     private NumberFormatter getNumberFormatter() {
         NumberFormat format = NumberFormat.getInstance();
