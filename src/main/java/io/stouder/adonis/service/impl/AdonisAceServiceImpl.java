@@ -13,7 +13,6 @@ import io.stouder.adonis.cli.json.ace.Command;
 import io.stouder.adonis.cli.json.routes.RouteHandler;
 import io.stouder.adonis.service.AdonisAceService;
 import io.stouder.adonis.service.AdonisAppService;
-import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,16 @@ public class AdonisAceServiceImpl implements AdonisAceService {
 
     }
 
+    /**
+     * Run ace command for each adonis root
+     * @param progressTitle title of the progress bar
+     * @param parameters parameters to pass to the command
+     * @param responseType response type
+     * @return Map of adonis root and the response
+     * @param <T> response type
+     */
     @Override
-    public <T> Map<String, Optional<T>> runAceGetCommand(String progressTitle, List<String> parameters, Class<T> responseType) {
+    public <T> Map<String, Optional<T>> runAceGetCommandOnEveryRoots(String progressTitle, List<String> parameters, Class<T> responseType) {
         List<String> params = new ArrayList<>(parameters);
         params.add(0, "ace");
 
@@ -69,8 +76,15 @@ public class AdonisAceServiceImpl implements AdonisAceService {
         );
     }
 
+    /**
+     * Asynchronously run ace command for each adonis root
+     * @param callback callback to be called when the command is finished
+     * @param parameters parameters to pass to the command
+     * @param responseType response type
+     * @param <T> response type
+     */
     @Override
-    public <T> void runAceGetCommandAsync(Consumer<Map<String, Optional<T>>> callback, List<String> parameters, Class<T> responseType) {
+    public <T> void runAceGetCommandAsyncOnEveryRoots(Consumer<Map<String, Optional<T>>> callback, List<String> parameters, Class<T> responseType) {
         List<String> params = new ArrayList<>(parameters);
         params.add(0, "ace");
 
@@ -87,7 +101,6 @@ public class AdonisAceServiceImpl implements AdonisAceService {
                                                     .withWorkDirectory(basePath)
                                                     .withParameters(params);
                                             String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
-                                            System.out.println(basePath + " " + jsonOutput);
                                             return Optional.ofNullable(gson.fromJson(jsonOutput, responseType));
                                         } catch (ExecutionException e) {
                                             return Optional.empty();
@@ -99,37 +112,19 @@ public class AdonisAceServiceImpl implements AdonisAceService {
         });
     }
 
+    /**
+     * Execute ace command
+     * @param progressTitle title of the progress bar
+     * @param parameters parameters to pass to the command
+     * @return true if the command was executed successfully
+     */
     @Override
-    public <T> T runAceCommand(String progressTitle, List<String> parameters, Class<T> responseType) {
+    public boolean execAceCommand(String progressTitle, List<String> parameters, String basePath) {
         List<String> params = new ArrayList<>(parameters);
         params.add(0, "ace");
         GeneralCommandLine commandLine = new GeneralCommandLine()
                 .withExePath("node")
-                .withWorkDirectory(this.project.getBasePath())
-                .withParameters(params);
-        LOG.info("Running command with progress bar: " + commandLine.getCommandLineString());
-        return ProgressManager.getInstance().runProcessWithProgressSynchronously(
-                () -> {
-                    try {
-                        String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
-                        return gson.fromJson(jsonOutput, responseType);
-                    } catch (ExecutionException e) {
-                        return null;
-                    }
-                },
-                progressTitle,
-                true,
-                this.project
-        );
-    }
-
-    @Override
-    public boolean runAceCommand(String progressTitle, List<String> parameters) {
-        List<String> params = new ArrayList<>(parameters);
-        params.add(0, "ace");
-        GeneralCommandLine commandLine = new GeneralCommandLine()
-                .withExePath("node")
-                .withWorkDirectory(this.project.getBasePath())
+                .withWorkDirectory(basePath)
                 .withParameters(params);
         LOG.info("Running command with progress bar: " + commandLine.getCommandLineString());
         return ProgressManager.getInstance().runProcessWithProgressSynchronously(
@@ -148,48 +143,8 @@ public class AdonisAceServiceImpl implements AdonisAceService {
     }
 
     @Override
-    public <T> void runAceCommandAsync(Consumer<T> callback, List<String> parameters, Class<T> responseType) {
-        List<String> params = new ArrayList<>(parameters);
-        params.add(0, "ace");
-        GeneralCommandLine commandLine = new GeneralCommandLine()
-                .withExePath("node")
-                .withWorkDirectory(this.project.getBasePath())
-                .withParameters(params);
-        LOG.info("Running command: " + commandLine.getCommandLineString());
-        ApplicationManager.getApplication().executeOnPooledThread(() -> {
-            try {
-                String jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine);
-                callback.accept(gson.fromJson(jsonOutput, responseType));
-            } catch (ExecutionException e) {
-                LOG.error(e);
-                callback.accept(null);
-            }
-        });
-    }
-
-    @Override
-    public void runAceCommandAsync(BooleanConsumer callback, List<String> parameters) {
-        List<String> params = new ArrayList<>(parameters);
-        params.add(0, "ace");
-        GeneralCommandLine commandLine = new GeneralCommandLine()
-                .withExePath("node")
-                .withWorkDirectory(this.project.getBasePath())
-                .withParameters(params);
-        LOG.info("Running command: " + commandLine.getCommandLineString());
-        ApplicationManager.getApplication().executeOnPooledThread(() -> {
-            try {
-                ScriptRunnerUtil.getProcessOutput(commandLine);
-                callback.accept(true);
-            } catch (ExecutionException e) {
-                LOG.error(e);
-                callback.accept(false);
-            }
-        });
-    }
-
-    @Override
     public void fetchCommands(Consumer<Map<String, Optional<Command[]>>> callback) {
         AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
-        adonisAceService.runAceGetCommandAsync(callback, List.of("list","--json"), Command[].class);
+        adonisAceService.runAceGetCommandAsyncOnEveryRoots(callback, List.of("list","--json"), Command[].class);
     }
 }

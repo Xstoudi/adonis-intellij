@@ -22,7 +22,7 @@ public class RefreshRoutesAction extends AnAction {
 
         e.getPresentation().setEnabled(false);
         AdonisRouteUpdateNotifier publisher = project.getMessageBus().syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC);
-        Map<String, Optional<RouteDomain[]>> routeDomains = AdonisAceService.getInstance(project).runAceGetCommand(
+        Map<String, Optional<RouteDomain[]>> routeDomains = AdonisAceService.getInstance(project).runAceGetCommandOnEveryRoots(
                 AdonisBundle.message("adonis.actions.refresh.routes"),
                 List.of("list:routes", "--json"),
                 RouteDomain[].class
