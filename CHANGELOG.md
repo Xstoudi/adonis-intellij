@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-11-23
+
 - Fix lexing error on multiline tags (#18)
 
 ## [0.3.0] - 2023-11-18
@@ -25,7 +27,8 @@
 - Run Adonis make: commands GUI
 - Syntax highlighting for `.edge` files
 
-[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Xstoudi/adonis-intellij/commits/v0.1.0
