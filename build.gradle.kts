@@ -1,18 +1,15 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.grammarkit.tasks.GenerateLexerTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
   id("java")
-  alias(libs.plugins.kotlin) // Kotlin support
   alias(libs.plugins.gradleIntelliJPlugin) // Gradle IntelliJ Plugin
   alias(libs.plugins.changelog) // Gradle Changelog Plugin
   alias(libs.plugins.qodana) // Gradle Qodana Plugin
-  alias(libs.plugins.kover) // Gradle Kover Plugin
   alias(libs.plugins.grammarkit) // Gradle GrammarKit plugin
   id("io.freefair.lombok") version "8.3"
 }
@@ -29,14 +26,6 @@ sourceSets["main"].java.srcDirs("src/main/gen")
 
 repositories {
   mavenCentral()
-}
-
-// Set the JVM language level used to build the project. Use Java 11 for 2020.3+, and Java 17 for 2022.2+.
-kotlin {
-  jvmToolchain {
-    languageVersion = JavaLanguageVersion.of(17)
-    vendor = JvmVendorSpec.JETBRAINS
-  }
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -64,15 +53,6 @@ qodana {
   showReport = environment("QODANA_SHOW_REPORT").map { it.toBoolean() }.getOrElse(false)
 }
 
-// Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
-koverReport {
-  defaults {
-    xml {
-      onCheck = true
-    }
-  }
-}
-
 val generateEdgeLexer = task<GenerateLexerTask>("generateEdgeLexer") {
   source.set("src/main/java/io/stouder/adonis/edge/parsing/edge.flex")
   targetDir.set("src/main/gen/io/stouder/adonis/edge/parsing")
@@ -87,9 +67,6 @@ tasks {
   }
 
   withType<JavaCompile> {
-    dependsOn(generateEdgeLexer)
-  }
-  withType<KotlinCompile> {
     dependsOn(generateEdgeLexer)
   }
 
