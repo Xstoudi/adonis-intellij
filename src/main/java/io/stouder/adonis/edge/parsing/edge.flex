@@ -83,10 +83,6 @@ CRLF = \R
         tagParenLevel = 1;
         return EdgeTokenTypes.TAG_CONTENT_OPEN;
     }
-    {CRLF} {
-        yybegin(YYINITIAL);
-        return  EdgeTokenTypes.NEWLINE;
-    }
 }
 <TAG_CONTENT> {
     ")" {
@@ -100,7 +96,7 @@ CRLF = \R
         tagParenLevel++;
         return EdgeTokenTypes.TAG_CONTENT;
     }
-    [^\R] { return EdgeTokenTypes.TAG_CONTENT; }
+    [^] { return EdgeTokenTypes.TAG_CONTENT; }
 }
 
 <TAG_CLOSE> {

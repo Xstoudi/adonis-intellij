@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Fix lexing error on multiline tags (#18)
+
 ## [0.3.0] - 2023-11-18
 
 - Support multiples Adonis projects under separate modules (#14)
