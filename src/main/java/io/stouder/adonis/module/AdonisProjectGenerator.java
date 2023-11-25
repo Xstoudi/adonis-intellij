@@ -25,7 +25,7 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
 
     @Override
     protected Filter @NotNull [] filters(@NotNull Project project, @NotNull VirtualFile virtualFile) {
-        return new Filter[0];
+        return Filter.EMPTY_ARRAY;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class AdonisProjectGenerator extends NpmPackageProjectGenerator {
             super.buildUI(settingsStep);
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.starter.kit"), this.starterKit);
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.options"), this.installDependencies);
-            settingsStep.addSettingsComponent(this.initializeGit);
+            settingsStep.addSettingsField("", this.initializeGit);
         }
 
         @Override
