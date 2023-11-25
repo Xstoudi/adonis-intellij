@@ -131,4 +131,4 @@ CRLF = \R
     [^] { return EdgeTokenTypes.MUSTACHE_CONTENT; }
 }
 
-
+. { return EdgeTokenTypes.INVALID; }

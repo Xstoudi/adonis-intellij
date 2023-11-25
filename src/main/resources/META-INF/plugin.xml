@@ -44,6 +44,7 @@
     <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.braces.EdgeBraceMatcher" />
     <lang.syntaxHighlighter language="Edge" implementationClass="io.stouder.adonis.edge.highlight.EdgeHighlighter" />
     <editorHighlighterProvider filetype="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeHighlighterProvider" />
+    <typedHandler implementation="io.stouder.adonis.edge.editor.actions.EdgeTypedHandler" order="before xmlSlash"/>
 
     <xml.zenCodingGenerator implementation="io.stouder.adonis.edge.editor.templates.EdgeEmmetGenerator" />
 

@@ -66,4 +66,9 @@ public class EdgeParserDefinition implements ParserDefinition {
     public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) {
         return new EdgePsiFile(viewProvider);
     }
+
+    @Override
+    public @NotNull SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
+        return SpaceRequirements.MAY;
+    }
 }

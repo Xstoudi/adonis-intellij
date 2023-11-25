@@ -124,13 +124,20 @@ public class EdgeParsing {
 
     protected boolean parseLeafToken(IElementType leafTokenType) {
         PsiBuilder.Marker leafTokenMark = this.builder.mark();
-        if(this.builder.getTokenType() == leafTokenType) {
+        IElementType currentTokenType = this.builder.getTokenType();
+        if(currentTokenType == leafTokenType) {
             builder.advanceLexer();
             leafTokenMark.done(leafTokenType);
             return true;
+        } else if(currentTokenType == EdgeTokenTypes.INVALID) {
+            while(!this.builder.eof() && this.builder.getTokenType() == EdgeTokenTypes.INVALID) {
+                this.builder.advanceLexer();
+            }
+            this.recordLeafTokenError(EdgeTokenTypes.INVALID, leafTokenMark);
+            return false;
         }
 
-        leafTokenMark.error("Expected token: " + leafTokenType.toString());
+        this.recordLeafTokenError(leafTokenType, leafTokenMark);
         return false;
     }
 
@@ -148,5 +155,12 @@ public class EdgeParsing {
         }
     }
 
+    private void recordLeafTokenError(IElementType expectedToken, PsiBuilder.Marker unexpectedTokenMarker) {
+        if(expectedToken instanceof EdgeElementType) {
+            unexpectedTokenMarker.error("Expected token: " + expectedToken);
+            return;
+        }
+        unexpectedTokenMarker.error("Unexpected token");
+    }
 
 }

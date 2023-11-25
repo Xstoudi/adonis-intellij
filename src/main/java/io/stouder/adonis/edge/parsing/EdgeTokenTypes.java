@@ -40,6 +40,8 @@ public final class EdgeTokenTypes {
     public static final IElementType CONTENT = new EdgeElementType("CONTENT");
     public static final IElementType OUTER_ELEMENT_TYPE = new EdgeElementType("OUTER_ELEMENT_TYPE");
 
+    public static final IElementType INVALID = new EdgeElementType("INVALID");
+
     public static final TokenSet WHITESPACES = TokenSet.create(WHITE_SPACE);
     public static final TokenSet COMMENTS = TokenSet.create();
 }
