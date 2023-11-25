@@ -44,7 +44,9 @@
     <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.braces.EdgeBraceMatcher" />
     <lang.syntaxHighlighter language="Edge" implementationClass="io.stouder.adonis.edge.highlight.EdgeHighlighter" />
     <editorHighlighterProvider filetype="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeHighlighterProvider" />
+
     <xml.zenCodingGenerator implementation="io.stouder.adonis.edge.editor.templates.EdgeEmmetGenerator" />
+
     <toolWindow
       factoryClass="io.stouder.adonis.tool_window.AdonisToolWindow"
       id="adonis"
@@ -57,6 +59,8 @@
       builderClass="io.stouder.adonis.module.AdonisModuleBuilder"
       id="ADONIS_MODULE_BUILDER"
     />
+
+    <directoryProjectGenerator implementation="io.stouder.adonis.module.AdonisProjectGenerator" />
   </extensions>
 
   <actions>

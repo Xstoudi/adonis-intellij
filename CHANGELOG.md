@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Install wizard was not showing for new project (#20)
+
 ## [0.3.1] - 2023-11-23
 
 - Fix lexing error on multiline tags (#18)
