@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 - Install wizard was not showing for new project (#20)
+- Insert closing braces on opening
+- Do not show error if Edge tag don't have arguments
 
 ## [0.3.1] - 2023-11-23
 
