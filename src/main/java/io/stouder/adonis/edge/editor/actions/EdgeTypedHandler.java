@@ -8,8 +8,11 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import io.stouder.adonis.edge.EdgeLanguage;
+import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
 public class EdgeTypedHandler extends TypedHandlerDelegate {
@@ -50,10 +53,23 @@ public class EdgeTypedHandler extends TypedHandlerDelegate {
         if(offset < 1 || offset > document.getTextLength()) {
             return Result.CONTINUE;
         }
+
         if(c == '{') {
             document.insertString(offset, "}");
             return Result.STOP;
         }
+
+        PsiElement element = file.findElementAt(offset - 2);
+        if(
+                c == '(' &&
+                element instanceof LeafPsiElement leafElement &&
+                leafElement.getElementType() == EdgeTokenTypes.TAG_NAME
+        ) {
+                document.insertString(offset, ")");
+                return Result.STOP;
+        }
+
+
         return Result.CONTINUE;
     }
 
