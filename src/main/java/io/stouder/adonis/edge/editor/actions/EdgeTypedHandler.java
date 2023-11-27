@@ -19,7 +19,7 @@ public class EdgeTypedHandler extends TypedHandlerDelegate {
     @Override
     @NotNull
     public Result beforeCharTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file, @NotNull FileType fileType) {
-        if(!isEdgeContext(file)) {
+        if(!this.isEdgeContext(file)) {
             return Result.CONTINUE;
         }
 
@@ -30,9 +30,9 @@ public class EdgeTypedHandler extends TypedHandlerDelegate {
             return Result.CONTINUE;
         }
 
-        char previousChar = document.getText(new TextRange(offset - 1, offset)).charAt(0);
+        String twoPreviousChars = document.getText(new TextRange(offset - 2, offset));
         PsiDocumentManager.getInstance(project).commitAllDocuments();
-        if(c == '{' && previousChar == '{') {
+        if(c == '{' && twoPreviousChars.chars().allMatch(i -> i == '{')) {
             document.deleteString(offset, offset + 1);
         }
 
@@ -46,7 +46,7 @@ public class EdgeTypedHandler extends TypedHandlerDelegate {
         CaretModel caretModel = editor.getCaretModel();
         int offset = caretModel.getOffset();
 
-        if(!isEdgeContext(file)) {
+        if(!this.isEdgeContext(file)) {
             return Result.CONTINUE;
         }
 
