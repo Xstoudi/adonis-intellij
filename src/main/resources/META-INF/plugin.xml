@@ -43,6 +43,7 @@
     <lang.fileViewProviderFactory language="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeFileViewProviderFactory" />
     <lang.braceMatcher language="Edge" implementationClass="io.stouder.adonis.edge.editor.braces.EdgeBraceMatcher" />
     <lang.syntaxHighlighter language="Edge" implementationClass="io.stouder.adonis.edge.highlight.EdgeHighlighter" />
+    <lang.commenter language="Edge" implementationClass="io.stouder.adonis.edge.editor.comments.EdgeCommenter" />
     <editorHighlighterProvider filetype="Edge" implementationClass="io.stouder.adonis.edge.file.EdgeHighlighterProvider" />
     <typedHandler implementation="io.stouder.adonis.edge.editor.actions.EdgeTypedHandler" order="before xmlSlash"/>
 
