@@ -18,7 +18,7 @@ public class EdgeHighlighter extends SyntaxHighlighterBase {
 
     private static final TextAttributesKey MUSTACHES = TextAttributesKey.createTextAttributesKey(
             "EDGE.MUSTACHES",
-            DefaultLanguageHighlighterColors.BRACES
+            DefaultLanguageHighlighterColors.KEYWORD
     );
 
     private static final TextAttributesKey COMMENTS = TextAttributesKey.createTextAttributesKey(

@@ -4,13 +4,11 @@ import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import io.stouder.adonis.edge.EdgeLanguage;
 import io.stouder.adonis.edge.parsing.EdgeTokenTypes;
 import org.jetbrains.annotations.NotNull;
@@ -18,59 +16,79 @@ import org.jetbrains.annotations.NotNull;
 public class EdgeTypedHandler extends TypedHandlerDelegate {
     @Override
     @NotNull
-    public Result beforeCharTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file, @NotNull FileType fileType) {
+    public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+        Document document = editor.getDocument();
+        CaretModel caretModel = editor.getCaretModel();
+        FileViewProvider viewProvider = file.getViewProvider();
+        int offset = caretModel.getOffset();
+
         if(!this.isEdgeContext(file)) {
             return Result.CONTINUE;
         }
 
-        Document document = editor.getDocument();
-        CaretModel caretModel = editor.getCaretModel();
-        int offset = caretModel.getOffset();
-        if(offset == 0 || offset > document.getTextLength()) {
+        if(offset < 2 || offset > document.getTextLength()) {
             return Result.CONTINUE;
         }
 
-        String twoPreviousChars = document.getText(new TextRange(offset - 2, offset));
-        PsiDocumentManager.getInstance(project).commitAllDocuments();
-        if(c == '{' && twoPreviousChars.chars().allMatch(i -> i == '{')) {
-            document.deleteString(offset, offset + 1);
+        String chars = editor.getDocument().getText();
+        // handle {{
+        if(c == '{' && chars.charAt(offset - 2) == '{') {
+            // handle {{{
+            if(chars.charAt(offset - 3) == '{') {
+                insertMatchingPart(editor, offset, chars, "}}}", 0);
+                return Result.CONTINUE;
+            }
+
+            insertMatchingPart(editor, offset, chars, "}}", 0);
+            return Result.CONTINUE;
+        }
+
+        // handle {{--
+        if(
+                c == '-'
+                && chars.charAt(offset - 1) == '-'
+                && offset >= 3
+                && chars.charAt(offset - 2) == '{'
+                && chars.charAt(offset - 3) == '{'
+        ) {
+            insertMatchingPart(editor, offset, chars, "--", 0);
+            return Result.CONTINUE;
+        }
+
+        // handle ( in tag
+        if(c == '(') {
+            PsiElement element = viewProvider.findElementAt(offset - 2, EdgeLanguage.INSTANCE);
+            if(element != null && element.getNode().getElementType() == EdgeTokenTypes.TAG_NAME) {
+                insertMatchingPart(editor, offset, chars, ")", 0);
+            }
+            return Result.CONTINUE;
+        }
+
+        // handle ' and " in tag
+        if(c == '\'' || c == '"') {
+            PsiElement element = viewProvider.findElementAt(offset - 1, EdgeLanguage.INSTANCE);
+            if(element != null && element.getNode().getElementType() == EdgeTokenTypes.TAG_CONTENT) {
+                insertMatchingPart(editor, offset, chars, Character.toString(c), 0);
+            }
+            return Result.CONTINUE;
         }
 
         return Result.CONTINUE;
     }
 
-    @Override
-    @NotNull
-    public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
-        Document document = editor.getDocument();
-        CaretModel caretModel = editor.getCaretModel();
-        int offset = caretModel.getOffset();
 
-        if(!this.isEdgeContext(file)) {
-            return Result.CONTINUE;
-        }
+    private static void insertMatchingPart(@NotNull Editor editor, int offset, String chars, String match, int shift) {
+        String toInsert = getMatchingSubstring(match, chars, offset);
+        if (!toInsert.isEmpty())
+            EditorModificationUtil.insertStringAtCaret(editor, toInsert, true, shift);
+    }
 
-        if(offset < 1 || offset > document.getTextLength()) {
-            return Result.CONTINUE;
-        }
-
-        if(c == '{') {
-            document.insertString(offset, "}");
-            return Result.STOP;
-        }
-
-        PsiElement element = file.findElementAt(offset - 2);
-        if(
-                c == '(' &&
-                element instanceof LeafPsiElement leafElement &&
-                leafElement.getElementType() == EdgeTokenTypes.TAG_NAME
-        ) {
-                document.insertString(offset, ")");
-                return Result.STOP;
-        }
-
-
-        return Result.CONTINUE;
+    private static String getMatchingSubstring(@NotNull String toMatch, String chars, int offset) {
+        int matchingLength = Math.min(toMatch.length(), chars.length() - offset);
+        while (matchingLength > 0 &&
+                !toMatch.endsWith(chars.substring(offset, offset + matchingLength)))
+            matchingLength--;
+        return toMatch.substring(0, toMatch.length() - matchingLength);
     }
 
     private boolean isEdgeContext(PsiFile file ){
