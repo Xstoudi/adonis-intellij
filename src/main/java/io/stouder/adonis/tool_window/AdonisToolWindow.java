@@ -11,12 +11,14 @@ import io.stouder.adonis.notifier.AdonisRouteUpdateNotifier;
 import io.stouder.adonis.service.AdonisAppService;
 import io.stouder.adonis.tool_window.content.MakeToolWindowContent;
 import io.stouder.adonis.tool_window.content.RoutesToolWindowContent;
+import kotlin.coroutines.Continuation;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AdonisToolWindow implements ToolWindowFactory {
 
     @Override
-    public boolean isApplicable(@NotNull Project project) {
+    public Object isApplicableAsync(@NotNull Project project, @NotNull Continuation<? super Boolean> $completion) {
         return AdonisAppService.getInstance(project).isAdonisProject();
     }
 
