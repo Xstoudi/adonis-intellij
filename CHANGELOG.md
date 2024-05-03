@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Remove x2 sized Edge icons from resources (fix #26)
+
 ## [0.5.0] - 2024-05-03
 
 - Update to be used with JetBrains platform 2024.1 (#26, @prisca-c 's first contribution)
