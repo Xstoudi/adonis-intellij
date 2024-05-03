@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Update to be used with JetBrains platform 2024.1 (#26, @prisca-c 's first contribution)
+- Refresh capability on Adonis commands list
+
 ## [0.4.0] - 2023-11-29
 
 - Install wizard was not showing for new project (#20)
