@@ -82,6 +82,23 @@
     >
       <add-to-group group-id="io.stouder.adonis.RoutesToolbar" />
     </action>
+
+    <group
+            id="io.stouder.adonis.MakeToolbar"
+            text="Adonis"
+            description="Adonis"
+            popup="false"
+            icon="io.stouder.adonis.AdonisIcons.ADONIS"
+    />
+    <action
+            id="io.stouder.adonis.action.RefreshCommandsAction"
+            class="io.stouder.adonis.action.RefreshCommandsAction"
+            text="Refresh Commands"
+            description="Refresh Adonis commands"
+            icon="AllIcons.Actions.Refresh"
+    >
+      <add-to-group group-id="io.stouder.adonis.MakeToolbar" />
+    </action>
   </actions>
 
   <projectListeners>
