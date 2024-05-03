@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2024-05-03
+
 - Update to be used with JetBrains platform 2024.1 (#26, @prisca-c 's first contribution)
 - Refresh capability on Adonis commands list
 
@@ -37,7 +39,8 @@
 - Run Adonis make: commands GUI
 - Syntax highlighting for `.edge` files
 
-[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.2.0...v0.3.0
