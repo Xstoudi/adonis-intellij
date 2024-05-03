@@ -8,7 +8,6 @@ plugins {
   id("java")
   alias(libs.plugins.gradleIntelliJPlugin) // Gradle IntelliJ Plugin
   alias(libs.plugins.changelog) // Gradle Changelog Plugin
-  alias(libs.plugins.qodana) // Gradle Qodana Plugin
   alias(libs.plugins.grammarkit) // Gradle GrammarKit plugin
   id("io.freefair.lombok") version "8.3"
 }
@@ -43,11 +42,6 @@ changelog {
   groups.empty()
   repositoryUrl = properties("pluginRepositoryUrl")
 }
-
-// Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
-qodana {
-}
-
 
 tasks {
   wrapper {
