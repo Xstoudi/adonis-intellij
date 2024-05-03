@@ -47,17 +47,6 @@ changelog {
 
 // Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
 qodana {
-  cachePath = provider { file(".qodana").canonicalPath }
-  reportPath = provider { file("build/reports/inspections").canonicalPath }
-  saveReport = true
-  showReport = environment("QODANA_SHOW_REPORT").map { it.toBoolean() }.getOrElse(false)
-}
-
-val generateEdgeLexer = task<GenerateLexerTask>("generateEdgeLexer") {
-  source.set("src/main/java/io/stouder/adonis/edge/parsing/edge.flex")
-  targetDir.set("src/main/gen/io/stouder/adonis/edge/parsing")
-  targetClass.set("_EdgeLexer")
-  purgeOldFiles.set(true)
 }
 
 
@@ -67,7 +56,13 @@ tasks {
   }
 
   withType<JavaCompile> {
-    dependsOn(generateEdgeLexer)
+    dependsOn(generateLexer)
+  }
+
+  generateLexer {
+    sourceFile.set(file("src/main/java/io/stouder/adonis/edge/parsing/edge.flex"))
+    targetOutputDir.set(file("src/main/gen/io/stouder/adonis/edge/parsing"))
+    purgeOldFiles.set(true)
   }
 
   patchPluginXml {
@@ -123,6 +118,6 @@ tasks {
     // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
     // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
     // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-    channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+    channels = properties("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
   }
 }
