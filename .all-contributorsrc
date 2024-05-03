@@ -18,6 +18,15 @@
         "mentoring",
         "maintenance"
       ]
+    },
+    {
+      "login": "prisca-c",
+      "name": "Prisca C.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/91020684?v=4",
+      "profile": "https://github.com/prisca-c",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
