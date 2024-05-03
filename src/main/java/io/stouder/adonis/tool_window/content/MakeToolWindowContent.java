@@ -1,5 +1,8 @@
 package io.stouder.adonis.tool_window.content;
 
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
@@ -19,7 +22,7 @@ import java.util.stream.Stream;
 public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
     private final JPanel rootPanel = new JPanel();
     private final ComboBox<String> comboBox = new ComboBox<>();
-    private final Map<String, JBTabbedPane> tabbedPane = new HashMap<>();
+    private final Map<String, JBTabbedPane> tabbedPanes = new HashMap<>();
     private Map<String, List<Command>> makeCommands = new HashMap<>();
     private String selectedModule;
     private final Project project;
@@ -30,7 +33,7 @@ public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
 
         this.rootPanel.setLayout(new BorderLayout());
         this.comboBox.addActionListener(e -> {
-            this.rootPanel.remove(this.tabbedPane.get(this.selectedModule));
+            this.rootPanel.remove(this.tabbedPanes.get(this.selectedModule));
             this.selectedModule = (String) comboBox.getSelectedItem();
             this.updateUi();
         });
@@ -42,12 +45,37 @@ public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
         return this.rootPanel;
     }
 
+    private void buildToolbar() {
+        ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("io.stouder.adonis.MakeToolbar");
+        ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(
+                "AdonisCommandsToolbar",
+                actionGroup,
+                true
+        );
+
+        this.comboBox.setModel(
+                new DefaultComboBoxModel<>(this.makeCommands.keySet().toArray(new String[0]))
+        );
+        if(this.selectedModule != null) {
+            comboBox.setSelectedItem(this.selectedModule);
+        }
+
+
+        JPanel toolbarAndComboPanel = new JPanel(new BorderLayout());
+        toolbarAndComboPanel.add(toolbar.getComponent(), BorderLayout.WEST);
+        toolbarAndComboPanel.add(this.comboBox, BorderLayout.CENTER);
+        toolbar.setTargetComponent(this.rootPanel);
+
+        this.rootPanel.add(toolbarAndComboPanel, BorderLayout.NORTH);
+    }
+
+
     private void buildTabs() {
         for (String module : this.makeCommands.keySet()) {
-            JBTabbedPane tabbedPane = this.tabbedPane.get(module);
+            JBTabbedPane tabbedPane = this.tabbedPanes.get(module);
             if(tabbedPane == null) {
                 tabbedPane = new JBTabbedPane();
-                this.tabbedPane.put(module, tabbedPane);
+                this.tabbedPanes.put(module, tabbedPane);
             }
 
             while(tabbedPane.getTabCount() > 0) {
@@ -65,17 +93,9 @@ public class MakeToolWindowContent implements AdonisRcUpdateNotifier {
 
     private void updateUi() {
         this.buildTabs();
+        this.buildToolbar();
 
-        this.comboBox.setModel(
-                new DefaultComboBoxModel<>(this.makeCommands.keySet().toArray(new String[0]))
-        );
-        if(this.selectedModule != null) {
-            comboBox.setSelectedItem(this.selectedModule);
-        }
-        this.rootPanel.remove(comboBox);
-        this.rootPanel.add(comboBox, BorderLayout.NORTH);
-
-        JBTabbedPane tabbedPane = this.tabbedPane.get(this.selectedModule);
+        JBTabbedPane tabbedPane = this.tabbedPanes.get(this.selectedModule);
         if(tabbedPane != null) {
             this.rootPanel.add(tabbedPane, BorderLayout.CENTER);
         }
