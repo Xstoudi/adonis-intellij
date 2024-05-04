@@ -49,9 +49,14 @@ changelog {
   repositoryUrl = properties("pluginRepositoryUrl")
 }
 
+
 tasks {
   wrapper {
     gradleVersion = properties("gradleVersion").get()
+  }
+
+  named("compileKotlin") {
+    dependsOn(":generateLexer")
   }
 
   withType<JavaCompile> {
