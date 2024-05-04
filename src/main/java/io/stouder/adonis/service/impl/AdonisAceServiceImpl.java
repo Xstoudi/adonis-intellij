@@ -144,7 +144,7 @@ public class AdonisAceServiceImpl implements AdonisAceService {
 
     @Override
     public void fetchCommands(Consumer<Map<String, Optional<Command[]>>> callback) {
-        AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
+        AdonisAceService adonisAceService = AdonisAceService.Companion.getInstance(this.project);
         adonisAceService.runAceGetCommandAsyncOnEveryRoots(callback, List.of("list","--json"), Command[].class);
     }
 }

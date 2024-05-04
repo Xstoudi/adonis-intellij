@@ -21,7 +21,7 @@ class AdonisToolWindow : ToolWindowFactory {
         val routesToolWindowContent = RoutesToolWindowContent(project)
         val makeToolWindowContent = MakeToolWindowContent(project)
         val routesContent = ContentFactory.getInstance().createContent(routesToolWindowContent.rootPanel, AdonisBundle.message("adonis.tool_window.routes"), false)
-        val makeContent = ContentFactory.getInstance().createContent(makeToolWindowContent.rootPanel, AdonisBundle.message("adonis.tool_window.make"), false)
+        val makeContent = ContentFactory.getInstance().createContent(makeToolWindowContent.getRootPanel(), AdonisBundle.message("adonis.tool_window.make"), false)
         toolWindow.contentManager.addContent(routesContent)
         toolWindow.contentManager.addContent(makeContent)
 

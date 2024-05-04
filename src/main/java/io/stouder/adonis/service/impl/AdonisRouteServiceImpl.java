@@ -19,7 +19,7 @@ public class AdonisRouteServiceImpl implements AdonisRouteService {
 
     @Override
     public void fetchRoutes(Consumer<Map<String, Optional<RouteDomain[]>>> callback) {
-        AdonisAceService adonisAceService = AdonisAceService.getInstance(this.project);
+        AdonisAceService adonisAceService = AdonisAceService.Companion.getInstance(this.project);
         adonisAceService.runAceGetCommandAsyncOnEveryRoots(callback, List.of("list:routes", "--json"), RouteDomain[].class);
     }
 

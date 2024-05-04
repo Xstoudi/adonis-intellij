@@ -139,7 +139,7 @@ public class MakeCommandTab extends JPanel {
     private void create(ActionEvent actionEvent) {
         this.createButton.setEnabled(false);
 
-        boolean result = AdonisAceService.getInstance(this.project).execAceCommand(
+        boolean result = AdonisAceService.Companion.getInstance(this.project).execAceCommand(
                 "Creating " + this.command.getCommandName(),
                 this.buildCommand(),
                 selectedModule
