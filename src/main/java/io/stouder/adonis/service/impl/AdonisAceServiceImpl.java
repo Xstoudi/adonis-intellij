@@ -51,7 +51,7 @@ public class AdonisAceServiceImpl implements AdonisAceService {
         params.add(0, "ace");
 
         return ProgressManager.getInstance().runProcessWithProgressSynchronously(
-                () -> AdonisAppService.getInstance(this.project).getAdonisRoots()
+                () -> AdonisAppService.Companion.getInstance(this.project).getAdonisRoots()
                         .stream()
                         .collect(
                                 Collectors.toMap(
@@ -89,7 +89,7 @@ public class AdonisAceServiceImpl implements AdonisAceService {
         params.add(0, "ace");
 
         ApplicationManager.getApplication().executeOnPooledThread(() -> {
-            Map<String, Optional<T>> result = AdonisAppService.getInstance(this.project).getAdonisRoots()
+            Map<String, Optional<T>> result = AdonisAppService.Companion.getInstance(this.project).getAdonisRoots()
                     .stream()
                     .collect(
                             Collectors.toMap(
