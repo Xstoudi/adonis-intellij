@@ -32,7 +32,7 @@ class MakeCommandTab(private val command: Command, private val project: Project,
     private val createButton = JButton(AdonisBundle.message("adonis.tool_window.content.tabs.make.create"))
 
     init {
-        this.flags = LinkedHashMap(command.flags.associate { flag ->
+        this.flags = LinkedHashMap(command.flags.associateWith { flag ->
             val inputComponent = when (flag.type) {
                 "boolean" -> JCheckBox()
                 "number" -> JFormattedTextField(getNumberFormatter())
@@ -40,7 +40,7 @@ class MakeCommandTab(private val command: Command, private val project: Project,
                 "numArray" -> JListEditor(getNumberFormatter())
                 else -> JTextField()
             }
-            flag to inputComponent
+            inputComponent
         })
 
         buildUi()
@@ -114,7 +114,11 @@ class MakeCommandTab(private val command: Command, private val project: Project,
     }
 
     private fun registerListeners() {
-        createButton.addActionListener { create(it) }
+        createButton.addActionListener {
+            create(it)
+
+            resetFields()
+        }
     }
 
     private fun create(actionEvent: ActionEvent) {

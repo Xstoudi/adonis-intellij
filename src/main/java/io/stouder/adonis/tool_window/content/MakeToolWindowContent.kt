@@ -97,9 +97,7 @@ class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifi
                     { it.value.get().filter { command -> "make" == command.namespace }.toList() }
                 )
             )
-        selectedModule = if (selectedModule == null) {
-            makeCommands.keys.stream().findFirst().orElse(null)
-        } else selectedModule
+        selectedModule = selectedModule ?: makeCommands.keys.firstOrNull()
 
         ApplicationManager.getApplication().invokeLater { updateUi() }
     }
