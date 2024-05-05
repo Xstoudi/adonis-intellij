@@ -12,23 +12,20 @@ import io.stouder.adonis.cli.json.ace.Command
 import io.stouder.adonis.notifier.AdonisRcUpdateNotifier
 import io.stouder.adonis.tool_window.content.tabs.MakeCommandTab
 import javax.swing.DefaultComboBoxModel
-import javax.swing.JComponent
 import javax.swing.JPanel
 import java.awt.BorderLayout
 import java.util.*
 import java.util.stream.Collectors
-import java.util.stream.Stream
 import kotlin.collections.HashMap
 
 class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifier {
-    private val rootPanel = JPanel()
+    val rootPanel = JPanel()
     private val comboBox = ComboBox<String>()
     private val tabbedPanes = HashMap<String, JBTabbedPane>()
     private var makeCommands: Map<String, List<Command>> = HashMap()
     private var selectedModule: String? = null
 
     init {
-
         rootPanel.layout = BorderLayout()
         comboBox.addActionListener {
             rootPanel.remove(tabbedPanes[selectedModule])
@@ -37,10 +34,6 @@ class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifi
         }
 
         updateUi()
-    }
-
-    fun getRootPanel(): JComponent {
-        return rootPanel
     }
 
     private fun buildToolbar() {
