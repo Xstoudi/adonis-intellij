@@ -48,7 +48,7 @@ class RoutesToolWindowContent(project: Project) : AdonisRouteUpdateNotifier {
         rootPanel.add(scrollPane, BorderLayout.CENTER)
     }
 
-    override fun routes(routes: MutableMap<String, Optional<Array<RouteDomain>>>?) {
+    override fun routes(routes: Map<String, Optional<Array<RouteDomain>>>?) {
         if (routes == null) return
         val model: TableModel = RoutesTableModel(
             routes

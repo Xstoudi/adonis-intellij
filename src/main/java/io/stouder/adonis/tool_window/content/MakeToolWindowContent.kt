@@ -88,15 +88,18 @@ class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifi
         }
     }
 
-    override fun commands(commands: Map<String, Optional<Array<Command>>>) {
-        makeCommands = commands.entries.stream()
+    override fun commands(commands: Map<String, Optional<Array<Command>>>?) {
+        if (commands == null) return
+        makeCommands = commands
+            .entries
             .filter { it.value.isPresent }
-            .collect(
-                Collectors.toMap(
-                    { it.key },
-                    { it.value.get().filter { command -> "make" == command.namespace }.toList() }
-                )
-            )
+            .associate {
+                it.key to it.value.get().filter { command ->
+                    val isNamespaceMake = "make" == command.namespace
+                    isNamespaceMake
+                }.toList()
+            }
+            ?: HashMap()
         selectedModule = selectedModule ?: makeCommands.keys.firstOrNull()
 
         ApplicationManager.getApplication().invokeLater { updateUi() }
