@@ -13,17 +13,31 @@ import com.intellij.platform.ProjectGeneratorPeer
 import com.intellij.ui.components.JBCheckBox
 import io.stouder.adonis.AdonisBundle
 import io.stouder.adonis.AdonisIcons
+import org.jetbrains.annotations.NotNull
 import java.awt.BorderLayout
+import java.util.*
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.JPanel
+import kotlin.streams.toList
 
 class AdonisProjectGenerator : NpmPackageProjectGenerator() {
-    override fun filters(project: Project, virtualFile: VirtualFile): Array<Filter> {
+
+    private val installDependencies = JBCheckBox(AdonisBundle.message("adonis.project.generator.install.dependencies"))
+    private val initializeGit = JBCheckBox(AdonisBundle.message("adonis.project.generator.initialize.git"))
+
+    private val starterKit = ComboBox<String>(
+        Arrays.stream(AdonisStarterKit.entries.toTypedArray())
+            .map { it.name }
+            .toList()
+            .toTypedArray()
+    )
+
+    override fun filters(@NotNull project: Project, @NotNull virtualFile: VirtualFile): Array<Filter> {
         return Filter.EMPTY_ARRAY
     }
 
-    override fun customizeModule(virtualFile: VirtualFile, contentEntry: ContentEntry) {}
+    override fun customizeModule(@NotNull virtualFile: VirtualFile, contentEntry: ContentEntry) {}
 
     override fun packageName(): String {
         return "create-adonisjs"
@@ -74,13 +88,6 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
     }
 
     inner class CreatePeer : NpmPackageGeneratorPeer() {
-        private val starterKit: ComboBox<String> = ComboBox(
-            AdonisStarterKit.entries
-                .map { it.name }
-                .toTypedArray()
-        )
-        private val installDependencies: JBCheckBox = JBCheckBox(AdonisBundle.message("adonis.project.generator.install.dependencies"))
-        private val initializeGit: JBCheckBox = JBCheckBox(AdonisBundle.message("adonis.project.generator.initialize.git"))
 
         override fun createPanel(): JPanel {
             val panel = super.createPanel()
@@ -90,7 +97,7 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
             return panel
         }
 
-        override fun buildUI(settingsStep: SettingsStep) {
+        override fun buildUI(@NotNull settingsStep: SettingsStep) {
             super.buildUI(settingsStep)
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.starter.kit"), starterKit)
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.options"), installDependencies)
