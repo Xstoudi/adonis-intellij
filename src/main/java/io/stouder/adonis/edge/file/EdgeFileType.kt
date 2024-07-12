@@ -9,7 +9,13 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.NotNull
 import javax.swing.Icon
 
-object EdgeFileType : XmlLikeFileType(EdgeLanguage.INSTANCE), TemplateLanguageFileType {
+class EdgeFileType private constructor() : XmlLikeFileType(EdgeLanguage.INSTANCE), TemplateLanguageFileType {
+
+    companion object {
+        @JvmField
+        val INSTANCE: EdgeFileType = EdgeFileType()
+    }
+
     override fun getName(): @NonNls @NotNull String {
         return "Edge"
     }
@@ -22,7 +28,7 @@ object EdgeFileType : XmlLikeFileType(EdgeLanguage.INSTANCE), TemplateLanguageFi
         return "edge"
     }
 
-    override fun getIcon(): Icon {
+    override fun getIcon(): Icon? {
         return AdonisIcons.EDGE
     }
 }
