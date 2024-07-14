@@ -12,28 +12,28 @@ import java.util.*
 class RefreshRoutesAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
-    val project = e.project
-    assert(project != null)
+        val project = e.project
+        assert(project != null)
 
-    e.presentation.isEnabled = false
+        e.presentation.isEnabled = false
 
-    ApplicationManager.getApplication().executeOnPooledThread {
-        val routeDomainsFuture = project?.let {
-            AdonisAceService.getInstance(it).runAceGetCommandOnEveryRoots(
-                AdonisBundle.message("adonis.actions.refresh.routes"),
-                listOf("list:routes", "--json"),
-                Array<RouteDomain>::class.java
-            )
-        }
+        ApplicationManager.getApplication().executeOnPooledThread {
+            val routeDomainsFuture = project?.let {
+                AdonisAceService.getInstance(it).runAceGetCommandOnEveryRoots(
+                    AdonisBundle.message("adonis.actions.refresh.routes"),
+                    listOf("list:routes", "--json"),
+                    Array<RouteDomain>::class.java
+                )
+            }
 
-        ApplicationManager.getApplication().invokeLater {
-            val routeDomains = routeDomainsFuture
-            project
-                ?.messageBus
-                ?.syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC)
-                ?.routes(routeDomains)
-            e.presentation.isEnabled = true
+            ApplicationManager.getApplication().invokeLater {
+                val routeDomains = routeDomainsFuture
+                project
+                    ?.messageBus
+                    ?.syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC)
+                    ?.routes(routeDomains)
+                e.presentation.isEnabled = true
+            }
         }
     }
-}
 }

@@ -15,7 +15,6 @@ import javax.swing.DefaultComboBoxModel
 import javax.swing.JPanel
 import java.awt.BorderLayout
 import java.util.*
-import java.util.stream.Collectors
 import kotlin.collections.HashMap
 
 class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifier {

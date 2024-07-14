@@ -13,20 +13,20 @@ import java.util.*
 class RefreshCommandsAction : AnAction() {
 
     override fun actionPerformed(@NotNull e: AnActionEvent) {
-    val project = e.project ?: return
+        val project = e.project ?: return
 
-    e.presentation.isEnabled = false
-    val publisher = project.messageBus.syncPublisher(AdonisRcUpdateNotifier.ADONIS_RC_UPDATE_TOPIC)
+        e.presentation.isEnabled = false
+        val publisher = project.messageBus.syncPublisher(AdonisRcUpdateNotifier.ADONIS_RC_UPDATE_TOPIC)
 
-    ApplicationManager.getApplication().executeOnPooledThread {
-        val commands = AdonisAceService.getInstance(project).runAceGetCommandOnEveryRoots(
-            AdonisBundle.message("adonis.actions.refresh.commands"),
-            listOf("list", "--json"),
-            Array<Command>::class.java
-        )
+        ApplicationManager.getApplication().executeOnPooledThread {
+            val commands = AdonisAceService.getInstance(project).runAceGetCommandOnEveryRoots(
+                AdonisBundle.message("adonis.actions.refresh.commands"),
+                listOf("list", "--json"),
+                Array<Command>::class.java
+            )
 
-        val safeCommands = commands as? Map<String, Optional<Array<Command>>>
-        safeCommands?.let { publisher.commands(it) }
+            val safeCommands = commands as? Map<String, Optional<Array<Command>>>
+            safeCommands?.let { publisher.commands(it) }
+        }
     }
-}
 }

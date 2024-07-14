@@ -1,6 +1,5 @@
 package io.stouder.adonis.edge.file
 
-import com.intellij.lang.Language
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.openapi.editor.colors.EditorColorsScheme
 import com.intellij.openapi.editor.ex.util.LayerDescriptor
