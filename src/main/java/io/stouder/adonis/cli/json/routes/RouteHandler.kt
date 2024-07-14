@@ -11,7 +11,7 @@ open class RouteHandler(
             val jsonObject = jsonElement.asJsonObject
             val jsonType = jsonObject.get("type")
             val typeString = jsonType.asString
-            val handlerClass: Class<*> = when (typeString) {
+            val handlerClass: Class<out RouteHandler> = when (typeString) {
                 "controller" -> ControllerRouteHandler::class.java
                 "closure" -> ClosureRouteHandler::class.java
                 else -> throw JsonParseException("Unknown type: $typeString")
