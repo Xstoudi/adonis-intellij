@@ -26,34 +26,7 @@ class AdonisAceServiceImpl(private val project: Project) : AdonisAceService {
         .registerTypeAdapter(Command::class.java, Command.Deserializer())
         .create()
 
-    override fun <T> runAceGetCommandOnEveryRoots(
-        progressTitle: String,
-        parameters: List<String>,
-        responseType: Class<T>
-    ): Map<String, Optional<T & Any>> {
-        val params = ArrayList(parameters)
-        params.add(0, "ace")
-
-        ProgressManager.getInstance().runProcessWithProgressSynchronously(
-            {
-                AdonisAppService.getInstance(this.project).getAdonisRoots()
-                    .associateWith { basePath: String ->
-                        try {
-                            val commandLine = GeneralCommandLine()
-                                .withExePath("node")
-                                .withWorkDirectory(File(basePath))
-                                .withParameters(params)
-                            val jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine)
-                            Optional.ofNullable(gson.fromJson(jsonOutput, responseType))
-                        } catch (e: ExecutionException) {
-                            Optional.empty()
-                        }
-                    }
-            },
-            progressTitle,
-            true,
-            this.project
-        )
+    private fun <T> runCommandOnRoots(params: List<String>, responseType: Class<T>): Map<String, Optional<T & Any>> {
         return AdonisAppService
             .getInstance(this.project)
             .getAdonisRoots()
@@ -71,6 +44,25 @@ class AdonisAceServiceImpl(private val project: Project) : AdonisAceService {
             }
     }
 
+    override fun <T> runAceGetCommandOnEveryRoots(
+        progressTitle: String,
+        parameters: List<String>,
+        responseType: Class<T>
+    ): Map<String, Optional<T & Any>> {
+        val params = ArrayList(parameters)
+        params.add(0, "ace")
+
+        ProgressManager.getInstance().runProcessWithProgressSynchronously(
+            {
+                runCommandOnRoots(params, responseType)
+            },
+            progressTitle,
+            true,
+            this.project
+        )
+        return runCommandOnRoots(params, responseType)
+    }
+
     override fun <T> runAceGetCommandAsyncOnEveryRoots(
         callback: Consumer<Map<String, Optional<T & Any>>>,
         parameters: List<String>,
@@ -80,21 +72,7 @@ class AdonisAceServiceImpl(private val project: Project) : AdonisAceService {
         params.add(0, "ace")
 
         ApplicationManager.getApplication().executeOnPooledThread {
-            val result = AdonisAppService
-                .getInstance(this.project)
-                .getAdonisRoots()
-                .associateWith { basePath: String ->
-                    try {
-                        val commandLine = GeneralCommandLine()
-                            .withExePath("node")
-                            .withWorkDirectory(File(basePath))
-                            .withParameters(params)
-                        val jsonOutput = ScriptRunnerUtil.getProcessOutput(commandLine)
-                        Optional.ofNullable(gson.fromJson(jsonOutput, responseType))
-                    } catch (e: ExecutionException) {
-                        Optional.empty()
-                    }
-                }
+            val result = runCommandOnRoots(params, responseType)
             callback.accept(result)
         }
     }
