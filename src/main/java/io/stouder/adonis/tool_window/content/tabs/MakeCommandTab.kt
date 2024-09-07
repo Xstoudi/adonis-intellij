@@ -27,7 +27,7 @@ import javax.swing.JTextField
 import javax.swing.text.NumberFormatter
 
 class MakeCommandTab(private val command: Command, private val project: Project, private val selectedModule: String) : JPanel() {
-    private val arguments: LinkedHashMap<CommandArgument, JTextField> = LinkedHashMap(command.args.associate { arg -> arg to JTextField() })
+    private val arguments: LinkedHashMap<CommandArgument, JTextField> = LinkedHashMap(command.args.associateWith { JTextField() })
     private val flags: LinkedHashMap<CommandFlag<*>, JComponent>
     private val createButton = JButton(AdonisBundle.message("adonis.tool_window.content.tabs.make.create"))
 
