@@ -5,5 +5,4 @@ import com.intellij.lang.ASTNode
 import io.stouder.adonis.edge.psi.EdgeMustache
 import io.stouder.adonis.edge.psi.EdgePsiElement
 
-class EdgeMustacheImpl(node: ASTNode) : ASTWrapperPsiElement(node), EdgeMustache, EdgePsiElement {
-}
+class EdgeMustacheImpl(node: ASTNode) : ASTWrapperPsiElement(node), EdgeMustache, EdgePsiElement

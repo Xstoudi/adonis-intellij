@@ -9,10 +9,8 @@ import io.stouder.adonis.cli.json.ace.CommandArgument
 import io.stouder.adonis.cli.json.ace.CommandFlag
 import io.stouder.adonis.component.JListEditor
 import io.stouder.adonis.service.AdonisAceService
-import java.awt.Component
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
-import java.awt.event.ActionEvent
 import java.text.NumberFormat
 import java.util.*
 import java.util.stream.Collectors
@@ -57,16 +55,22 @@ class MakeCommandTab(private val command: Command, private val project: Project,
         ).collect(Collectors.toList())
 
         for ((key, value) in entries) {
-            val name = if (key is CommandArgument) {
-                key.name
-            } else if (key is CommandFlag<*>) {
-                key.name
-            } else {
-                throw RuntimeException("Unknown type")
+            val name = when (key) {
+                is CommandArgument -> {
+                    key.name
+                }
+
+                is CommandFlag<*> -> {
+                    key.name
+                }
+
+                else -> {
+                    throw RuntimeException("Unknown type")
+                }
             }
 
             val label = JLabel(StringUtil.capitalize(name) + ": \t")
-            label.labelFor = value as Component?
+            label.labelFor = value
 
             add(label, GridBagConstraints(
                 0,
@@ -115,16 +119,16 @@ class MakeCommandTab(private val command: Command, private val project: Project,
 
     private fun registerListeners() {
         createButton.addActionListener {
-            create(it)
+            create()
 
             resetFields()
         }
     }
 
-    private fun create(actionEvent: ActionEvent) {
+    private fun create() {
         createButton.isEnabled = false
 
-        val result = AdonisAceService.getInstance(project).execAceCommand(
+        AdonisAceService.getInstance(project).execAceCommand(
             "Creating " + command.commandName,
             buildCommand(),
             selectedModule
@@ -143,10 +147,10 @@ class MakeCommandTab(private val command: Command, private val project: Project,
                         val component = entry.value
                         val flagName = entry.key.flagName
                         when (entry.key.type) {
-                            "boolean" -> Stream.of<String>(if (component is JCheckBox && component.isSelected) flagName else "no-$flagName")
-                            "string", "number" -> Stream.of<String>("$flagName ${escapeString((component as JTextField).text)}")
+                            "boolean" -> Stream.of(if (component is JCheckBox && component.isSelected) flagName else "no-$flagName")
+                            "string", "number" -> Stream.of("$flagName ${escapeString((component as JTextField).text)}")
                             "array", "numArray" -> (component as JListEditor).values.stream().map { "$flagName=${escapeString(it)}" }
-                            else -> Stream.empty<String>()
+                            else -> Stream.empty()
                         }
                     }
                     .map { value -> "--$value" }

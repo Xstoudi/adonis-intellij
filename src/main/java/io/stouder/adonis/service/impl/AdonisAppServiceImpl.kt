@@ -8,8 +8,6 @@ import io.stouder.adonis.service.AdonisAppService
 import java.io.File
 
 class AdonisAppServiceImpl(private val project: Project) : AdonisAppService {
-    private val LOG = Logger.getInstance(AdonisAppService::class.java)
-
     override fun isAdonisProject(): Boolean {
         return getAdonisRoots().any { isAdonisModule(it) }
     }

@@ -8,11 +8,6 @@ import org.jetbrains.annotations.Nullable
 
 class EdgeEmmetGenerator : XmlZenCodingGeneratorImpl() {
 
-    @Nullable
-    override fun createConfigurable(): Configurable? {
-        return super.createConfigurable()
-    }
-
     override fun isMyLanguage(language: Language): Boolean {
         return language.isKindOf(EdgeLanguage.INSTANCE)
     }

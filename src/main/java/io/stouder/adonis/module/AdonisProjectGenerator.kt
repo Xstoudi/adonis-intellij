@@ -19,14 +19,13 @@ import java.util.*
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.JPanel
-import kotlin.streams.toList
 
 class AdonisProjectGenerator : NpmPackageProjectGenerator() {
 
     private val installDependencies = JBCheckBox(AdonisBundle.message("adonis.project.generator.install.dependencies"))
     private val initializeGit = JBCheckBox(AdonisBundle.message("adonis.project.generator.initialize.git"))
 
-    private val starterKit = ComboBox<String>(
+    private val starterKit = ComboBox(
         Arrays.stream(AdonisStarterKit.entries.toTypedArray())
             .map { it.name }
             .toList()

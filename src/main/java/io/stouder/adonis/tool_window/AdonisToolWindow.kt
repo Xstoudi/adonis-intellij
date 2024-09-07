@@ -28,12 +28,4 @@ class AdonisToolWindow : ToolWindowFactory {
         project.messageBus.connect().subscribe(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC, routesToolWindowContent)
         project.messageBus.connect().subscribe(AdonisRcUpdateNotifier.ADONIS_RC_UPDATE_TOPIC, makeToolWindowContent)
     }
-
-    override fun init(toolWindow: ToolWindow) {
-        super<ToolWindowFactory>.init(toolWindow)
-    }
-
-    override fun shouldBeAvailable(project: Project): Boolean {
-        return super<ToolWindowFactory>.shouldBeAvailable(project)
-    }
 }

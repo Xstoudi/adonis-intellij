@@ -7,13 +7,12 @@ import io.stouder.adonis.cli.json.routes.RouteDomain
 import io.stouder.adonis.cli.json.routes.RouteHandler
 import javax.swing.table.AbstractTableModel
 import java.nio.file.Path
-import java.util.*
 import java.util.stream.Collectors
 
 class RoutesTableModel(private val modules: Map<String, List<RouteDomain>>) : AbstractTableModel() {
 
     private val columnNames = arrayOf(
-        "Module",
+        AdonisBundle.message("adonis.routes.columns.module"),
         AdonisBundle.message("adonis.routes.columns.domain"),
         AdonisBundle.message("adonis.routes.columns.method"),
         AdonisBundle.message("adonis.routes.columns.route"),
@@ -21,11 +20,10 @@ class RoutesTableModel(private val modules: Map<String, List<RouteDomain>>) : Ab
         AdonisBundle.message("adonis.routes.columns.middleware")
     )
 
-    private val ignoreColumns: Int
+    private val ignoreColumns: Int = if (modules.size > 1) 0 else 1
     private val rows: List<Row>
 
     init {
-        this.ignoreColumns = if (modules.size > 1) 0 else 1
         this.rows = generateRows(modules)
     }
 
@@ -38,7 +36,7 @@ class RoutesTableModel(private val modules: Map<String, List<RouteDomain>>) : Ab
     }
 
     override fun getValueAt(rowIndex: Int, columnIndex: Int): Any? {
-        if (rowIndex !in 0 until rows.size) {
+        if (rowIndex !in rows.indices) {
             return "MISSING"
         }
         return rows[rowIndex].getColValue(columnIndex + ignoreColumns)
@@ -66,7 +64,7 @@ class RoutesTableModel(private val modules: Map<String, List<RouteDomain>>) : Ab
                                             domain.domain,
                                             method,
                                             route.pattern + if (route.name.isEmpty()) "" else " (${route.name})",
-                                            if (route.handler is ClosureRouteHandler) "closure" else "${(route.handler as ControllerRouteHandler).moduleNameOrPath}.${(route.handler as ControllerRouteHandler).method}",
+                                            if (route.handler is ClosureRouteHandler) "closure" else "${(route.handler as ControllerRouteHandler).moduleNameOrPath}.${route.handler.method}",
                                             route.middleware.joinToString(", ")
                                         )
                                     }
@@ -78,12 +76,18 @@ class RoutesTableModel(private val modules: Map<String, List<RouteDomain>>) : Ab
     }
 
     private fun handleHandler(handler: RouteHandler): String {
-        return if (handler is ClosureRouteHandler) {
-            "closure"
-        } else if (handler is ControllerRouteHandler) {
-            "${handler.moduleNameOrPath}.${handler.method}"
-        } else {
-            throw RuntimeException("Unknown handler type: ${handler::class.java.name}")
+        return when (handler) {
+            is ClosureRouteHandler -> {
+                "closure"
+            }
+
+            is ControllerRouteHandler -> {
+                "${handler.moduleNameOrPath}.${handler.method}"
+            }
+
+            else -> {
+                throw RuntimeException("Unknown handler type: ${handler::class.java.name}")
+            }
         }
     }
 

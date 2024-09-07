@@ -7,11 +7,11 @@ class EdgeCommenter : Commenter {
         return null
     }
 
-    override fun getBlockCommentPrefix(): String? {
+    override fun getBlockCommentPrefix(): String {
         return "{{--"
     }
 
-    override fun getBlockCommentSuffix(): String? {
+    override fun getBlockCommentSuffix(): String {
         return "--}}"
     }
 

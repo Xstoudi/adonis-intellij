@@ -98,7 +98,6 @@ class MakeToolWindowContent(private val project: Project) : AdonisRcUpdateNotifi
                     isNamespaceMake
                 }.toList()
             }
-            ?: HashMap()
         selectedModule = selectedModule ?: makeCommands.keys.firstOrNull()
 
         ApplicationManager.getApplication().invokeLater { updateUi() }

@@ -11,7 +11,4 @@ class EdgeHtmlInspectionSuppressor : DefaultXmlSuppressionProvider() {
         return file.fileType is EdgeFileType
     }
 
-    override fun isSuppressedFor(element: PsiElement, inspectionId: String): Boolean {
-        return super.isSuppressedFor(element, inspectionId)
-    }
 }

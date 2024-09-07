@@ -27,11 +27,10 @@ class RefreshRoutesAction : AnAction() {
             }
 
             ApplicationManager.getApplication().invokeLater {
-                val routeDomains = routeDomainsFuture
                 project
                     ?.messageBus
                     ?.syncPublisher(AdonisRouteUpdateNotifier.ADONIS_ROUTES_UPDATE_TOPIC)
-                    ?.routes(routeDomains)
+                    ?.routes(routeDomainsFuture)
                 e.presentation.isEnabled = true
             }
         }

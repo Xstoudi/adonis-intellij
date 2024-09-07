@@ -25,15 +25,15 @@ class EdgeParsing(private val builder: PsiBuilder) {
         }
     }
 
-    fun parseRoot() {
+    private fun parseRoot() {
         parseProgram()
     }
 
-    fun parseProgram() {
+    private fun parseProgram() {
         parseStatements()
     }
 
-    fun parseStatements() {
+    private fun parseStatements() {
         val statementsMarker = builder.mark()
 
         while (true) {
@@ -49,7 +49,7 @@ class EdgeParsing(private val builder: PsiBuilder) {
         statementsMarker.done(EdgeTokenTypes.STATEMENTS)
     }
 
-    fun parseStatement(): Boolean {
+    private fun parseStatement(): Boolean {
         val tokenType = builder.tokenType
         return when (tokenType) {
             EdgeTokenTypes.MUSTACHE_OPEN -> {
@@ -84,7 +84,7 @@ class EdgeParsing(private val builder: PsiBuilder) {
         }
     }
 
-    protected fun parseMustache(openMustache: IElementType, closeMustache: IElementType) {
+    private fun parseMustache(openMustache: IElementType, closeMustache: IElementType) {
         val mustacheMarker = builder.mark()
 
         parseLeafToken(openMustache)
@@ -94,7 +94,7 @@ class EdgeParsing(private val builder: PsiBuilder) {
         mustacheMarker.done(EdgeTokenTypes.MUSTACHE)
     }
 
-    protected fun parseMustacheComment() {
+    private fun parseMustacheComment() {
         val mustacheCommentMarker = builder.mark()
 
         parseLeafToken(EdgeTokenTypes.COMMENT_MUSTACHE_OPEN)
@@ -104,12 +104,11 @@ class EdgeParsing(private val builder: PsiBuilder) {
         mustacheCommentMarker.done(EdgeTokenTypes.COMMENT_MUSTACHE)
     }
 
-    protected fun parseTag() {
+    private fun parseTag() {
         val tagMarker = builder.mark()
 
         parseLeafToken(EdgeTokenTypes.TAG_NAME)
-        val nextToken = builder.tokenType
-        when (nextToken) {
+        when (val nextToken = builder.tokenType) {
             EdgeTokenTypes.TAG_CONTENT_OPEN -> {
                 parseLeafToken(EdgeTokenTypes.TAG_CONTENT_OPEN)
                 parseLeafToken(EdgeTokenTypes.TAG_CONTENT)
@@ -123,26 +122,30 @@ class EdgeParsing(private val builder: PsiBuilder) {
         tagMarker.done(EdgeTokenTypes.TAG)
     }
 
-    protected fun parseLeafToken(leafTokenType: IElementType): Boolean {
+    private fun parseLeafToken(leafTokenType: IElementType): Boolean {
         val leafTokenMark = builder.mark()
         val currentTokenType = builder.tokenType
-        return if (currentTokenType == leafTokenType) {
-            builder.advanceLexer()
-            leafTokenMark.done(leafTokenType)
-            true
-        } else if (currentTokenType == EdgeTokenTypes.INVALID) {
-            while (!builder.eof() && builder.tokenType == EdgeTokenTypes.INVALID) {
+        return when (currentTokenType) {
+            leafTokenType -> {
                 builder.advanceLexer()
+                leafTokenMark.done(leafTokenType)
+                true
             }
-            recordLeafTokenError(EdgeTokenTypes.INVALID, leafTokenMark)
-            false
-        } else {
-            recordLeafTokenError(leafTokenType, leafTokenMark)
-            false
+            EdgeTokenTypes.INVALID -> {
+                while (!builder.eof() && builder.tokenType == EdgeTokenTypes.INVALID) {
+                    builder.advanceLexer()
+                }
+                recordLeafTokenError(EdgeTokenTypes.INVALID, leafTokenMark)
+                false
+            }
+            else -> {
+                recordLeafTokenError(leafTokenType, leafTokenMark)
+                false
+            }
         }
     }
 
-    protected fun parseLeafTokenGreedy(elementType: IElementType) {
+    private fun parseLeafTokenGreedy(elementType: IElementType) {
         if (builder.tokenType != elementType) {
             val unexpectedTokensMarker = builder.mark()
             while (!builder.eof() && builder.tokenType != elementType) {

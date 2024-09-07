@@ -28,7 +28,7 @@ class EdgeFileType private constructor() : XmlLikeFileType(EdgeLanguage.INSTANCE
         return "edge"
     }
 
-    override fun getIcon(): Icon? {
+    override fun getIcon(): Icon {
         return AdonisIcons.EDGE
     }
 }

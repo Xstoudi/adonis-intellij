@@ -19,7 +19,7 @@ import java.util.function.Consumer
 
 class AdonisAceServiceImpl(private val project: Project) : AdonisAceService {
 
-    private val LOG = Logger.getInstance(AdonisAceService::class.java)
+    private val log = Logger.getInstance(AdonisAceService::class.java)
 
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapter(RouteHandler::class.java, RouteHandler.Deserializer())
@@ -88,7 +88,7 @@ class AdonisAceServiceImpl(private val project: Project) : AdonisAceService {
             .withExePath("node")
             .withWorkDirectory(File(basePath))
             .withParameters(params)
-        LOG.info("Running command with progress bar: ${commandLine.commandLineString}")
+        log.info("Running command with progress bar: ${commandLine.commandLineString}")
         return ProgressManager.getInstance().runProcessWithProgressSynchronously(
             {
                 try {
