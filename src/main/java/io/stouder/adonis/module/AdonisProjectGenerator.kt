@@ -27,7 +27,7 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
 
     private val starterKit = ComboBox(
         Arrays.stream(AdonisStarterKit.entries.toTypedArray())
-            .map { it.name }
+            .map { it.kitName }
             .toList()
             .toTypedArray()
     )
@@ -71,14 +71,12 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
     override fun generatorArgs(project: Project, baseDir: VirtualFile, settings: Settings): Array<String> {
         val workingDirectory = if (generateInTemp()) baseDir.name else "."
         val template = AdonisSettings.extractStarterKit(settings)
-        val installDependencies = AdonisSettings.extractInstallDependencies(settings)
         val initializeGit = AdonisSettings.extractInitializeGit(settings)
         return arrayOf(
             workingDirectory,
             "--kit",
             template,
-            "--" + (if (installDependencies) "" else "no-") + "install",
-            "--" + (if (initializeGit) "" else "no-") + "git-init"
+            if (initializeGit) "--git-init" else ""
         )
     }
 
@@ -91,7 +89,12 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
         override fun createPanel(): JPanel {
             val panel = super.createPanel()
             panel.add(createLabeledComponent(AdonisBundle.message("adonis.project.generator.starter.kit"), starterKit))
-            panel.add(createLabeledComponent(AdonisBundle.message("adonis.project.generator.options"), installDependencies))
+            panel.add(
+                createLabeledComponent(
+                    AdonisBundle.message("adonis.project.generator.options"),
+                    installDependencies
+                )
+            )
             panel.add(createLabeledComponent("", initializeGit))
             return panel
         }
@@ -99,14 +102,20 @@ class AdonisProjectGenerator : NpmPackageProjectGenerator() {
         override fun buildUI(@NotNull settingsStep: SettingsStep) {
             super.buildUI(settingsStep)
             settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.starter.kit"), starterKit)
-            settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.options"), installDependencies)
-            settingsStep.addSettingsField("", initializeGit)
+            settingsStep.addSettingsField(AdonisBundle.message("adonis.project.generator.options"), initializeGit)
         }
 
         override fun getSettings(): Settings {
             val settings = super.getSettings()
-            settings.putUserData(AdonisSettings.STARTER_KIT, starterKit.selectedItem?.toString() ?: AdonisStarterKit.API.toString())
-            settings.putUserData(AdonisSettings.INSTALL_DEPENDENCIES, installDependencies.isSelected)
+            settings.putUserData(
+                AdonisSettings.STARTER_KIT,
+                AdonisStarterKit.entries
+                    .stream()
+                    .filter { it.kitName == starterKit.selectedItem }
+                    .findFirst()
+                    .orElse(AdonisStarterKit.SLIM)
+                    .repositoryUrl
+            )
             settings.putUserData(AdonisSettings.INITIALIZE_GIT, initializeGit.isSelected)
             return settings
         }
