@@ -4,23 +4,22 @@ import org.jetbrains.changelog.markdownToHTML
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
-kotlin {
-  jvmToolchain(17)
-}
-
 plugins {
   id("java")
-  alias(libs.plugins.gradleIntelliJPlugin) // Gradle IntelliJ Plugin
-  alias(libs.plugins.changelog) // Gradle Changelog Plugin
-  alias(libs.plugins.grammarkit) // Gradle GrammarKit plugin
-  id("io.freefair.lombok") version "8.3"
-  kotlin("jvm")
+  alias(libs.plugins.kotlin)
+  alias(libs.plugins.gradleIntelliJPlugin)
+  alias(libs.plugins.changelog)
+  alias(libs.plugins.grammarkit)
+  alias(libs.plugins.lombok)
+}
+
+kotlin {
+  jvmToolchain(17)
 }
 
 dependencies {
   compileOnly("org.projectlombok:lombok:1.18.30")
   annotationProcessor("org.projectlombok:lombok:1.18.30")
-  implementation(kotlin("stdlib-jdk8"))
 }
 
 group = properties("pluginGroup").get()
@@ -124,4 +123,8 @@ tasks {
     // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
     channels = properties("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
   }
+}
+
+tasks.withType<Jar>() {
+  duplicatesStrategy = DuplicatesStrategy.WARN
 }
