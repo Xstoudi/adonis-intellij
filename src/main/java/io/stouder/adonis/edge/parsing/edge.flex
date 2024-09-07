@@ -51,88 +51,88 @@ CRLF = \R
 <YYINITIAL> {
     {TAG_PATTERN} {
         yybegin(TAG);
-        return EdgeTokenTypes.TAG_NAME;
+        return EdgeTokenTypes.INSTANCE.getTAG_NAME();
     }
     "@{{{" {
         yypushState(ESCAPED_SAFE_MUSTACHE);
-        return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_OPEN;
+        return EdgeTokenTypes.INSTANCE.getESCAPED_SAFE_MUSTACHE_OPEN();
     }
     "@{{" {
         yypushState(ESCAPED_MUSTACHE);
-        return EdgeTokenTypes.ESCAPED_MUSTACHE_OPEN;
+        return EdgeTokenTypes.INSTANCE.getESCAPED_MUSTACHE_OPEN();
     }
     "{{--" {
         yypushState(COMMENT_MUSTACHE);
-        return EdgeTokenTypes.COMMENT_MUSTACHE_OPEN;
+        return EdgeTokenTypes.INSTANCE.getCOMMENT_MUSTACHE_OPEN();
     }
     "{{{" {
         yypushState(SAFE_MUSTACHE);
-        return EdgeTokenTypes.SAFE_MUSTACHE_OPEN;
+        return EdgeTokenTypes.INSTANCE.getSAFE_MUSTACHE_OPEN();
     }
     "{{" {
         yypushState(MUSTACHE);
-        return EdgeTokenTypes.MUSTACHE_OPEN;
+        return EdgeTokenTypes.INSTANCE.getMUSTACHE_OPEN();
     }
 
-    [^] { return EdgeTokenTypes.CONTENT; }
+    [^] { return EdgeTokenTypes.INSTANCE.getCONTENT(); }
 }
 
 <TAG> {
     "(" {
         yybegin(TAG_CONTENT);
         tagParenLevel = 1;
-        return EdgeTokenTypes.TAG_CONTENT_OPEN;
+        return EdgeTokenTypes.INSTANCE.getTAG_CONTENT_OPEN();
     }
     {CRLF} {
         yybegin(YYINITIAL);
-        return EdgeTokenTypes.NEWLINE;
+        return EdgeTokenTypes.INSTANCE.getNEWLINE();
     }
 }
 <TAG_CONTENT> {
     ")" {
         if (--tagParenLevel <= 0) {
             yybegin(TAG_CLOSE);
-            return EdgeTokenTypes.TAG_CONTENT_CLOSE;
+            return EdgeTokenTypes.INSTANCE.getTAG_CONTENT_CLOSE();
         }
-        return EdgeTokenTypes.TAG_CONTENT;
+        return EdgeTokenTypes.INSTANCE.getTAG_CONTENT();
     }
     "(" {
         tagParenLevel++;
-        return EdgeTokenTypes.TAG_CONTENT;
+        return EdgeTokenTypes.INSTANCE.getTAG_CONTENT();
     }
-    [^] { return EdgeTokenTypes.TAG_CONTENT; }
+    [^] { return EdgeTokenTypes.INSTANCE.getTAG_CONTENT(); }
 }
 
 <TAG_CLOSE> {
     {CRLF} {
         yybegin(YYINITIAL);
-        return  EdgeTokenTypes.NEWLINE;
+        return  EdgeTokenTypes.INSTANCE.getNEWLINE();
     }
 }
 
 <ESCAPED_SAFE_MUSTACHE> {
-    "}}}" { yypopState(); return EdgeTokenTypes.ESCAPED_SAFE_MUSTACHE_CLOSE; }
+    "}}}" { yypopState(); return EdgeTokenTypes.INSTANCE.getESCAPED_SAFE_MUSTACHE_CLOSE(); }
 }
 
 <ESCAPED_MUSTACHE> {
-    "}}" { yypopState(); return EdgeTokenTypes.ESCAPED_MUSTACHE_CLOSE; }
+    "}}" { yypopState(); return EdgeTokenTypes.INSTANCE.getESCAPED_MUSTACHE_CLOSE(); }
 }
 
 <COMMENT_MUSTACHE> {
-    "--}}" { yypopState(); return EdgeTokenTypes.COMMENT_MUSTACHE_CLOSE; }
-    [^] { return EdgeTokenTypes.COMMENT_MUSTACHE_CONTENT; }
+    "--}}" { yypopState(); return EdgeTokenTypes.INSTANCE.getCOMMENT_MUSTACHE_CLOSE(); }
+    [^] { return EdgeTokenTypes.INSTANCE.getCOMMENT_MUSTACHE_CONTENT(); }
 }
 
 <SAFE_MUSTACHE> {
-    "}}}" { yypopState(); return EdgeTokenTypes.SAFE_MUSTACHE_CLOSE; }
+    "}}}" { yypopState(); return EdgeTokenTypes.INSTANCE.getSAFE_MUSTACHE_CLOSE(); }
 }
 
 <MUSTACHE> {
-    "}}" { yypopState(); return EdgeTokenTypes.MUSTACHE_CLOSE; }
+    "}}" { yypopState(); return EdgeTokenTypes.INSTANCE.getMUSTACHE_CLOSE(); }
 }
 
 <ESCAPED_SAFE_MUSTACHE, ESCAPED_MUSTACHE, SAFE_MUSTACHE, MUSTACHE> {
-    [^] { return EdgeTokenTypes.MUSTACHE_CONTENT; }
+    [^] { return EdgeTokenTypes.INSTANCE.getMUSTACHE_CONTENT(); }
 }
 
-. { return EdgeTokenTypes.INVALID; }
+. { return EdgeTokenTypes.INSTANCE.getINVALID(); }

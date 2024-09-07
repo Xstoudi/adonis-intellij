@@ -4,17 +4,23 @@ import org.jetbrains.changelog.markdownToHTML
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
+kotlin {
+  jvmToolchain(17)
+}
+
 plugins {
   id("java")
   alias(libs.plugins.gradleIntelliJPlugin) // Gradle IntelliJ Plugin
   alias(libs.plugins.changelog) // Gradle Changelog Plugin
   alias(libs.plugins.grammarkit) // Gradle GrammarKit plugin
   id("io.freefair.lombok") version "8.3"
+  kotlin("jvm")
 }
 
 dependencies {
   compileOnly("org.projectlombok:lombok:1.18.30")
   annotationProcessor("org.projectlombok:lombok:1.18.30")
+  implementation(kotlin("stdlib-jdk8"))
 }
 
 group = properties("pluginGroup").get()
@@ -43,9 +49,14 @@ changelog {
   repositoryUrl = properties("pluginRepositoryUrl")
 }
 
+
 tasks {
   wrapper {
     gradleVersion = properties("gradleVersion").get()
+  }
+
+  named("compileKotlin") {
+    dependsOn(":generateLexer")
   }
 
   withType<JavaCompile> {
