@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.5.2] - 2024-09-08
+
+- Migrate source code to Kotlin (thanks @prisca-c !)
+- Migrate to Java 21
+- Fix deploy pipeline
+- Fix project wizard
+
 ## [0.5.1] - 2024-05-03
 
 - Remove x2 sized Edge icons from resources (fix #26)
@@ -43,7 +50,8 @@
 - Run Adonis make: commands GUI
 - Syntax highlighting for `.edge` files
 
-[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.2...HEAD
+[0.5.2]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Xstoudi/adonis-intellij/compare/v0.3.1...v0.4.0
