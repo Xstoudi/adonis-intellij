@@ -4,7 +4,7 @@ annotations = "24.1.0"
 
 # plugins
 changelog = "2.2.0"
-gradleIntelliJPlugin = "1.17.2"
+intelliJPlatform = "2.0.1"
 grammarkit = "2022.3.2.2"
 lombok = "8.3"
 kotlin = "1.9.25"
@@ -14,7 +14,7 @@ annotations = { group = "org.jetbrains", name = "annotations", version.ref = "an
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
 grammarkit = { id = "org.jetbrains.grammarkit", version.ref = "grammarkit" }
 lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

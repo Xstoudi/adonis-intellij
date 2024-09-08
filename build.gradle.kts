@@ -1,5 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -7,42 +8,79 @@ fun environment(key: String) = providers.environmentVariable(key)
 plugins {
   id("java")
   alias(libs.plugins.kotlin)
-  alias(libs.plugins.gradleIntelliJPlugin)
+  alias(libs.plugins.intelliJPlatform)
   alias(libs.plugins.changelog)
   alias(libs.plugins.grammarkit)
   alias(libs.plugins.lombok)
 }
 
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
+
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(21)
 }
+
+repositories {
+  mavenCentral()
+
+  intellijPlatform {
+    defaultRepositories()
+  }
+}
+
+sourceSets["main"].java.srcDirs("src/main/gen")
+
 
 dependencies {
   compileOnly("org.projectlombok:lombok:1.18.30")
   annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+  intellijPlatform {
+    create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
+
+    bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+
+    plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+
+    instrumentationTools()
+    pluginVerifier()
+    zipSigner()
+    testFramework(TestFrameworkType.Platform)
+  }
 }
 
-group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
+intellijPlatform {
+  pluginConfiguration {
+    version = providers.gradleProperty("pluginVersion")
 
-sourceSets["main"].java.srcDirs("src/main/gen")
+    ideaVersion {
+      sinceBuild = providers.gradleProperty("pluginSinceBuild")
+      untilBuild = providers.gradleProperty("pluginUntilBuild")
+    }
+  }
 
-repositories {
-  mavenCentral()
+  signing {
+    certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+    privateKey = providers.environmentVariable("PRIVATE_KEY")
+    password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+  }
+
+  publishing {
+    token = providers.environmentVariable("PUBLISH_TOKEN")
+    // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
+    // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
+    // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
+    channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+  }
+
+  pluginVerification {
+    ides {
+      recommended()
+    }
+  }
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-  pluginName = properties("pluginName")
-  version = properties("platformVersion")
-  type = properties("platformType")
-
-  // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-  plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
-}
-
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
   groups.empty()
   repositoryUrl = properties("pluginRepositoryUrl")
@@ -98,15 +136,6 @@ tasks {
         )
       }
     }
-  }
-
-  // Configure UI tests plugin
-  // Read more: https://github.com/JetBrains/intellij-ui-test-robot
-  runIdeForUiTests {
-    systemProperty("robot-server.port", "8082")
-    systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-    systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-    systemProperty("jb.consents.confirmation.enabled", "false")
   }
 
   signPlugin {
