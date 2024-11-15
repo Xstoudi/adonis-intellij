@@ -1,6 +1,8 @@
 # Adonis Changelog
 
 ## [Unreleased]
+### Added
+- Update to be used with JetBrains platform 2024.3
 
 ## [0.5.2] - 2024-09-08
 
