@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Update to support JetBrains platform 2025.1
+
 ## [0.5.3] - 2024-11-15
 
 ### Added
