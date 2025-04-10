@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.5.4] - 2025-04-09
+
 - Update to support JetBrains platform 2025.1
 
 ## [0.5.3] - 2024-11-15
@@ -58,7 +60,8 @@
 - Run Adonis make: commands GUI
 - Syntax highlighting for `.edge` files
 
-[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.4...HEAD
+[0.5.4]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/Xstoudi/adonis-intellij/compare/v0.5.0...v0.5.1
