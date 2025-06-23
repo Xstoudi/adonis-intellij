@@ -1,3 +1,7 @@
+> [!CAUTION]
+> Archived: No longer maintained. Reasons: Time constraints, lack of interest, and relentless multi-platform spam. I hope the AdonisJS core team eventually offers official plugins for its ecosystem (Adonis, Lucid, Japa, Edge), much like their high-quality VS Code extensions.
+> If you'd like to take over development, feel free to fork the repository—just respect the project's license.
+
 # Adonis
 ![Build][badge:build:image]
 [![Version][badge:version:image]][badge:version:url]
